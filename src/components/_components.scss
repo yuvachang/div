@@ -1,0 +1,40 @@
+@import '../variables';
+
+.input-bubble {
+  @include flex-center(column);
+
+  width: 95%;
+  min-height: 45px;
+  max-height: 45px;
+
+  border-radius: 5px;
+
+  background-color: white;
+  color: black;
+}
+
+input,
+.outline-only {
+  text-align: center;
+  font-size: 0.8em;
+  color: black;
+  background-color: white;
+  padding: 5px 10px;
+  padding-left: 7px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  &.no-hover {
+    border: none;
+  }
+}
+
+input {
+  @media (hover: hover) {
+    &:hover {
+      cursor: pointer;
+    }
+    &.no-hover:hover {
+      cursor: default;
+    }
+  }
+}

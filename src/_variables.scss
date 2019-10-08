@@ -1,0 +1,10 @@
+$bg-color: #001f3f;
+$bg-color: #0074D9;
+$bg-color: white;
+
+@mixin flex-center($dir: row) {
+  display: flex;
+  flex-direction: $dir;
+  justify-content: center;
+  align-self: center;
+}

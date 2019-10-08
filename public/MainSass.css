@@ -1,0 +1,83 @@
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  padding: 6px; }
+
+.root {
+  background-color: white;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-self: center; }
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0; }
+
+.top-half {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  position: absolute;
+  top: 0;
+  max-height: 200px;
+  border-bottom: 1px solid black;
+  padding: 15px 0; }
+  .top-half h1,
+  .top-half h2,
+  .top-half h3,
+  .top-half h4 {
+    text-align: center;
+    font-weight: 500;
+    width: 100%; }
+    .top-half h1::before,
+    .top-half h2::before,
+    .top-half h3::before,
+    .top-half h4::before {
+      content: '';
+      height: 100%; }
+  .top-half .segment {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-self: center;
+    justify-content: space-between;
+    width: 100%; }
+
+.input-bubble {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  width: 95%;
+  min-height: 45px;
+  max-height: 45px;
+  border-radius: 5px;
+  background-color: white;
+  color: black; }
+
+input,
+.outline-only {
+  text-align: center;
+  font-size: 0.8em;
+  color: black;
+  background-color: white;
+  padding: 5px 10px;
+  padding-left: 7px;
+  border: 1px solid #ccc;
+  border-radius: 5px; }
+  input.no-hover,
+  .outline-only.no-hover {
+    border: none; }
+
+@media (hover: hover) {
+  input:hover {
+    cursor: pointer; }
+  input.no-hover:hover {
+    cursor: default; } }
