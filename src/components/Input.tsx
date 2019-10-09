@@ -35,15 +35,15 @@ class Input extends Component<Props, State> {
     
   }
 
-  clickListener = (e: MouseEvent) => {
-    const target = e.target as HTMLElement
-    console.log(target)
-  }
+  // clickListener = (e: MouseEvent) => {
+  //   const target = e.target as HTMLElement
+  //   console.log(target)
+  // }
 
   componentDidMount = async () => {
-    document.addEventListener('click', (ev: MouseEvent): void => {
-      this.clickListener(ev)
-    })
+    // document.addEventListener('click', (ev: MouseEvent): void => {
+    //   this.clickListener(ev)
+    // })
     // if (this.props.value) {
     await this.setState({
       value: '$' + this.props.value!.toFixed(2), //!is non-null assertion operator, tells compiler variable can be assumed as non-null/defined

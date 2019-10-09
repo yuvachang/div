@@ -3,43 +3,44 @@ import Input from '../components/Input'
 import TextBubble from '../components/TextBubble'
 // import { number } from "prop-types";
 
-interface State {
-  total: number
-  paid: number
+interface Props {
+  subtotal?: number
+  tip?: number
+  tax?: number
+  total?: number
 }
 
-class TopHalf extends Component<{}, State> {
-  state = {
-    total: 0,
-    paid: 0,
-  }
+class TopHalf extends Component<Props, {}> {
+
 
   selectInput = () => {}
 
-  componentDidMount = () => {}
+  useSavedData = () => {}
+
+
 
   render() {
     return (
       <div className='top-half'>
         <div className='segment'>
-          <h3>Sub-total</h3>
+          <h4>Sub-total</h4>
           <Input />
         </div>
         <div className='segment'>
-          <h3>Tip</h3>
+          <h4>Tip</h4>
           <Input />
         </div>
         <div className='segment'>
-          <h3>Tax</h3>
+          <h4>Tax</h4>
           <Input />
         </div>
         <div className='segment'>
-          <h3>Total</h3>
+          <h4>Total</h4>
           <Input />
         </div>
 
         <div className='segment'>
-          <h3>Paid</h3>
+          <h4>Amount Paid</h4>
           <Input enable={false} />
         </div>
       </div>

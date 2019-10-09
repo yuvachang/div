@@ -69,7 +69,7 @@ input,
   color: black;
   background-color: white;
   padding: 5px 10px;
-  padding-left: 7px;
+  padding-left: 8px;
   border: 1px solid #ccc;
   border-radius: 5px; }
   input.no-hover,
@@ -81,3 +81,9 @@ input,
     cursor: pointer; }
   input.no-hover:hover {
     cursor: default; } }
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center; }
