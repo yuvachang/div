@@ -26,15 +26,43 @@ input,
   &.no-hover {
     border: none;
   }
-}
 
-input {
   @media (hover: hover) {
     &:hover {
       cursor: pointer;
     }
     &.no-hover:hover {
       cursor: default;
+    }
+  }
+}
+
+// input {
+//   @media (hover: hover) {
+//     &:hover {
+//       cursor: pointer;
+//     }
+//     &.no-hover:hover {
+//       cursor: default;
+//     }
+//   }
+// }
+
+button {
+  min-width: 50px;
+  
+  padding: 10px; 
+  margin: 0 5px;
+  
+  border-radius: 5px;
+  border: 1px solid #ccc;
+
+  background: #e0e0e0;
+
+  @media (hover: hover){
+    &:hover {
+      cursor: pointer;
+      background: #d1d1d1;
     }
   }
 }

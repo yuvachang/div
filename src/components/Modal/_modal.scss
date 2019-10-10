@@ -1,0 +1,25 @@
+@import '../variables';
+
+.modal {
+  @include flex-center(column);
+
+  position: fixed;
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  z-index: 33;
+
+  &-center {
+    @include flex-center(column);
+    padding: 20px;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 5px;
+  }
+
+  &-buttons {
+    @include flex-center();
+    width: 100%;
+
+    padding-top: 15px;
+  }
+}

@@ -1,7 +1,0 @@
-@import '../variables';
-
-.modal {
-  @include flex-center(column);
-
-  position: fixed;
-}
