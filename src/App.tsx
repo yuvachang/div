@@ -1,20 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import TopHalf from './TopHalf/TopHalf'
-import Modal from './Modal/Modal'
+import { Dispatch, bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { ReduxState } from './store'
 
-interface Totals {
-  subtotal: number
-  tip: number
-  tax: number
-  total: number
-}
+//import components
+import TopHalf from './components/TopHalf/TopHalf'
+import Modal from './components/Modal/Modal'
 
-const initialState = {
-  subtotal: 0,
-  tip: 0,
-  tax: 0,
-  total: 0,
-}
+//import actionCreators
+import { useLocalStorageData } from './store/actions/totalsActions'
 
 const unixTimeToDate = (unixtime: number): string => {
   let date: Date = new Date(unixtime)
@@ -45,38 +39,36 @@ const unixTimeToDate = (unixtime: number): string => {
   return saveDate
 }
 
-const App: React.FunctionComponent<{}> = () => {
-  const [totals, setTotals] = useState(initialState)
-  const [LSDate, setDate] = useState<number | string>('date not found')
-  const [hasData, setHasData] = useState<boolean>(false)
+type Props = LinkDispatchProps & ReduxState
+
+const App: React.FunctionComponent<Props> = props => {
+  const [lsDate, setLsDate] = useState<string>('date not found')
+  const [formHasData, setFormHasData] = useState<boolean>(false)
   const [displayModal, setModal] = useState<boolean>(false)
   const [error, setError] = useState<string>('')
 
-  const useLocalStorageData = () => {
-    let LS: string | null = localStorage.getItem('divviweb')
-    if (typeof LS === 'string') {
-      let newState = JSON.parse(LS)
-      delete newState.date
+  const [lsData, setLsData] = useState<string>('no data')
 
-      let numOfKeysLS = Object.keys(newState).length
-      let numOfKeysState = Object.keys(totals).length
+  const useLocalStorageData = (): void => {
+    if (lsData !== 'no data') {
+      let newTotals = JSON.parse(lsData)
+      delete newTotals.date
 
+      let numOfKeysLS = Object.keys(newTotals).length
+      let numOfKeysState = Object.keys(props.totals).length
       if (numOfKeysLS !== numOfKeysState) {
         setError('Data corrupt')
         return
+      } else {
+        props.useLocalStorage(newTotals)
+        closeModal()
       }
-      setTotals({
-        ...totals,
-        ...newState,
-      })
-
-      closeModal()
     }
   }
 
   const closeModal = () => {
     localStorage.removeItem('divviweb')
-    setDate('date not found')
+    setLsDate('date not found')
     setModal(false)
   }
 
@@ -84,19 +76,21 @@ const App: React.FunctionComponent<{}> = () => {
   useEffect(() => {
     let LS: string | null = localStorage.getItem('divviweb')
     if (typeof LS === 'string') {
+      setLsData(LS)
+
       let unix: number = JSON.parse(LS).date
-      let localStorageDate = unixTimeToDate(unix)
-      setDate(localStorageDate)
+      setLsDate(unixTimeToDate(unix))
+
       setModal(true)
     }
-    console.log(localStorage.getItem('divviweb'))
+    // console.log(localStorage.getItem('divviweb'))
   }, [])
 
   //onUnmount
   window.onbeforeunload = () => {
-    if (!!hasData) {
+    if (!!formHasData) {
       let unixTime = new Date().getTime()
-      let saveData = { ...totals, date: unixTime }
+      let saveData = { ...props.totals, date: unixTime }
       localStorage.setItem('divviweb', JSON.stringify(saveData))
     }
   }
@@ -107,14 +101,29 @@ const App: React.FunctionComponent<{}> = () => {
         <Modal
           yes={useLocalStorageData}
           no={closeModal}
-          msg={`Use unfinished session from ${LSDate}?`}
+          msg={`Use unfinished session from ${lsDate}?`}
         />
       )}
       {error && <h1>{error}</h1>}
 
-      <TopHalf totals={totals as Totals} setTotals={setTotals} />
+      <TopHalf />
     </div>
   )
 }
 
-export default App
+interface LinkDispatchProps {
+  useLocalStorage: (lsdata: object) => void
+}
+
+const mapState = (state: ReduxState, ownProps?: any) => ({
+  totals: state.totals,
+})
+
+const mapDispatch = (dispatch: Dispatch, ownProps?: any): LinkDispatchProps => ({
+  useLocalStorage: bindActionCreators(useLocalStorageData, dispatch),
+})
+
+export default connect(
+  mapState,
+  mapDispatch
+)(App)
