@@ -5,8 +5,7 @@
   position: absolute;
   top: 0;
 
-  // max-height: 200px;
-  width: 50vw;
+  // width: 50vw;
   max-width: 250px;
 
   border-bottom: 1px solid black;
@@ -17,15 +16,25 @@
   h3,
   h4,
   p {
-    text-align: center;
+    text-align: right;
     font-weight: 500;
-    min-width: 60%;
-    margin: 0;
     font-size: 12px;
     line-height: 30px;
 
+    min-width: 50%;
+
+    margin: 0;
+    padding-right: 20px;
+
+    box-sizing: border-box;
+
     &::before {
       content: '';
+      height: 100%;
+    }
+
+    &::after {
+      content: '  :';
       height: 100%;
     }
   }
@@ -35,16 +44,50 @@
     justify-content: space-evenly;
 
     width: 100%;
-    margin: 5px;
+    margin: 5px 0px;
 
     font-size: 17px;
 
-    // .input-container{
-    //   @include flex-center();
-    //   justify-content: space-evenly;
-    //   width: 100%;
-    //   line-height:30px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 
-    // }
+    box-sizing: border-box;
+  }
+
+  .menu-bar {
+    @include flex-center();
+    box-sizing: border-box;
+    background-color: #efefef;
+    width: 100%;
+    height: 16px;
+    border-radius: 3px;
+
+    overflow: hidden;
+    transition: 1s;
+
+    .tiny {
+      @include flex-center(column);
+      font-size: 12px;
+      color: #515151;
+      text-align: center;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .total-details {
+    height: 114px;
+    transition: 0.35s;
+    overflow: hidden;
+
+
+    &.collapsed {
+      height: 0px;
+      transition: 0.45s;
+    }
   }
 }

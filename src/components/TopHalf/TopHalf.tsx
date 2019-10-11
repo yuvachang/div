@@ -9,7 +9,6 @@ import {
 } from '../../store/actions/totalsActions'
 import { bindActionCreators, Dispatch } from 'redux'
 import { ReduxState } from '../../store'
-import { TotalState } from '../../store/reducers/totalsReducer'
 
 type Props = LinkDispatchProps & ReduxState
 
@@ -22,6 +21,7 @@ interface InitialState {
 
 const TopHalf: React.FunctionComponent<Props> = props => {
   const [totals, setTotals] = useState<InitialState>({ total: '', subtotal: '', tip: '', tax: '' })
+  const [collapsed, setCollapsed] = useState<boolean>(true)
 
   const updateStore = (field: string) => {
     const roundUSD = (num: number): number => {
@@ -33,19 +33,19 @@ const TopHalf: React.FunctionComponent<Props> = props => {
 
     let fieldValue: number = +(totals as any)[field].split(new RegExp('\\$|\\%')).join('')
 
-    let newTotals = {...totals}
+    let newTotals = { ...totals }
     switch (field) {
       case 'total':
       case 'subtotal':
         fieldValue = roundUSD(fieldValue)
         newTotals[field] = '$' + fieldValue.toFixed(2)
-        setTotals({...newTotals})
+        setTotals({ ...newTotals })
         break
       case 'tip':
       case 'tax':
         fieldValue = roundPercent(fieldValue)
         newTotals[field] = '$' + fieldValue
-        setTotals({...newTotals})
+        setTotals({ ...newTotals })
         break
     }
 
@@ -97,7 +97,23 @@ const TopHalf: React.FunctionComponent<Props> = props => {
 
   return (
     <div className='top-half'>
-      <div className='total-details collapsed'>
+      <div>
+        <div className='segment'>
+          <p>Total</p>
+          <Input
+            name='total'
+            onChange={handleChange}
+            val={totals ? totals.total : undefined}
+            updateStore={updateStore}
+          />
+        </div>
+      </div>
+
+      <div className='menu-bar' onClick={() => setCollapsed(!collapsed)}>
+        <div className='tiny'>{collapsed ? 'more options' : 'less options'}</div>
+      </div>
+
+      <div className={`total-details${collapsed ? ' collapsed' : ''}`}>
         <div className='segment'>
           <p>Sub-total</p>
           <Input
@@ -122,17 +138,6 @@ const TopHalf: React.FunctionComponent<Props> = props => {
             name='tax'
             onChange={handleChange}
             val={totals ? totals.tax : undefined}
-            updateStore={updateStore}
-          />
-        </div>
-      </div>
-      <div>
-        <div className='segment'>
-          <p>Total</p>
-          <Input
-            name='total'
-            onChange={handleChange}
-            val={totals ? totals.total : undefined}
             updateStore={updateStore}
           />
         </div>
