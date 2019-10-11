@@ -2,6 +2,8 @@ $bg-color: #001f3f;
 $bg-color: #0074D9;
 $bg-color: white;
 
+$font: 'Open Sans', sans-serif;
+
 @mixin flex-center($dir: row) {
   display: flex;
   flex-direction: $dir;

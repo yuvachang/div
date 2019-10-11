@@ -13,40 +13,93 @@ import { TotalState } from '../../store/reducers/totalsReducer'
 
 type Props = LinkDispatchProps & ReduxState
 
+interface InitialState {
+  total: string
+  subtotal: string
+  tax: string
+  tip: string
+}
+
 const TopHalf: React.FunctionComponent<Props> = props => {
-  const [totals, setTotals] = useState(props.totals)
+  const [totals, setTotals] = useState<InitialState>({ total: '', subtotal: '', tip: '', tax: '' })
 
   const updateStore = (field: string) => {
+    const roundUSD = (num: number): number => {
+      return +(Math.round(+num * 100) / 100).toFixed(2)
+    }
+    const roundPercent = (num: number): number => {
+      return Math.round(+num * 10) / 10
+    }
+
+    let fieldValue: number = +(totals as any)[field].split(new RegExp('\\$|\\%')).join('')
+
+    let newTotals = {...totals}
     switch (field) {
       case 'total':
-        props.updateTotal((totals as TotalState).total)
-        break
       case 'subtotal':
-        props.updateSubTotal((totals as TotalState).subtotal)
+        fieldValue = roundUSD(fieldValue)
+        newTotals[field] = '$' + fieldValue.toFixed(2)
+        setTotals({...newTotals})
         break
       case 'tip':
-        props.updateTip((totals as TotalState).tip)
+      case 'tax':
+        fieldValue = roundPercent(fieldValue)
+        newTotals[field] = '$' + fieldValue
+        setTotals({...newTotals})
+        break
+    }
+
+    //Don't dispatch redux action if value didn't change.
+    if (fieldValue === (props.totals as any)[field]) return
+
+    switch (field) {
+      case 'total':
+        props.updateTotal(fieldValue)
+        break
+      case 'subtotal':
+        props.updateSubTotal(fieldValue)
+        break
+      case 'tip':
+        props.updateTip(fieldValue)
         break
       case 'tax':
-        props.updateTax((totals as TotalState).tax)
+        props.updateTax(fieldValue)
         break
     }
   }
 
   const handleChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    let target = e.target
+    let target = e.target as HTMLInputElement
+    const input = target.value
+    const filteredInput = input
+      .split('')
+      .filter(char => !'abcdefghijklmnopqrstuvwxyz'.includes(char.toLowerCase()))
+      .filter(char => '$%0123456789.'.includes(char))
+      .join('')
 
     setTotals({
       ...totals,
-      [(target as HTMLInputElement).name]: (target as HTMLInputElement).value,
+      [target.name]: filteredInput,
     })
   }
+
+  //onMount
+  useEffect(() => {
+    if (props.totals) {
+      let stringTotals: any = { ...props.totals }
+      stringTotals.subtotal = '$' + stringTotals.subtotal.toFixed(2)
+      stringTotals.total = '$' + stringTotals.total.toFixed(2)
+      stringTotals.tax = Number(stringTotals.tax) + '%'
+      stringTotals.tip = Number(stringTotals.tip) + '%'
+      setTotals(stringTotals)
+    }
+  }, [])
 
   return (
     <div className='top-half'>
       <div className='total-details collapsed'>
         <div className='segment'>
-          <h4>Sub-total</h4>
+          <p>Sub-total</p>
           <Input
             name='subtotal'
             onChange={e => handleChange(e)}
@@ -55,7 +108,7 @@ const TopHalf: React.FunctionComponent<Props> = props => {
           />
         </div>
         <div className='segment'>
-          <h4>Tip</h4>
+          <p>Tip</p>
           <Input
             name='tip'
             onChange={handleChange}
@@ -64,7 +117,7 @@ const TopHalf: React.FunctionComponent<Props> = props => {
           />
         </div>
         <div className='segment'>
-          <h4>Tax</h4>
+          <p>Tax</p>
           <Input
             name='tax'
             onChange={handleChange}
@@ -73,19 +126,20 @@ const TopHalf: React.FunctionComponent<Props> = props => {
           />
         </div>
       </div>
-
-      <div className='segment'>
-        <h4>Total</h4>
-        <Input
-          name='total'
-          onChange={handleChange}
-          val={totals ? totals.total : undefined}
-          updateStore={updateStore}
-        />
+      <div>
+        <div className='segment'>
+          <p>Total</p>
+          <Input
+            name='total'
+            onChange={handleChange}
+            val={totals ? totals.total : undefined}
+            updateStore={updateStore}
+          />
+        </div>
       </div>
 
       <div className='segment'>
-        <h4>Amount Paid : $3.33</h4>
+        <p>Amount Paid : $3.33</p>
         {/* <Input enable={false} /> */}
       </div>
     </div>

@@ -1,36 +1,45 @@
 import * as actionTypes from './actionTypes'
 
-export const updateSubTotal = (newSubTot: number) => {
+export const updateSubTotal = (subtotal:number) => {
+  // console.log(newSubTot)
+  // let subtotal: number = +newSubTot.slice(1)
+
   return {
     type: actionTypes.UPDATE_SUBTOTAL,
-    payload: newSubTot
+    payload: subtotal,
   }
 }
 
-export const updateTotal = (newTot: number) => {
+export const updateTotal = (total: number) => {
+  // let total: number = +newTot.slice(1)
+
   return {
     type: actionTypes.UPDATE_TOTAL,
-    payload: newTot
+    payload: total,
   }
 }
 
-export const updateTax = (newTax: number) => {
+export const updateTax = (tax: number) => {
+  // let tax: number = +newTax.slice(0, -1)
+
   return {
     type: actionTypes.UPDATE_TAX,
-    payload: newTax
+    payload: tax,
   }
 }
 
-export const updateTip = (newTip: number) => {
+export const updateTip = (tip: number) => {
+  // let tip: number = +newTip.slice(0, -1)
+
   return {
     type: actionTypes.UPDATE_TIP,
-    payload: newTip
+    payload: tip,
   }
 }
 
 export const useLocalStorageData = (lsData: object) => {
   return {
     type: actionTypes.USE_LS,
-    payload: lsData
+    payload: lsData,
   }
 }

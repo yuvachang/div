@@ -15,14 +15,21 @@
 
 input,
 .outline-only {
+  font-family: $font;
+  font-size: 12px;
   text-align: center;
-  font-size: 0.8em;
   color: black;
+
+  width: 100%;
+
   background-color: white;
+
   padding: 5px 10px;
   padding-left: 8px;
+
   border: 1px solid #ccc;
   border-radius: 5px;
+
   &.no-hover {
     border: none;
   }
@@ -37,29 +44,18 @@ input,
   }
 }
 
-// input {
-//   @media (hover: hover) {
-//     &:hover {
-//       cursor: pointer;
-//     }
-//     &.no-hover:hover {
-//       cursor: default;
-//     }
-//   }
-// }
-
 button {
   min-width: 50px;
-  
-  padding: 10px; 
+
+  padding: 10px;
   margin: 0 5px;
-  
+
   border-radius: 5px;
   border: 1px solid #ccc;
 
   background: #e0e0e0;
 
-  @media (hover: hover){
+  @media (hover: hover) {
     &:hover {
       cursor: pointer;
       background: #d1d1d1;

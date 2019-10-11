@@ -21,11 +21,25 @@ const totalsReducer = (state: TotalState = initialState, { type, payload }: acti
         ...state,
         subtotal: payload,
       }
-    
+    case actions.UPDATE_TOTAL:
+      return {
+        ...state,
+        total: payload,
+      }
+    case actions.UPDATE_TIP:
+      return {
+        ...state,
+        tip: payload,
+      }
+    case actions.UPDATE_TAX:
+      return {
+        ...state,
+        tax: payload,
+      }
     case actions.USE_LS:
       return {
         ...state,
-        ...payload
+        ...payload,
       }
     default:
       return state

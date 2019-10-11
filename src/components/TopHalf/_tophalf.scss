@@ -1,11 +1,13 @@
-@import '../variables';
+@import '../../variables';
 
 .top-half {
   @include flex-center(column);
   position: absolute;
   top: 0;
 
-  max-height: 200px;
+  // max-height: 200px;
+  width: 50vw;
+  max-width: 250px;
 
   border-bottom: 1px solid black;
   padding: 15px 0;
@@ -13,10 +15,14 @@
   h1,
   h2,
   h3,
-  h4 {
+  h4,
+  p {
     text-align: center;
     font-weight: 500;
-    width: 100%;
+    min-width: 60%;
+    margin: 0;
+    font-size: 12px;
+    line-height: 30px;
 
     &::before {
       content: '';
@@ -26,8 +32,19 @@
 
   .segment {
     @include flex-center();
-    justify-content: space-between;
+    justify-content: space-evenly;
 
     width: 100%;
+    margin: 5px;
+
+    font-size: 17px;
+
+    // .input-container{
+    //   @include flex-center();
+    //   justify-content: space-evenly;
+    //   width: 100%;
+    //   line-height:30px;
+
+    // }
   }
 }

@@ -12,7 +12,8 @@ h4 {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-self: center; }
+  align-self: center;
+  font-family: "Open Sans", sans-serif; }
 
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
@@ -26,20 +27,26 @@ input[type=number]::-webkit-outer-spin-button {
   align-self: center;
   position: absolute;
   top: 0;
-  max-height: 200px;
+  width: 50vw;
+  max-width: 250px;
   border-bottom: 1px solid black;
   padding: 15px 0; }
   .top-half h1,
   .top-half h2,
   .top-half h3,
-  .top-half h4 {
+  .top-half h4,
+  .top-half p {
     text-align: center;
     font-weight: 500;
-    width: 100%; }
+    min-width: 60%;
+    margin: 0;
+    font-size: 12px;
+    line-height: 30px; }
     .top-half h1::before,
     .top-half h2::before,
     .top-half h3::before,
-    .top-half h4::before {
+    .top-half h4::before,
+    .top-half p::before {
       content: '';
       height: 100%; }
   .top-half .segment {
@@ -47,8 +54,10 @@ input[type=number]::-webkit-outer-spin-button {
     flex-direction: row;
     justify-content: center;
     align-self: center;
-    justify-content: space-between;
-    width: 100%; }
+    justify-content: space-evenly;
+    width: 100%;
+    margin: 5px;
+    font-size: 17px; }
 
 .input-bubble {
   display: flex;
@@ -64,9 +73,11 @@ input[type=number]::-webkit-outer-spin-button {
 
 input,
 .outline-only {
+  font-family: "Open Sans", sans-serif;
+  font-size: 12px;
   text-align: center;
-  font-size: 0.8em;
   color: black;
+  width: 100%;
   background-color: white;
   padding: 5px 10px;
   padding-left: 8px;
