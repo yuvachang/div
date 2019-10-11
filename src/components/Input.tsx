@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 interface Props {
   val: string | undefined
   name: string
-  onChange: (e: React.SyntheticEvent<HTMLInputElement>) => void
+  onChange?: (e: React.SyntheticEvent<HTMLInputElement>) => void
   updateStore: (type: string) => void
+  disabled?: boolean
 }
 
 const Input: React.FunctionComponent<Props> = props => {
@@ -23,8 +24,8 @@ const Input: React.FunctionComponent<Props> = props => {
       }
     }
     if (
-      kc != 8 &&
-      kc != 46 &&
+      kc !== 8 &&
+      kc !== 46 &&
       (kc < 37 ||
         (kc > 40 && kc < 48) ||
         (kc > 57 && kc < 97) ||
@@ -41,14 +42,21 @@ const Input: React.FunctionComponent<Props> = props => {
 
   return (
     <input
+      className={props.disabled ? 'no-hover' : ''}
       type='text'
       name={props.name}
       onChange={props.onChange}
       value={props.val}
       onBlur={() => props.updateStore(props.name)}
       onKeyDown={characterChecker}
+      disabled={props.disabled}
     />
   )
+}
+
+Input.defaultProps = {
+  disabled: false,
+  updateStore: () => {},
 }
 
 export default Input

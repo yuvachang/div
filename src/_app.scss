@@ -1,7 +1,5 @@
 @import './variables';
 
-
-
 h1,
 h2,
 h3,
@@ -19,8 +17,8 @@ h4 {
   font-family: $font;
 }
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

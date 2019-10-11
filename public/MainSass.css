@@ -15,8 +15,8 @@ h4 {
   align-self: center;
   font-family: "Open Sans", sans-serif; }
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0; }
 
@@ -27,7 +27,7 @@ input[type=number]::-webkit-outer-spin-button {
   align-self: center;
   position: absolute;
   top: 0;
-  max-width: 250px;
+  width: 250px;
   border-bottom: 1px solid black;
   padding: 15px 0; }
   .top-half h1,
@@ -86,9 +86,10 @@ input[type=number]::-webkit-outer-spin-button {
       flex-direction: column;
       justify-content: center;
       align-self: center;
-      font-size: 12px;
+      font-size: 11px;
       color: #515151;
-      text-align: center; }
+      text-align: center;
+      text-transform: capitalize; }
     @media (hover: hover) {
       .top-half .menu-bar:hover {
         cursor: pointer; } }
@@ -129,7 +130,7 @@ input,
   border-radius: 0 5px 5px 0; }
   input.no-hover,
   .outline-only.no-hover {
-    border: none; }
+    color: #666666; }
   @media (hover: hover) {
     input:hover,
     .outline-only:hover {
@@ -149,6 +150,9 @@ button {
     button:hover {
       cursor: pointer;
       background: #d1d1d1; } }
+
+.greytext {
+  color: #666666; }
 
 .modal {
   display: flex;

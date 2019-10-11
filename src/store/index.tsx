@@ -1,5 +1,5 @@
 import { createStore, combineReducers, applyMiddleware, Reducer } from 'redux'
-import { composeWithDevTools } from 'redux-devtools-extension'
+// import { composeWithDevTools } from 'redux-devtools-extension'
 import { TotalState } from './reducers/totalsReducer'
 import { UserState } from './reducers/usersReducer'
 import usersReducer from './reducers/usersReducer'

@@ -2,42 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { Dispatch, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { ReduxState } from './store'
-
 //import components
 import TopHalf from './components/TopHalf/TopHalf'
 import Modal from './components/Modal/Modal'
-
+import { unixTimeToDate } from './components/functions'
 //import actionCreators
 import { useLocalStorageData } from './store/actions/totalsActions'
-
-const unixTimeToDate = (unixtime: number): string => {
-  let date: Date = new Date(unixtime)
-  const months: string[] = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ]
-  let days: string[] = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat']
-  const day: string = days[date.getDay()]
-  let d: string = `${date.getDate()}`
-  if (d.length === 1) {
-    d = d.padStart(2, '0')
-  }
-  const m: string = months[date.getMonth()]
-  const y: string = `${date.getFullYear()}`
-  let saveDate = `${day} ${m} ${d} ${y}`
-
-  return saveDate
-}
 
 type Props = LinkDispatchProps & ReduxState
 
@@ -46,7 +16,6 @@ const App: React.FunctionComponent<Props> = props => {
   const [formHasData, setFormHasData] = useState<boolean>(false)
   const [displayModal, setModal] = useState<boolean>(false)
   const [error, setError] = useState<string>('')
-
   const [lsData, setLsData] = useState<string>('no data')
 
   const useLocalStorageData = (): void => {
@@ -61,6 +30,7 @@ const App: React.FunctionComponent<Props> = props => {
         return
       } else {
         props.useLocalStorage(newTotals)
+        setFormHasData(true)
         closeModal()
       }
     }
@@ -80,10 +50,8 @@ const App: React.FunctionComponent<Props> = props => {
 
       let unix: number = JSON.parse(LS).date
       setLsDate(unixTimeToDate(unix))
-
       setModal(true)
     }
-    // console.log(localStorage.getItem('divviweb'))
   }, [])
 
   //onUnmount
@@ -106,7 +74,7 @@ const App: React.FunctionComponent<Props> = props => {
       )}
       {error && <h1>{error}</h1>}
 
-      <TopHalf />
+      <TopHalf formHasData={formHasData} setFormHasData={(tf: boolean) => setFormHasData(tf)} />
     </div>
   )
 }

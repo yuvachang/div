@@ -1,39 +1,29 @@
 import * as actionTypes from './actionTypes'
 
-export const updateSubTotal = (subtotal:number) => {
-  // console.log(newSubTot)
-  // let subtotal: number = +newSubTot.slice(1)
-
+export const updateSubTotal = (subtotal: number, total: number) => {
   return {
     type: actionTypes.UPDATE_SUBTOTAL,
-    payload: subtotal,
+    payload: { subtotal, total },
   }
 }
 
-export const updateTotal = (total: number) => {
-  // let total: number = +newTot.slice(1)
-
+export const clearTipTax = () => {
   return {
-    type: actionTypes.UPDATE_TOTAL,
-    payload: total,
+    type: actionTypes.CLEAR_TIPTAX,
   }
 }
 
-export const updateTax = (tax: number) => {
-  // let tax: number = +newTax.slice(0, -1)
-
+export const updateTax = (tax: number, total: number) => {
   return {
     type: actionTypes.UPDATE_TAX,
-    payload: tax,
+    payload: { tax, total },
   }
 }
 
-export const updateTip = (tip: number) => {
-  // let tip: number = +newTip.slice(0, -1)
-
+export const updateTip = (tip: number, total: number) => {
   return {
     type: actionTypes.UPDATE_TIP,
-    payload: tip,
+    payload: { tip, total },
   }
 }
 

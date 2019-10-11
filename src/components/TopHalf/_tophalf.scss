@@ -6,7 +6,7 @@
   top: 0;
 
   // width: 50vw;
-  max-width: 250px;
+  width: 250px;
 
   border-bottom: 1px solid black;
   padding: 15px 0;
@@ -67,9 +67,10 @@
 
     .tiny {
       @include flex-center(column);
-      font-size: 12px;
+      font-size: 11px;
       color: #515151;
       text-align: center;
+      text-transform: capitalize;
     }
 
     @media (hover: hover) {
@@ -83,7 +84,6 @@
     height: 114px;
     transition: 0.35s;
     overflow: hidden;
-
 
     &.collapsed {
       height: 0px;

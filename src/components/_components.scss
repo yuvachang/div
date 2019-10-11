@@ -30,15 +30,13 @@ input,
 
   box-sizing: border-box;
 
-  // border: 1px solid #ccc;
-  // border-radius: 5px;
-
-  border:none; 
+  border: none;
   border-left: 1px solid #ccc;
   border-radius: 0 5px 5px 0;
 
   &.no-hover {
-    border: none;
+    // border: none;
+    color: #666666;
   }
 
   @media (hover: hover) {
@@ -68,4 +66,8 @@ button {
       background: #d1d1d1;
     }
   }
+}
+
+.greytext {
+  color: #666666;
 }

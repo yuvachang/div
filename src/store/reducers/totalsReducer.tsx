@@ -5,6 +5,7 @@ export interface TotalState {
   tip: number
   tax: number
   total: number
+  useLS: boolean
 }
 
 const initialState = {
@@ -12,6 +13,7 @@ const initialState = {
   tip: 0,
   tax: 0,
   total: 0,
+  useLS: false,
 }
 
 const totalsReducer = (state: TotalState = initialState, { type, payload }: actions.ActionType) => {
@@ -19,27 +21,33 @@ const totalsReducer = (state: TotalState = initialState, { type, payload }: acti
     case actions.UPDATE_SUBTOTAL:
       return {
         ...state,
-        subtotal: payload,
-      }
-    case actions.UPDATE_TOTAL:
-      return {
-        ...state,
-        total: payload,
+        subtotal: payload.subtotal,
+        total: payload.total,
       }
     case actions.UPDATE_TIP:
       return {
         ...state,
-        tip: payload,
+        tip: payload.tip,
+        total: payload.total,
       }
     case actions.UPDATE_TAX:
       return {
         ...state,
-        tax: payload,
+        tax: payload.tax,
+        total: payload.total,
+      }
+    case actions.CLEAR_TIPTAX:
+      return {
+        ...state,
+        tip: 0,
+        tax: 0,
+        total: state.subtotal,
       }
     case actions.USE_LS:
       return {
         ...state,
         ...payload,
+        useLS: true,
       }
     default:
       return state
