@@ -1,12 +1,12 @@
-$bg-color: #001f3f;
-$bg-color: #0074d9;
-$bg-color: white;
+$bg-color: #f4f4f4;
 
 $font: 'Open Sans', sans-serif;
+$appwidth: 250px;
 
 @mixin flex-center($dir: row) {
   display: flex;
   flex-direction: $dir;
   justify-content: center;
-  align-self: center;
+  align-items: center;
+  width: 100%;
 }

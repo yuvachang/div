@@ -2,41 +2,15 @@
 
 .top-half {
   @include flex-center(column);
-  position: absolute;
   top: 0;
 
-  // width: 50vw;
-  width: 250px;
+  width: $appwidth;
 
   border-bottom: 1px solid black;
   padding: 15px 0;
 
-  h1,
-  h2,
-  h3,
-  h4,
-  p {
-    text-align: right;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 30px;
-
-    min-width: 50%;
-
-    margin: 0;
-    padding-right: 20px;
-
-    box-sizing: border-box;
-
-    &::before {
-      content: '';
-      height: 100%;
-    }
-
-    &::after {
-      content: '  :';
-      height: 100%;
-    }
+  &>*{
+    width:100%;
   }
 
   .segment {
@@ -81,9 +55,13 @@
   }
 
   .total-details {
-    height: 114px;
+    height: 98px;
     transition: 0.35s;
     overflow: hidden;
+
+    &.include-clear-button{
+      height: 120px;
+    }
 
     &.collapsed {
       height: 0px;

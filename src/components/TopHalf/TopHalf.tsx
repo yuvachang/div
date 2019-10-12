@@ -37,7 +37,7 @@ const TopHalf: React.FunctionComponent<Props> = props => {
   const [collapsed, setCollapsed] = useState<boolean>(true)
   const [includeTipTax, setIncludeTipTax] = useState<boolean>(false)
 
-  const updateStore = (field: string) => {
+  const updateStore = (field: string): void => {
     //Strip $ and %
     let fieldValue: number = +(totals as any)[field].split(new RegExp('\\$|\\%')).join('')
     let newTotals = { ...totals }
@@ -155,8 +155,9 @@ const TopHalf: React.FunctionComponent<Props> = props => {
       </div>
 
       <div
-        className={`total-details${collapsed ? ' collapsed' : ''}`}
-        style={!collapsed && includeTipTax ? { height: '134px' } : {}}>
+        className={`total-details${
+          collapsed ? ' collapsed' : includeTipTax ? ' include-clear-button' : ''
+        }`}>
         <div className='segment'>
           <p>Tip</p>
           <Input

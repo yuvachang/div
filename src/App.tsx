@@ -8,6 +8,7 @@ import Modal from './components/Modal/Modal'
 import { unixTimeToDate } from './components/functions'
 //import actionCreators
 import { useLocalStorageData } from './store/actions/totalsActions'
+import BottomHalf from './components/BottomHalf/BottomHalf'
 
 type Props = LinkDispatchProps & ReduxState
 
@@ -64,7 +65,7 @@ const App: React.FunctionComponent<Props> = props => {
   }
 
   return (
-    <div className='root'>
+    <div className='app'>
       {displayModal && (
         <Modal
           yes={useLocalStorageData}
@@ -73,8 +74,11 @@ const App: React.FunctionComponent<Props> = props => {
         />
       )}
       {error && <h1>{error}</h1>}
+      <div className='app-card'>
+        <TopHalf formHasData={formHasData} setFormHasData={(tf: boolean) => setFormHasData(tf)} />
 
-      <TopHalf formHasData={formHasData} setFormHasData={(tf: boolean) => setFormHasData(tf)} />
+        <BottomHalf />
+      </div>
     </div>
   )
 }

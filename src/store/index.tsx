@@ -1,10 +1,10 @@
 import { createStore, combineReducers, applyMiddleware, Reducer } from 'redux'
+import {createLogger} from 'redux-logger'
 // import { composeWithDevTools } from 'redux-devtools-extension'
 import { TotalState } from './reducers/totalsReducer'
-import { UserState } from './reducers/usersReducer'
-import usersReducer from './reducers/usersReducer'
+import usersReducer, { UserState } from './reducers/usersReducer'
+
 import totalsReducer from './reducers/totalsReducer'
-import {createLogger} from 'redux-logger'
 
 export interface ReduxState {
   users: UserState
@@ -18,7 +18,7 @@ const reducer: Reducer<ReduxState> = combineReducers({
 
 // const middleware = composeWithDevTools(applyMiddleware(loggerMiddleware({ collapsed: true })))
 
-const logger = (createLogger as any)({//TS hack to suppress warnings
+const logger = (createLogger as any)({
   collapsed: true
 })
 

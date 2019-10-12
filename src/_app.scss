@@ -8,13 +8,29 @@ h4 {
   padding: 6px;
 }
 
-.root {
+.app {
+  @include flex-center(column);
+  justify-content: flex-start;
+
   background-color: $bg-color;
+
   width: 100vw;
   height: 100vh;
-  @include flex-center();
 
   font-family: $font;
+  font-size: 12px;
+
+  &-card {
+    padding: 20px;
+
+    box-sizing: border-box;
+
+    background-color: white;
+
+    border-radius: 12px;
+
+    box-shadow: 3px 4px 5px #ccc;
+  }
 }
 
 input[type='number']::-webkit-inner-spin-button,

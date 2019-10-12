@@ -1,24 +1,35 @@
 import * as actions from '../actions/actionTypes'
 
+export interface UserObject {
+  name: string
+  owe: number
+  paid: number
+}
+
 export interface UserState {
-  usersArr: { name: string; owe: number; paid: number }[] | any
+  usersArr: Array<UserObject>
 }
 
-const initialState = {
-  usersArr: [],
+const initialState: UserState = {
+  usersArr: [
+    {
+      name: 'bob',
+      owe: 0,
+      paid: 0,
+    },
+  ],
 }
 
-const userReducer = (state: UserState = initialState, { type, payload }: actions.ActionType) => {
+const usersReducer = (state: UserState = initialState, { type, payload }: actions.ActionType) => {
   switch (type) {
     case actions.USERS_ADD:
       return {
         ...state,
-        usersArr: state.usersArr.push(payload),
+        usersArr: [...state.usersArr, payload],
       }
-
     default:
       return state
   }
 }
 
-export default userReducer
+export default usersReducer

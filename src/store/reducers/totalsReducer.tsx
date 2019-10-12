@@ -8,7 +8,7 @@ export interface TotalState {
   useLS: boolean
 }
 
-const initialState = {
+const initialState: TotalState = {
   subtotal: 0,
   tip: 0,
   tax: 0,
@@ -16,7 +16,10 @@ const initialState = {
   useLS: false,
 }
 
-const totalsReducer = (state: TotalState = initialState, { type, payload }: actions.ActionType) => {
+const totalsReducer = (
+  state: TotalState = initialState, 
+  { type, payload }: actions.ActionType
+  ) => {
   switch (type) {
     case actions.UPDATE_SUBTOTAL:
       return {

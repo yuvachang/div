@@ -5,15 +5,24 @@ h4 {
   margin: 0;
   padding: 6px; }
 
-.root {
-  background-color: white;
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  justify-content: flex-start;
+  background-color: #f4f4f4;
   width: 100vw;
   height: 100vh;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-self: center;
-  font-family: "Open Sans", sans-serif; }
+  font-family: "Open Sans", sans-serif;
+  font-size: 12px; }
+  .app-card {
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 3px 4px 5px #ccc; }
 
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
@@ -24,44 +33,20 @@ input[type='number']::-webkit-outer-spin-button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-self: center;
-  position: absolute;
+  align-items: center;
+  width: 100%;
   top: 0;
   width: 250px;
   border-bottom: 1px solid black;
   padding: 15px 0; }
-  .top-half h1,
-  .top-half h2,
-  .top-half h3,
-  .top-half h4,
-  .top-half p {
-    text-align: right;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 30px;
-    min-width: 50%;
-    margin: 0;
-    padding-right: 20px;
-    box-sizing: border-box; }
-    .top-half h1::before,
-    .top-half h2::before,
-    .top-half h3::before,
-    .top-half h4::before,
-    .top-half p::before {
-      content: '';
-      height: 100%; }
-    .top-half h1::after,
-    .top-half h2::after,
-    .top-half h3::after,
-    .top-half h4::after,
-    .top-half p::after {
-      content: '  :';
-      height: 100%; }
+  .top-half > * {
+    width: 100%; }
   .top-half .segment {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-self: center;
+    align-items: center;
+    width: 100%;
     justify-content: space-evenly;
     width: 100%;
     margin: 5px 0px;
@@ -73,7 +58,8 @@ input[type='number']::-webkit-outer-spin-button {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-self: center;
+    align-items: center;
+    width: 100%;
     box-sizing: border-box;
     background-color: #efefef;
     width: 100%;
@@ -85,7 +71,8 @@ input[type='number']::-webkit-outer-spin-button {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-self: center;
+      align-items: center;
+      width: 100%;
       font-size: 11px;
       color: #515151;
       text-align: center;
@@ -94,9 +81,11 @@ input[type='number']::-webkit-outer-spin-button {
       .top-half .menu-bar:hover {
         cursor: pointer; } }
   .top-half .total-details {
-    height: 114px;
+    height: 98px;
     transition: 0.35s;
     overflow: hidden; }
+    .top-half .total-details.include-clear-button {
+      height: 120px; }
     .top-half .total-details.collapsed {
       height: 0px;
       transition: 0.45s; }
@@ -105,7 +94,8 @@ input[type='number']::-webkit-outer-spin-button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-self: center;
+  align-items: center;
+  width: 100%;
   width: 95%;
   min-height: 45px;
   max-height: 45px;
@@ -113,10 +103,38 @@ input[type='number']::-webkit-outer-spin-button {
   background-color: white;
   color: black; }
 
+h1,
+h2,
+h3,
+h4,
+p {
+  text-align: right;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 25px;
+  min-width: 50%;
+  margin: 0;
+  padding-right: 20px;
+  box-sizing: border-box; }
+  h1::before,
+  h2::before,
+  h3::before,
+  h4::before,
+  p::before {
+    content: '';
+    height: 100%; }
+  h1::after,
+  h2::after,
+  h3::after,
+  h4::after,
+  p::after {
+    content: '  :';
+    height: 100%; }
+
 input,
 .outline-only {
   font-family: "Open Sans", sans-serif;
-  font-size: 12px;
+  font-size: 11px;
   text-align: center;
   color: black;
   width: 100%;
@@ -154,11 +172,21 @@ button {
 .greytext {
   color: #666666; }
 
+.arrowicon {
+  width: 25px;
+  height: 16px;
+  filter: invert(0.66);
+  transition: 0.5s; }
+  .arrowicon.flip {
+    transform: scaleY(-1);
+    transition: 0.5s; }
+
 .modal {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-self: center;
+  align-items: center;
+  width: 100%;
   position: fixed;
   background: rgba(0, 0, 0, 0.5);
   width: 100%;
@@ -168,7 +196,8 @@ button {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-self: center;
+    align-items: center;
+    width: 100%;
     padding: 20px;
     background: white;
     border-radius: 5px; }
@@ -176,6 +205,62 @@ button {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-self: center;
+    align-items: center;
+    width: 100%;
     width: 100%;
     padding-top: 15px; }
+
+.bottom-half {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  top: 0;
+  width: 250px;
+  padding: 15px 0; }
+  .bottom-half > * {
+    width: 100%; }
+  .bottom-half .user-item {
+    border: 1px solid #ccc;
+    border-radius: 4px; }
+    .bottom-half .user-item .no-edit {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      justify-content: flex-start;
+      padding: 5px 10px;
+      margin: 0 4px;
+      box-sizing: border-box;
+      width: calc(100% - 8px);
+      border-bottom: 1px solid #ccc;
+      transition: 0.3s;
+      position: relative; }
+      .bottom-half .user-item .no-edit.collapsed {
+        border-bottom: 1px solid transparent;
+        transition: 0.3s; }
+      .bottom-half .user-item .no-edit .name {
+        width: 35%; }
+      .bottom-half .user-item .no-edit .amounts {
+        width: 50%;
+        font-size: 9px;
+        color: #ccc; }
+      .bottom-half .user-item .no-edit .arrow {
+        position: absolute;
+        right: 4px;
+        top: 6px;
+        height: 0; }
+        @media (hover: hover) {
+          .bottom-half .user-item .no-edit .arrow:hover {
+            cursor: pointer; } }
+    .bottom-half .user-item .edits {
+      padding: 10px;
+      overflow: hidden;
+      height: 30px;
+      transition: 0.35s; }
+      .bottom-half .user-item .edits.collapsed {
+        height: 0;
+        padding: 0 10px;
+        transition: 0.35s; }

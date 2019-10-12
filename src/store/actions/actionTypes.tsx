@@ -5,6 +5,9 @@ export interface ActionType {
 
 //USERS
 export const USERS_ADD = 'USERS_ADD'
+export const USERS_NAME = 'USERS_NAME'
+export const USERS_PAID = 'USERS_PAID'
+export const USERS_OWE = 'USERS_OWE'
 
 //TOTALS
 export const USE_LS = 'USE_LS'

@@ -10,3 +10,10 @@ export const addUser = () => {
     },
   }
 }
+
+export const updateUserName = (name: string) => {
+  return {
+    type: actionTypes.USERS_NAME,
+    payload: name
+  }
+}

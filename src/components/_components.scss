@@ -13,10 +13,38 @@
   color: black;
 }
 
+h1,
+h2,
+h3,
+h4,
+p {
+  text-align: right;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 25px;
+
+  min-width: 50%;
+
+  margin: 0;
+  padding-right: 20px;
+
+  box-sizing: border-box;
+
+  &::before {
+    content: '';
+    height: 100%;
+  }
+
+  &::after {
+    content: '  :';
+    height: 100%;
+  }
+}
+
 input,
 .outline-only {
   font-family: $font;
-  font-size: 12px;
+  font-size: 11px;
   text-align: center;
   color: black;
 
@@ -70,4 +98,18 @@ button {
 
 .greytext {
   color: #666666;
+}
+
+.arrowicon {
+  width: 25px;
+  height: 16px;
+  filter: invert(0.66);
+
+  transition: 0.5s;
+
+  &.flip {
+    // transform: rotate(180deg); //rotates
+    transform: scaleY(-1); //flips vertically
+    transition: 0.5s;
+  }
 }

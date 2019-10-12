@@ -1,0 +1,79 @@
+@import '../../variables';
+
+.bottom-half {
+  @include flex-center(column);
+  top: 0;
+
+  width: $appwidth;
+
+  padding: 15px 0;
+
+  & > * {
+    width: 100%;
+  }
+
+  .user-item {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+    .no-edit {
+      @include flex-center();
+      justify-content: flex-start;
+
+      padding: 5px 10px;
+      margin: 0 4px;
+
+      box-sizing: border-box;
+
+      width: calc(100% - 8px);
+
+      border-bottom: 1px solid #ccc;
+      transition: 0.3s;
+
+      position: relative;
+
+      &.collapsed {
+        border-bottom: 1px solid transparent;
+        transition:0.3s;
+      }
+
+      .name {
+        width: 35%;
+      }
+
+      .amounts {
+        width: 50%;
+
+        font-size: 9px;
+        color: #ccc;
+      }
+
+      .arrow {
+        position: absolute;
+        right: 4px;
+        top: 6px;
+        height: 0;
+
+        @media (hover: hover) {
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+
+    .edits {
+      padding: 10px;
+      // box-sizing: border-box;
+      overflow: hidden;
+      height: 30px;
+      transition: 0.35s;
+
+      &.collapsed {
+        height: 0;
+        padding: 0 10px;
+        transition: 0.35s;
+      }
+    }
+  }
+}
