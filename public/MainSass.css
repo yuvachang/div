@@ -18,6 +18,7 @@ h4 {
   font-family: "Open Sans", sans-serif;
   font-size: 12px; }
   .app-card {
+    margin-top: 10px;
     padding: 0 20px;
     box-sizing: border-box;
     background-color: white;
@@ -28,6 +29,9 @@ input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0; }
+
+.greytext {
+  color: #666666; }
 
 .top-half {
   display: flex;
@@ -149,8 +153,9 @@ input {
   input.bottom {
     font-size: 10px;
     text-align: center;
+    text-overflow: ellipsis;
     width: 100%;
-    padding: 0 5px;
+    padding: 0 14px;
     border-bottom: 1px solid #ccc; }
   input.no-hover {
     color: #666666; }
@@ -171,9 +176,6 @@ button {
     button:hover {
       cursor: pointer;
       background: #d1d1d1; } }
-
-.greytext {
-  color: #666666; }
 
 .arrowicon {
   width: 25px;
@@ -257,7 +259,10 @@ button {
         border-bottom: 1px solid transparent;
         transition: 0.3s; }
       .bottom-half .user-item .no-edit .name {
-        width: 35%; }
+        width: 35%;
+        margin-right: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis; }
       .bottom-half .user-item .no-edit .amounts {
         width: 25%;
         font-size: 9px;
@@ -291,3 +296,6 @@ button {
         width: 40%;
         font-size: 0.75em;
         line-height: 22px; }
+      .bottom-half .user-item-inputs .segment .symbol {
+        transform: translate(5px, -1px);
+        width: 0; }

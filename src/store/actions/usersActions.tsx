@@ -11,9 +11,23 @@ export const addUser = () => {
   }
 }
 
-export const updateUserName = (name: string) => {
+export const updateUserName = (name: string, idx: number) => {
   return {
     type: actionTypes.USERS_NAME,
-    payload: name
+    payload: { name, idx },
+  }
+}
+
+export const updateUserPaid = (paid: number, idx: number) => {
+  return {
+    type: actionTypes.USERS_PAID,
+    payload: { paid, idx },
+  }
+}
+
+export const updateUserOwe = (owe: number, idx: number) => {
+  return {
+    type: actionTypes.USERS_OWE,
+    payload: { owe, idx },
   }
 }

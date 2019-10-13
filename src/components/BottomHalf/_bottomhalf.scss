@@ -52,6 +52,9 @@
 
       .name {
         width: 35%;
+        margin-right: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .amounts {
@@ -102,6 +105,11 @@
           width: 40%;
           font-size: 0.75em;
           line-height: 22px;
+        }
+
+        .symbol {
+          transform: translate(5px, -1px);
+          width: 0;
         }
       }
     }

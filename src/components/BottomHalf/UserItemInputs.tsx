@@ -4,10 +4,11 @@ import { bindActionCreators, Dispatch } from 'redux'
 //nonpackage imports
 import { ReduxState } from '../../store'
 import { UserObject } from '../../store/reducers/usersReducer'
-import { addUser } from '../../store/actions/usersActions'
+import { addUser, updateUserName } from '../../store/actions/usersActions'
 
 interface OwnProps {
   user: UserObject
+  idx: number
 }
 
 type Props = LinkDispatchProps & LinkMapProps & OwnProps
@@ -15,9 +16,23 @@ type Props = LinkDispatchProps & LinkMapProps & OwnProps
 const UserItemInputs: React.FunctionComponent<Props> = props => {
   const [user, setUser] = useState<UserObject>(props.user)
 
-  const handleChange = (e: React.SyntheticEvent<HTMLInputElement>) => {}
+  const handleChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
+    let target = e.target as HTMLInputElement
 
-  const updateStore = () => {}
+    setUser({
+      ...user,
+      [target.name]: target.value,
+    })
+
+    if (target.name === 'name') {
+      props.updateName(target.value, props.idx)
+    } 
+  }
+
+  const updateStore = () => {
+
+    
+  }
 
   return (
     <div className='user-item-inputs'>
@@ -30,13 +45,15 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
           value={user.name || ''}
           onChange={handleChange}
           onBlur={updateStore}
+          spellCheck={false}
         />
       </div>
       <div className='segment'>
         <div className='title greytext'>Paid:</div>
+        <div className='symbol greytext'>$</div>
         <input
           className='bottom'
-          type='text'
+          type='number'
           name='paid'
           value={user.paid || 0}
           onChange={handleChange}
@@ -45,9 +62,10 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
       </div>
       <div className='segment'>
         <div className='title greytext'>Owed:</div>
+        <div className='symbol greytext'>$</div>
         <input
           className='bottom'
-          type='text'
+          type='number'
           name='owe'
           value={user.owe || 0}
           onChange={handleChange}
@@ -64,6 +82,7 @@ interface LinkMapProps {
 
 interface LinkDispatchProps {
   addUser: () => void
+  updateName: (name: string, idx: number) => void
 }
 
 const mapState = (state: ReduxState, ownProps?: any) => ({
@@ -72,6 +91,7 @@ const mapState = (state: ReduxState, ownProps?: any) => ({
 
 const mapDispatch = (dispatch: Dispatch, ownProps?: any): LinkDispatchProps => ({
   addUser: bindActionCreators(addUser, dispatch),
+  updateName: bindActionCreators(updateUserName, dispatch),
 })
 
 export default connect(

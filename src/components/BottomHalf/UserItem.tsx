@@ -9,40 +9,36 @@ import UserItemInputs from './UserItemInputs'
 
 interface OwnProps {
   user: UserObject
+  idx: number
 }
 
 type Props = LinkDispatchProps & LinkMapProps & OwnProps
 
 const UserItem: React.FunctionComponent<Props> = props => {
   const [collapsed, setCollapse] = useState<boolean>(true)
-  
-  useEffect(()=>{
-    if (!props.user.name){
+
+  useEffect(() => {
+    if (!props.user.name) {
       setCollapse(false)
     }
-  },[props.user.name])
+  }, [props.user.name])
 
   return (
     <div className='user-item'>
       <div className={`no-edit${collapsed ? ' collapsed' : ''}`}>
-        <div className='name greytext'>{props.user.name}</div>
+        <div className='name greytext'>{props.user.name || 'Name'}</div>
         <div className='amounts'>Paid: ${props.user.paid}</div>
         <div className='amounts'>Owe: ${props.user.owe}</div>
         <div className='arrow' onClick={() => setCollapse(!collapsed)}>
           <img src='/icons/down-arrow.png' className={`arrowicon${collapsed ? '' : ' flip'}`} />
         </div>
       </div>
-      <div className={`edits${collapsed ? ' collapsed' : ''}`}><UserItemInputs user={props.user}/></div>
+      <div className={`edits${collapsed ? ' collapsed' : ''}`}>
+        <UserItemInputs user={props.user} idx={props.idx} />
+      </div>
     </div>
   )
 }
-
-// UserItem.defaultProps = {
-//   name: '',
-//   paid: 0,
-// }
-
-// export default UserItem
 
 interface LinkMapProps {
   users: UserObject[]
