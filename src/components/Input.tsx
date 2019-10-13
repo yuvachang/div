@@ -42,7 +42,7 @@ const Input: React.FunctionComponent<Props> = props => {
 
   return (
     <input
-      className={props.disabled ? 'no-hover' : ''}
+      className={props.disabled ? 'top no-hover' : 'top'}
       type='text'
       name={props.name}
       onChange={props.onChange}

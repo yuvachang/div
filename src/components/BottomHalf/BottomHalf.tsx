@@ -15,11 +15,12 @@ const BottomHalf: React.FunctionComponent<Props> = props => {
   console.log(props)
   return (
     <div className='bottom-half'>
-      <div className='list'>
-        {!!props.users.length &&
-          props.users.map((user, idx) => {
-            return <UserItem name={user.name} paid={user.paid} />
-          })}
+      {!!props.users.length &&
+        props.users.map((user, idx) => {
+          return <UserItem key={idx} user={user} />
+        })}
+      <div className='user-item button' onClick={props.addUser}>
+        add person
       </div>
     </div>
   )

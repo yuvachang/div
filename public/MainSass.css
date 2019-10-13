@@ -18,7 +18,7 @@ h4 {
   font-family: "Open Sans", sans-serif;
   font-size: 12px; }
   .app-card {
-    padding: 20px;
+    padding: 0 20px;
     box-sizing: border-box;
     background-color: white;
     border-radius: 12px;
@@ -73,7 +73,7 @@ input[type='number']::-webkit-outer-spin-button {
       justify-content: center;
       align-items: center;
       width: 100%;
-      font-size: 11px;
+      font-size: 10px;
       color: #515151;
       text-align: center;
       text-transform: capitalize; }
@@ -131,30 +131,33 @@ p {
     content: '  :';
     height: 100%; }
 
-input,
-.outline-only {
+input {
   font-family: "Open Sans", sans-serif;
   font-size: 11px;
-  text-align: center;
   color: black;
-  width: 100%;
-  max-width: 50%;
   background-color: white;
-  padding: 5px 10px;
-  padding-left: 8px;
-  box-sizing: border-box;
-  border: none;
-  border-left: 1px solid #ccc;
-  border-radius: 0 5px 5px 0; }
-  input.no-hover,
-  .outline-only.no-hover {
+  border: none; }
+  input.top {
+    text-align: center;
+    width: 100%;
+    max-width: 50%;
+    padding: 5px 10px;
+    padding-left: 8px;
+    box-sizing: border-box;
+    border-left: 1px solid #ccc;
+    border-radius: 0 5px 5px 0; }
+  input.bottom {
+    font-size: 10px;
+    text-align: center;
+    width: 100%;
+    padding: 0 5px;
+    border-bottom: 1px solid #ccc; }
+  input.no-hover {
     color: #666666; }
   @media (hover: hover) {
-    input:hover,
-    .outline-only:hover {
+    input:hover {
       cursor: pointer; }
-    input.no-hover:hover,
-    .outline-only.no-hover:hover {
+    input.no-hover:hover {
       cursor: default; } }
 
 button {
@@ -223,7 +226,19 @@ button {
     width: 100%; }
   .bottom-half .user-item {
     border: 1px solid #ccc;
-    border-radius: 4px; }
+    border-radius: 4px;
+    margin: 4px 0; }
+    .bottom-half .user-item.button {
+      height: 26px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      width: 100%; }
+      @media (hover: hover) {
+        .bottom-half .user-item.button:hover {
+          cursor: pointer;
+          background-color: #f4f4f4; } }
     .bottom-half .user-item .no-edit {
       display: flex;
       flex-direction: row;
@@ -244,7 +259,7 @@ button {
       .bottom-half .user-item .no-edit .name {
         width: 35%; }
       .bottom-half .user-item .no-edit .amounts {
-        width: 50%;
+        width: 25%;
         font-size: 9px;
         color: #ccc; }
       .bottom-half .user-item .no-edit .arrow {
@@ -258,9 +273,21 @@ button {
     .bottom-half .user-item .edits {
       padding: 10px;
       overflow: hidden;
-      height: 30px;
+      height: 66px;
       transition: 0.35s; }
       .bottom-half .user-item .edits.collapsed {
         height: 0;
         padding: 0 10px;
         transition: 0.35s; }
+    .bottom-half .user-item-inputs > * {
+      width: 100%; }
+    .bottom-half .user-item-inputs .segment {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      width: 100%; }
+      .bottom-half .user-item-inputs .segment .title {
+        width: 40%;
+        font-size: 0.75em;
+        line-height: 22px; }

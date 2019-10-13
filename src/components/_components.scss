@@ -41,26 +41,40 @@ p {
   }
 }
 
-input,
-.outline-only {
+input {
   font-family: $font;
   font-size: 11px;
-  text-align: center;
   color: black;
-
-  width: 100%;
-  max-width: 50%;
 
   background-color: white;
 
-  padding: 5px 10px;
-  padding-left: 8px;
-
-  box-sizing: border-box;
-
   border: none;
-  border-left: 1px solid #ccc;
-  border-radius: 0 5px 5px 0;
+
+  &.top {
+    text-align: center;
+
+    width: 100%;
+    max-width: 50%;
+
+    padding: 5px 10px;
+    padding-left: 8px;
+
+    box-sizing: border-box;
+
+    border-left: 1px solid #ccc;
+    border-radius: 0 5px 5px 0;
+  }
+
+  &.bottom{
+    font-size: 10px;
+    text-align: center;
+
+    width: 100%;
+    
+    padding: 0 5px;
+
+    border-bottom: 1px solid #ccc;
+  }
 
   &.no-hover {
     // border: none;

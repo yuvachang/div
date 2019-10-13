@@ -15,6 +15,19 @@
   .user-item {
     border: 1px solid #ccc;
     border-radius: 4px;
+    margin: 4px 0;
+
+    &.button {
+      height: 26px;
+      @include flex-center();
+
+      @media (hover: hover) {
+        &:hover {
+          cursor: pointer;
+          background-color: $bg-color;
+        }
+      }
+    }
 
     .no-edit {
       @include flex-center();
@@ -34,7 +47,7 @@
 
       &.collapsed {
         border-bottom: 1px solid transparent;
-        transition:0.3s;
+        transition: 0.3s;
       }
 
       .name {
@@ -42,7 +55,7 @@
       }
 
       .amounts {
-        width: 50%;
+        width: 25%;
 
         font-size: 9px;
         color: #ccc;
@@ -64,15 +77,32 @@
 
     .edits {
       padding: 10px;
-      // box-sizing: border-box;
       overflow: hidden;
-      height: 30px;
+      height: 66px;
       transition: 0.35s;
 
       &.collapsed {
         height: 0;
         padding: 0 10px;
         transition: 0.35s;
+      }
+    }
+
+    &-inputs {
+      // @include flex-center(column);
+      // align-items: flex-start;
+      & > * {
+        width: 100%;
+      }
+
+      .segment {
+        @include flex-center();
+
+        .title {
+          width: 40%;
+          font-size: 0.75em;
+          line-height: 22px;
+        }
       }
     }
   }

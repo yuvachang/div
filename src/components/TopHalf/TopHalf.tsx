@@ -183,7 +183,7 @@ const TopHalf: React.FunctionComponent<Props> = props => {
               className='menu-bar'
               style={{ width: '50%', height: '14px' }}
               onClick={clearTipTax}>
-              <div className='tiny' style={{ fontSize: '9px' }}>
+              <div className='tiny' >
                 {'clear amounts'}
               </div>
             </div>
