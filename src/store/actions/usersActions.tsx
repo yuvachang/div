@@ -18,14 +18,14 @@ export const updateUserName = (name: string, idx: number) => {
   }
 }
 
-export const updateUserPaid = (paid: number, idx: number) => {
+export const updateUserPaid = (paid: string, idx: number) => {
   return {
     type: actionTypes.USERS_PAID,
     payload: { paid, idx },
   }
 }
 
-export const updateUserOwe = (owe: number, idx: number) => {
+export const updateUserOwe = (owe: string, idx: number) => {
   return {
     type: actionTypes.USERS_OWE,
     payload: { owe, idx },

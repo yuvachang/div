@@ -12,7 +12,6 @@ import { UserObject } from '../../store/reducers/usersReducer'
 type Props = LinkDispatchProps & LinkMapProps
 
 const BottomHalf: React.FunctionComponent<Props> = props => {
-  console.log(props)
   return (
     <div className='bottom-half'>
       {!!props.users.length &&

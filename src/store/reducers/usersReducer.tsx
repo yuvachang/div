@@ -1,4 +1,5 @@
 import * as actions from '../actions/actionTypes'
+import { roundUSD } from '../../components/functions'
 
 export interface UserObject {
   name: string
@@ -21,20 +22,22 @@ const initialState: UserState = {
 }
 
 const createNewState = (state: UserState, field: string, payload: any): UserState => {
-  console.log(payload)
-  let user = state.usersArr[payload.idx]
+  const user = state.usersArr[payload.idx]
+
   switch (field) {
     case 'name':
       user.name = payload.name
       break
     case 'owe':
-      user.owe = payload.owe
+      user.owe = roundUSD(+payload.owe)
       break
     case 'paid':
-      user.paid = payload.paid
+      user.paid = +payload.paid
       break
   }
-  let newArr = [...state.usersArr].splice(payload.idx, 1, user)
+
+  const newArr = [...state.usersArr]
+  newArr.splice(payload.idx, 1, user)
   return { ...state, usersArr: newArr }
 }
 
@@ -48,20 +51,20 @@ const usersReducer = (state: UserState = initialState, { type, payload }: action
     }
     case actions.USERS_NAME: {
       const newState: UserState = createNewState(state, 'name', payload)
-
       return {
-        ...state,
         ...newState,
       }
     }
     case actions.USERS_PAID: {
-      let user = state.usersArr[payload.idx]
-      user.paid = payload.paid
-      let newArr = [...state.usersArr]
-      newArr.splice(payload.idx, 1, user)
+      const newState: UserState = createNewState(state, 'paid', payload)
       return {
-        ...state,
-        usersArr: [...newArr],
+        ...newState,
+      }
+    }
+    case actions.USERS_OWE: {
+      const newState: UserState = createNewState(state, 'owe', payload)
+      return {
+        ...newState,
       }
     }
     default:
