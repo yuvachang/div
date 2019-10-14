@@ -9,8 +9,8 @@
   border-bottom: 1px solid black;
   padding: 15px 0;
 
-  &>*{
-    width:100%;
+  & > * {
+    width: 100%;
   }
 
   .segment {
@@ -26,6 +26,12 @@
     border-radius: 5px;
 
     box-sizing: border-box;
+
+    .symbol {
+      transform: translate(18px, 0px);
+      width: 0;
+      font-size: 11px;
+    }
   }
 
   .menu-bar {
@@ -59,7 +65,7 @@
     transition: 0.35s;
     overflow: hidden;
 
-    &.include-clear-button{
+    &.include-clear-button {
       height: 120px;
     }
 

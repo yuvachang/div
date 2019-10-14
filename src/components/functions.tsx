@@ -1,4 +1,4 @@
-import { InitialState } from './TopHalf/TopHalf'
+import { TotalState } from '../store/reducers/totalsReducer'
 
 export const unixTimeToDate = (unixtime: number): string => {
   let date: Date = new Date(unixtime)
@@ -34,7 +34,7 @@ export const roundUSD = (num: number): number => {
 }
 
 export const roundPercent = (num: number): number => {
-  return Math.round(+num * 10) / 10
+  return +(Math.round(+num * 10) / 10).toFixed(1)
 }
 
 export const filterInput = (input: string): string => {
@@ -47,10 +47,40 @@ export const filterInput = (input: string): string => {
   return filteredInput
 }
 
-export const calculateTotal = (stateTotals: InitialState): number => {
+export const calculateTotal = (stateTotals: TotalState): number => {
   let { tip, tax, subtotal } = stateTotals
-  let ntip = (+tip.slice(0, -1) / 100) * +subtotal.slice(1)
-  let ntax = (+tax.slice(0, -1) / 100) * +subtotal.slice(1)
-  let ntotal = ntip + ntax + +subtotal.slice(1)
+  let ntip = (Number(tip) / 100) * Number(subtotal)
+  let ntax = (Number(tax) / 100) * Number(subtotal)
+  let ntotal = ntip + ntax + Number(subtotal)
+  console.log(ntip, ntax, +subtotal, ntotal)
   return ntotal
 }
+
+// export const updateStore = (targetName: string, value: string, idx: number): string => {
+//   switch (targetName) {
+//     case 'name': {
+//       props.updateName(value, props.idx)
+//       break
+//     }
+//     case 'paid': {
+//       props.updatePaid(String(roundUSD(+value)), props.idx)
+//       value = roundUSD(+value).toFixed(2)
+//       break
+//     }
+//     case 'owe': {
+//       props.updateOwe(String(roundUSD(+value)), props.idx)
+//       value = roundUSD(+value).toFixed(2)
+//       break
+//     }
+//   }
+
+//   return value
+// }
+
+// export const calculateTotal = (stateTotals: InitialState): number => {
+//   let { tip, tax, subtotal } = stateTotals
+//   let ntip = (+tip.slice(0, -1) / 100) * +subtotal.slice(1)
+//   let ntax = (+tax.slice(0, -1) / 100) * +subtotal.slice(1)
+//   let ntotal = ntip + ntax + +subtotal.slice(1)
+//   return ntotal
+// }

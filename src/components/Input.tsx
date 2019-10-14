@@ -1,10 +1,10 @@
 import React from 'react'
 
 interface Props {
-  val: string | undefined
+  val: number | undefined
   name: string
   onChange?: (e: React.SyntheticEvent<HTMLInputElement>) => void
-  updateStore: (type: string) => void
+  updateStore: (e: React.SyntheticEvent<HTMLInputElement>) => void
   disabled?: boolean
 }
 
@@ -40,14 +40,22 @@ const Input: React.FunctionComponent<Props> = props => {
     }
   }
 
+  // const onblur = (e: React.SyntheticEvent<HTMLInputElement>)  => {
+  //   let target = e.target as HTMLInputElement
+  //   let inputValue = target.value
+
+  // }
+
   return (
     <input
       className={props.disabled ? 'top no-hover' : 'top'}
-      type='text'
+      type='number'
+      // pattern='\d*'
+      // inputMode='numeric'
       name={props.name}
       onChange={props.onChange}
       value={props.val}
-      onBlur={() => props.updateStore(props.name)}
+      onBlur={props.updateStore}
       onKeyDown={characterChecker}
       disabled={props.disabled}
     />

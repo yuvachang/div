@@ -29,7 +29,7 @@ const createNewState = (state: UserState, field: string, payload: any): UserStat
       user.name = payload.name
       break
     case 'owe':
-      user.owe = roundUSD(+payload.owe)
+      user.owe = +payload.owe
       break
     case 'paid':
       user.paid = +payload.paid

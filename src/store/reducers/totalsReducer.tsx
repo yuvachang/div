@@ -24,27 +24,27 @@ const totalsReducer = (
     case actions.UPDATE_SUBTOTAL:
       return {
         ...state,
-        subtotal: payload.subtotal,
-        total: payload.total,
+        subtotal: +payload.subtotal,
+        total: +payload.total,
       }
     case actions.UPDATE_TIP:
       return {
         ...state,
-        tip: payload.tip,
-        total: payload.total,
+        tip: +payload.tip,
+        total: +payload.total,
       }
     case actions.UPDATE_TAX:
       return {
         ...state,
-        tax: payload.tax,
-        total: payload.total,
+        tax: +payload.tax,
+        total: +payload.total,
       }
     case actions.CLEAR_TIPTAX:
       return {
         ...state,
         tip: 0,
         tax: 0,
-        total: state.subtotal,
+        total: +state.subtotal,
       }
     case actions.USE_LS:
       return {

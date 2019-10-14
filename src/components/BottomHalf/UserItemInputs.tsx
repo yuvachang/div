@@ -22,7 +22,7 @@ type Props = LinkDispatchProps & LinkMapProps & OwnProps
 const UserItemInputs: React.FunctionComponent<Props> = props => {
   const [user, setUser] = useState<UserObject>(props.user)
 
-  const updateStore2 = (targetName: string, value: string, idx: number) => {
+  const updateStore = (targetName: string, value: string, idx: number):string => {
     switch (targetName) {
       case 'name': {
         props.updateName(value, props.idx)
@@ -34,8 +34,8 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
         break
       }
       case 'owe': {
-        props.updateOwe(value, props.idx)
-        value = String(+value)
+        props.updateOwe(String(roundUSD(+value)), props.idx)
+        value = roundUSD(+value).toFixed(2)
         break
       }
     }
@@ -47,7 +47,7 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
     let target = e.target as HTMLInputElement
     let value: string = target.value
 
-    updateStore2(target.name, value, props.idx)
+    // updateStore(target.name, value, props.idx)
 
     setUser({
       ...user,
@@ -59,17 +59,28 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
     let target = e.target as HTMLInputElement
     let value: string = target.value
 
+    value = updateStore(target.name, value, props.idx)
+
     if (target.name === 'paid' || target.name === 'owe') {
       setUser({
         ...user,
-        [target.name]: (+value).toFixed(2),
+        [target.name]: value,
       })
     }
   }
 
   const enterKeyListener = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // if (kc === 190 || kc === 110) {
+    //   if (inputValue.includes('.')) {
+    //     //if number already has decimal, do nothing
+    //     e.preventDefault()
+    //     return
+    //   }
+    // }
+    const target = e.target as HTMLInputElement
     if (e.keyCode === 13) {
-      ;(e.target as HTMLInputElement).blur()
+      target.blur()
+      target.value = 'thisisatest'
     }
   }
 
