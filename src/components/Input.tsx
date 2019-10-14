@@ -1,7 +1,7 @@
 import React from 'react'
 
 interface Props {
-  val: number | undefined
+  val: number 
   name: string
   onChange?: (e: React.SyntheticEvent<HTMLInputElement>) => void
   updateStore: (e: React.SyntheticEvent<HTMLInputElement>) => void

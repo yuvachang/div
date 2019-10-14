@@ -47,35 +47,15 @@ export const filterInput = (input: string): string => {
   return filteredInput
 }
 
-export const calculateTotal = (stateTotals: TotalState): number => {
+export const calculateTotal = (stateTotals: TotalState): string => {
   let { tip, tax, subtotal } = stateTotals
   let ntip = (Number(tip) / 100) * Number(subtotal)
   let ntax = (Number(tax) / 100) * Number(subtotal)
   let ntotal = ntip + ntax + Number(subtotal)
-  console.log(ntip, ntax, +subtotal, ntotal)
-  return ntotal
+  if (ntotal > 0) {
+    return ntotal.toFixed(2)
+  } else return '0'
 }
-
-// export const updateStore = (targetName: string, value: string, idx: number): string => {
-//   switch (targetName) {
-//     case 'name': {
-//       props.updateName(value, props.idx)
-//       break
-//     }
-//     case 'paid': {
-//       props.updatePaid(String(roundUSD(+value)), props.idx)
-//       value = roundUSD(+value).toFixed(2)
-//       break
-//     }
-//     case 'owe': {
-//       props.updateOwe(String(roundUSD(+value)), props.idx)
-//       value = roundUSD(+value).toFixed(2)
-//       break
-//     }
-//   }
-
-//   return value
-// }
 
 // export const calculateTotal = (stateTotals: InitialState): number => {
 //   let { tip, tax, subtotal } = stateTotals

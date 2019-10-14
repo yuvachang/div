@@ -13,6 +13,7 @@ import {
 import Input from '../Input'
 import { roundPercent, roundUSD, filterInput, calculateTotal } from '../functions'
 import { TotalState } from '../../store/reducers/totalsReducer'
+import { checkPropTypes } from 'prop-types'
 
 type Props = LinkDispatchProps & ReduxState & OwnProps
 
@@ -21,162 +22,69 @@ interface OwnProps {
   formHasData: boolean
 }
 
+// interface LocalState {
+//   subtotal: string
+//   tip: string
+//   tax: string
+//   total: string
+// }
+
+// const initialState = {
+//   subtotal: '0.00',
+//   tip: '0',
+//   tax: '0',
+//   total: '0.00',
+// }
+
 const TopHalf: React.FunctionComponent<Props> = props => {
   const [totals, setTotals] = useState<TotalState>(props.totals)
   const [collapsed, setCollapsed] = useState<boolean>(true)
   const [includeTipTax, setIncludeTipTax] = useState<boolean>(false)
 
-  // const updateStore = (field: string): void => {
-  //   //Strip $ and %
-  //   let fieldValue: number = (totals as any)[field]
-  //   let newTotals = { ...totals }
-  //   //Format number and add $/%
-  //   switch (field) {
-  //     case 'subtotal':
-  //       fieldValue = roundUSD(fieldValue)
-  //       newTotals[field] = +fieldValue.toFixed(2)
-  //       break
-  //     case 'tip':
-  //     case 'tax':
-  //       fieldValue = roundPercent(fieldValue)
-  //       newTotals[field] = +fieldValue.toFixed(1)
-  //       break
-  //   }
-
-  //   //Compare rounded value to store.value
-  //   //Set formatted string and return if numValue unchanged
-  //   if (fieldValue === (props.totals as any)[field]) {
-  //     setTotals({ ...newTotals })
-  //     return
-  //   } else {
-  //     const newTotal = calculateTotal(newTotals)
-  //     newTotals.total = newTotal
-  //     const totalAndSubtotalEqual = newTotal === newTotals.subtotal
-
-  //     //IncludeTipTax?
-  //     if (!totalAndSubtotalEqual && !includeTipTax) {
-  //       setIncludeTipTax(true)
-  //     } else if (totalAndSubtotalEqual && !!includeTipTax) {
-  //       setIncludeTipTax(false)
-  //     }
-
-  //     //Set state
-  //     setTotals({ ...newTotals })
-  //     //Update Redux Store
-  //     switch (field) {
-  //       case 'subtotal':
-  //         props.updateSubTotal(fieldValue, newTotal)
-  //         break
-  //       case 'tip':
-  //         props.updateTip(fieldValue, newTotal)
-  //         break
-  //       case 'tax':
-  //         props.updateTax(fieldValue, newTotal)
-  //         break
-  //     }
-
-  //     if (!props.formHasData) {
-  //       props.setFormHasData(true)
-  //     }
-  //   }
-  // }
-
   const clearTipTax = (): void => {
     let tip, tax
     tip = tax = 0
-    let subtotal = totals.subtotal
-    let newTotals = { ...totals, tip, tax, total: subtotal }
+    let newTotals = { ...totals, tip, tax, total: totals.subtotal }
     setTotals({ ...totals, ...newTotals })
+
     setIncludeTipTax(false)
+
     props.clearTipTax()
   }
-
-  // const updateStore = (e: React.SyntheticEvent<HTMLInputElement>) => {
-  //   let target = e.target as HTMLInputElement
-  //   let value: string = target.value
-
-  //   if (target.name === 'total' || target.name === 'subtotal') {
-  //     value = (+value).toFixed(2)
-  //   } else {
-  //     value = (+value).toFixed(1)
-  //   }
-
-  //   //Compare rounded value to store.value
-  //   //Set formatted string and return if numValue unchanged
-  //   if ((totals as any)[target.name] === (props.totals as any)[target.name]) {
-  //     setTotals({
-  //       ...totals,
-  //       [target.name]: value,
-  //     })
-  //     return
-  //   } else {
-  //     const nTotals: any = { ...totals }
-  //     nTotals[target.name] = value
-  //     const newTotal = calculateTotal(nTotals).toFixed(2)
-  //     nTotals.total = newTotal
-  //     const totalAndSubtotalEqual = newTotal === nTotals.subtotal
-  //     console.log(nTotals)
-
-  //     //IncludeTipTax?
-  //     if (!totalAndSubtotalEqual && !includeTipTax) {
-  //       setIncludeTipTax(true)
-  //     } else if (totalAndSubtotalEqual && !!includeTipTax) {
-  //       setIncludeTipTax(false)
-  //     }
-
-  //     // Set state
-  //     setTotals({
-  //       ...totals,
-  //       ...nTotals,
-  //     })
-  //     //Update Redux Store
-  //     switch (target.name) {
-  //       case 'subtotal':
-  //         props.updateSubTotal(+value, +newTotal)
-  //         break
-  //       case 'tip':
-  //         props.updateTip(+value, +newTotal)
-  //         break
-  //       case 'tax':
-  //         props.updateTax(+value, +newTotal)
-  //         break
-  //     }
-
-  //     if (!props.formHasData) {
-  //       props.setFormHasData(true)
-  //     }
-  //   }
-  // }
 
   const formatAndTotalOnBlur = (e: React.SyntheticEvent<HTMLInputElement>) => {
     let target = e.target as HTMLInputElement
     let targetValue: string = target.value
     let targetName: string = target.name
 
-    //format & round targetValue
+    // Format & round targetValue
     if (targetName === 'subtotal' || targetName === 'total') {
-      targetValue = roundUSD(+targetValue).toFixed(2)
+      if (+targetValue > 0) {
+        targetValue = roundUSD(+targetValue).toFixed(2)
+      } else {
+        targetValue = '0'
+      }
     } else {
       targetValue = String(roundPercent(+targetValue))
     }
 
-    //check if value changed from before
+    // Check if targetValue changed from before
     if (+targetValue === (props.totals as any)[targetName]) {
-      // if no change,
-      // set formatted string to state only
+      // If no change,
+      // Set formatted string to state only
       setTotals({
         ...totals,
         [targetName]: targetValue,
       })
     } else {
-      // if changed,
-      //// calc new total
+      // If changed,
+      // Calc new total
       let newState: any = { ...totals }
       newState[targetName] = targetValue
-      const newTotal: string = calculateTotal(newState).toFixed(2)
+      const newTotal: string = calculateTotal(newState)
       newState.total = newTotal
 
-      //// determine if tip/tax>0
+      // Check for tip/tax
       const totalAndSubtotalEqual = newTotal === newState.subtotal
       if (!totalAndSubtotalEqual && !includeTipTax) {
         setIncludeTipTax(true)
@@ -184,10 +92,10 @@ const TopHalf: React.FunctionComponent<Props> = props => {
         setIncludeTipTax(false)
       }
 
-      //// setSTate and updateStore && set formHasData
-      //Set state
+      // Set state
       setTotals({ ...newState })
-      //Update Redux Store
+
+      // Update Redux store
       switch (targetName) {
         case 'subtotal':
           props.updateSubTotal(targetValue, newTotal)
@@ -200,6 +108,7 @@ const TopHalf: React.FunctionComponent<Props> = props => {
           break
       }
 
+      // Set formHasData
       if (!props.formHasData) {
         props.setFormHasData(true)
       }
@@ -218,12 +127,13 @@ const TopHalf: React.FunctionComponent<Props> = props => {
 
   //onMount
   // useEffect(() => {
+  //   let { subtotal, total, tip, tax } = totals
+
   //   setTotals({
   //     ...totals,
-  //     subtotal: +totals.total.toFixed(2),
+  //     subtotal: (+subtotal).toFixed(2),
   //   })
   // }, [])
-
   useEffect(() => {
     if (props.totals.useLS) {
       console.log('using LS data')
@@ -271,7 +181,13 @@ const TopHalf: React.FunctionComponent<Props> = props => {
           collapsed ? ' collapsed' : includeTipTax ? ' include-clear-button' : ''
         }`}>
         <div className='segment'>
-          <p>Tip</p>
+          <p>
+            Tip (
+            {props.totals.subtotal > 0 && props.totals.tip > 0
+              ? `$${((props.totals.tip / 100) * props.totals.subtotal).toFixed(2)}`
+              : '$0'}
+            )
+          </p>
           <Input
             name='tip'
             onChange={handleChange}
@@ -280,7 +196,13 @@ const TopHalf: React.FunctionComponent<Props> = props => {
           />
         </div>
         <div className='segment'>
-          <p>Tax</p>
+          <p>
+            Tax (
+            {props.totals.subtotal > 0 && props.totals.tax > 0
+              ? `$${((props.totals.tax / 100) * props.totals.subtotal).toFixed(2)}`
+              : '$0'}
+            )
+          </p>
           <Input
             name='tax'
             onChange={handleChange}
