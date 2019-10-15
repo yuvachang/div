@@ -6,8 +6,9 @@
 
   width: $appwidth;
 
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #ccc;
   padding: 15px 0;
+  padding-bottom: 5px;
 
   & > * {
     width: 100%;
@@ -31,10 +32,12 @@
       transform: translate(18px, 0px);
       width: 0;
       font-size: 11px;
+
+      &.right {
+        transform: translate(90px, 0);
+      }
     }
   }
-
-  
 
   .total-details {
     height: 98px;

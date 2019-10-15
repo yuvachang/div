@@ -22,20 +22,6 @@ interface OwnProps {
   formHasData: boolean
 }
 
-// interface LocalState {
-//   subtotal: string
-//   tip: string
-//   tax: string
-//   total: string
-// }
-
-// const initialState = {
-//   subtotal: '0.00',
-//   tip: '0',
-//   tax: '0',
-//   total: '0.00',
-// }
-
 const TopHalf: React.FunctionComponent<Props> = props => {
   const [totals, setTotals] = useState<TotalState>(props.totals)
   const [collapsed, setCollapsed] = useState<boolean>(true)
@@ -176,13 +162,15 @@ const TopHalf: React.FunctionComponent<Props> = props => {
           collapsed ? ' collapsed' : includeTipTax ? ' include-clear-button' : ''
         }`}>
         <div className='segment'>
-          <p>
+          <p className='greytext'>
             Tip (
             {props.totals.subtotal > 0 && props.totals.tip > 0
               ? `$${((props.totals.tip / 100) * props.totals.subtotal).toFixed(2)}`
               : '$0'}
             )
           </p>
+          <div className='symbol right greytext'>%</div>
+
           <Input
             name='tip'
             onChange={handleChange}
@@ -191,13 +179,15 @@ const TopHalf: React.FunctionComponent<Props> = props => {
           />
         </div>
         <div className='segment'>
-          <p>
+          <p className='greytext'>
+            
             Tax (
             {props.totals.subtotal > 0 && props.totals.tax > 0
               ? `$${((props.totals.tax / 100) * props.totals.subtotal).toFixed(2)}`
               : '$0'}
             )
           </p>
+          <div className='symbol right greytext'>%</div>
           <Input
             name='tax'
             onChange={handleChange}
@@ -212,13 +202,14 @@ const TopHalf: React.FunctionComponent<Props> = props => {
               className='grey-button tiny'
               style={{ width: '50%', height: '14px' }}
               onClick={clearTipTax}>
-              clear amounts
+              clear tip & tax
             </div>
           </div>
         )}
 
         <div className='segment'>
           <p className='greytext'>Total</p>
+          <div className='symbol greytext'>$</div>
           <Input
             name='total'
             onChange={handleChange}
@@ -229,10 +220,10 @@ const TopHalf: React.FunctionComponent<Props> = props => {
         </div>
       </div>
 
-      <div className='segment'>
+      {/* <div className='segment'>
         <p className='greytext'>Amount Paid</p>
         <Input name='paid' val={3.33} updateStore={() => {}} disabled={true} />
-      </div>
+      </div> */}
     </div>
   )
 }

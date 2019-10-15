@@ -1,7 +1,7 @@
 import React from 'react'
 
 interface Props {
-  val: number 
+  val: number
   name: string
   onChange?: (e: React.SyntheticEvent<HTMLInputElement>) => void
   updateStore: (e: React.SyntheticEvent<HTMLInputElement>) => void
@@ -17,6 +17,7 @@ const Input: React.FunctionComponent<Props> = props => {
     let inputValue = target.value
 
     if (kc === 190 || kc === 110) {
+      console.log(inputValue, 'hello')
       if (inputValue.includes('.')) {
         //if number already has decimal, do nothing
         e.preventDefault()
@@ -40,18 +41,10 @@ const Input: React.FunctionComponent<Props> = props => {
     }
   }
 
-  // const onblur = (e: React.SyntheticEvent<HTMLInputElement>)  => {
-  //   let target = e.target as HTMLInputElement
-  //   let inputValue = target.value
-
-  // }
-
   return (
     <input
       className={props.disabled ? 'top no-hover' : 'top'}
       type='number'
-      // pattern='\d*'
-      // inputMode='numeric'
       name={props.name}
       onChange={props.onChange}
       value={props.val}

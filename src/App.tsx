@@ -82,6 +82,7 @@ const App: React.FunctionComponent<Props> = props => {
       )}
       {error && <h1>{error}</h1>}
       <div className='app-card'>
+        <div className='app-title'>Divvi</div>
         <TopHalf formHasData={formHasData} setFormHasData={(tf: boolean) => setFormHasData(tf)} />
 
         <BottomHalf />

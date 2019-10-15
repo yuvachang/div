@@ -4,16 +4,18 @@ interface Props {
   yes: () => void
   no: () => void
   msg: string
+  userItem?: boolean
 }
 
-const Modal = (props: Props) => {
+const Modal = ({yes, no, msg, userItem}: Props) => {
+
   return (
-    <div className='modal'>
+    <div className={userItem ? 'modal-user':'modal'}>
       <div className='modal-center'>
-        {props.msg}
+        {msg}
         <div className='modal-buttons'>
-          <button onClick={props.yes}>Yes</button>
-          <button onClick={props.no}>No</button>
+          <button onClick={yes}>Yes</button>
+          <button onClick={no}>No</button>
         </div>
       </div>
     </div>

@@ -75,6 +75,7 @@ input {
     padding: 0 14px;
 
     border-bottom: 1px solid #ccc;
+    border-radius: 2px;
   }
 
   &.no-hover {
@@ -128,7 +129,7 @@ button {
     &:hover {
       cursor: pointer;
     }
-  } 
+  }
 }
 
 .grey-button {
@@ -136,10 +137,10 @@ button {
     @include flex-center();
     box-sizing: border-box;
   }
-  
+
   @include flex-center(column);
   background-color: #efefef;
-  
+
   font-size: 10px;
   color: #515151;
   text-align: center;
@@ -149,18 +150,22 @@ button {
   height: 16px;
 
   border-radius: 3px;
-  
+
   overflow: hidden;
-  transition: 1s;
-  
+  transition: 0.3s;
+
   &.tiny {
-    width:50%;
+    width: 50%;
     height: 14px;
   }
 
   @media (hover: hover) {
     &:hover {
       cursor: pointer;
+    }
+
+    &.red:hover {
+      color: red;
     }
   }
 }

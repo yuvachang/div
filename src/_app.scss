@@ -20,6 +20,23 @@ h4 {
   font-family: $font;
   font-size: 12px;
 
+  &-title {
+    @include flex-center();
+    width: 100%;
+    box-sizing: border-box;
+
+    font-size: 25px;
+    font-style: italic;
+    font-weight: bold;
+    color: #666666;
+    letter-spacing: 3px;
+
+    padding: 8px;
+    padding-bottom: 5px;
+
+    border-bottom: 1px solid #666666;
+  }
+
   &-card {
     margin-top: 10px;
     padding: 0 20px;
@@ -28,7 +45,7 @@ h4 {
 
     background-color: white;
 
-    border-radius: 12px;
+    border-radius: 6px;
 
     box-shadow: 3px 4px 5px #ccc;
   }

@@ -13,14 +13,7 @@ export interface UserState {
 }
 
 const initialState: UserState = {
-  usersArr: [
-    {
-      name: 'bob',
-      oweAmount: 0,
-      paid: 0,
-      isCustomOweAmt: false,
-    },
-  ],
+  usersArr: [],
 }
 
 const usersReducer = (state: UserState = initialState, { type, payload }: actions.ActionType) => {
