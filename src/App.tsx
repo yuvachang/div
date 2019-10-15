@@ -7,10 +7,13 @@ import TopHalf from './components/TopHalf/TopHalf'
 import Modal from './components/Modal/Modal'
 import { unixTimeToDate } from './components/functions'
 //import actionCreators
-import { useLocalStorageData } from './store/actions/totalsActions'
+import { useLocalStorageTotals } from './store/actions/totalsActions'
 import BottomHalf from './components/BottomHalf/BottomHalf'
+import { UserObject } from './store/reducers/usersReducer'
+import { TotalState } from './store/reducers/totalsReducer'
+import { useLocalStorageUsers } from './store/actions/usersActions'
 
-type Props = LinkDispatchProps & ReduxState
+type Props = LinkDispatchProps & LinkStateProps
 
 const App: React.FunctionComponent<Props> = props => {
   const [lsDate, setLsDate] = useState<string>('date not found')
@@ -24,13 +27,17 @@ const App: React.FunctionComponent<Props> = props => {
       let newTotals = JSON.parse(lsData)
       delete newTotals.date
 
+      let newUsers = [...newTotals.users]
+      delete newTotals.users
+
       let numOfKeysLS = Object.keys(newTotals).length
       let numOfKeysState = Object.keys(props.totals).length
       if (numOfKeysLS !== numOfKeysState) {
         setError('Data corrupt')
         return
       } else {
-        props.useLocalStorage(newTotals)
+        props.useLocalStorageTotals(newTotals)
+        props.useLocalStorageUsers(newUsers)
         setFormHasData(true)
         closeModal()
       }
@@ -57,9 +64,9 @@ const App: React.FunctionComponent<Props> = props => {
 
   //onUnmount
   window.onbeforeunload = () => {
-    if (!!formHasData) {
+    if (!!formHasData || !!props.users.length) {
       let unixTime = new Date().getTime()
-      let saveData = { ...props.totals, date: unixTime }
+      let saveData = { ...props.totals, users: [...props.users], date: unixTime }
       localStorage.setItem('divviweb', JSON.stringify(saveData))
     }
   }
@@ -84,15 +91,23 @@ const App: React.FunctionComponent<Props> = props => {
 }
 
 interface LinkDispatchProps {
-  useLocalStorage: (lsdata: object) => void
+  useLocalStorageTotals: (lsdata: object) => void
+  useLocalStorageUsers: (lsData: object) => void
+}
+
+interface LinkStateProps {
+  totals: TotalState
+  users: Array<UserObject>
 }
 
 const mapState = (state: ReduxState, ownProps?: any) => ({
   totals: state.totals,
+  users: state.users.usersArr,
 })
 
 const mapDispatch = (dispatch: Dispatch, ownProps?: any): LinkDispatchProps => ({
-  useLocalStorage: bindActionCreators(useLocalStorageData, dispatch),
+  useLocalStorageTotals: bindActionCreators(useLocalStorageTotals, dispatch),
+  useLocalStorageUsers: bindActionCreators(useLocalStorageUsers, dispatch),
 })
 
 export default connect(

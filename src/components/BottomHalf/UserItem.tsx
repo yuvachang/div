@@ -1,18 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators, Dispatch } from 'redux'
-//nonpackage imports
-import { ReduxState } from '../../store'
 import { UserObject } from '../../store/reducers/usersReducer'
-import { addUser } from '../../store/actions/usersActions'
 import UserItemInputs from './UserItemInputs'
 
-interface OwnProps {
+interface Props {
   user: UserObject
   idx: number
+  deleteUser: () => void
 }
-
-type Props = LinkDispatchProps & LinkMapProps & OwnProps
 
 const UserItem: React.FunctionComponent<Props> = props => {
   const [collapsed, setCollapse] = useState<boolean>(true)
@@ -28,35 +22,26 @@ const UserItem: React.FunctionComponent<Props> = props => {
       <div className={`no-edit${collapsed ? ' collapsed' : ''}`}>
         <div className='name greytext'>{props.user.name || 'Name'}</div>
         <div className='amounts'>Paid: ${props.user.paid}</div>
-        <div className='amounts'>Owe: ${props.user.owe}</div>
+        <div className='amounts'>Owe: ${props.user.oweAmount}</div>
         <div className='arrow' onClick={() => setCollapse(!collapsed)}>
-          <img src='/icons/down-arrow.png' className={`arrowicon${collapsed ? '' : ' flip'}`} />
+          <img
+            src='/icons/down-arrow.png'
+            alt='open/close'
+            className={`arrowicon${collapsed ? '' : ' flip'}`}
+          />
         </div>
       </div>
       <div className={`edits${collapsed ? ' collapsed' : ''}`}>
-        <UserItemInputs user={props.user} idx={props.idx} />
+        <UserItemInputs user={{ ...props.user }} idx={props.idx} />
+
+        <div className='grey-button-container' style={{ marginTop: '5px' }}>
+          <div className='grey-button tiny' onClick={props.deleteUser}>
+            Delete Person
+          </div>
+        </div>
       </div>
     </div>
   )
 }
 
-interface LinkMapProps {
-  users: UserObject[]
-}
-
-interface LinkDispatchProps {
-  addUser: () => void
-}
-
-const mapState = (state: ReduxState, ownProps?: any) => ({
-  users: state.users.usersArr,
-})
-
-const mapDispatch = (dispatch: Dispatch, ownProps?: any): LinkDispatchProps => ({
-  addUser: bindActionCreators(addUser, dispatch),
-})
-
-export default connect(
-  mapState,
-  mapDispatch
-)(UserItem)
+export default UserItem

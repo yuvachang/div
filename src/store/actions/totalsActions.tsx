@@ -27,9 +27,9 @@ export const updateTip = (tip: string, total: string) => {
   }
 }
 
-export const useLocalStorageData = (lsData: object) => {
+export const useLocalStorageTotals = (lsData: object) => {
   return {
-    type: actionTypes.USE_LS,
+    type: actionTypes.USE_LS_AMOUNTS,
     payload: lsData,
   }
 }

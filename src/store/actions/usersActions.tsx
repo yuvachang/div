@@ -1,13 +1,26 @@
 import * as actionTypes from './actionTypes'
 
-export const addUser = () => {
+export const useLocalStorageUsers = (LSUsers: object) => {
+  return {
+    type: actionTypes.USE_LS_USERS,
+    payload: { users: LSUsers },
+  }
+}
+
+export const addUser = (total: number) => {
   return {
     type: actionTypes.USERS_ADD,
     payload: {
-      name: '',
-      owe: 0,
-      paid: 0,
+      user: { name: '', oweAmount: 0, paid: 0, oweCustom: false },
+      total,
     },
+  }
+}
+
+export const deleteUser = (idx: number, total: number) => {
+  return {
+    type: actionTypes.USERS_DELETE,
+    payload: { idx, total },
   }
 }
 
@@ -25,9 +38,23 @@ export const updateUserPaid = (paid: string, idx: number) => {
   }
 }
 
-export const updateUserOwe = (owe: string, idx: number) => {
+export const updateUserOweAmount = (oweAmount: string, idx: number, total: number) => {
   return {
     type: actionTypes.USERS_OWE,
-    payload: { owe, idx },
+    payload: { oweAmount, idx, total },
+  }
+}
+
+export const toggleIsCustomOweAmt = (isCustom: boolean, idx: number) => {
+  return {
+    type: actionTypes.USERS_TOGGLECUSTOWE,
+    payload: { isCustom, idx },
+  }
+}
+
+export const calcOweAmounts = (total: number) => {
+  return {
+    type: actionTypes.CALC_OWES,
+    payload: { total },
   }
 }

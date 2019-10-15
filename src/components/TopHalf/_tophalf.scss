@@ -34,31 +34,7 @@
     }
   }
 
-  .menu-bar {
-    @include flex-center();
-    box-sizing: border-box;
-    background-color: #efefef;
-    width: 100%;
-    height: 16px;
-    border-radius: 3px;
-
-    overflow: hidden;
-    transition: 1s;
-
-    .tiny {
-      @include flex-center(column);
-      font-size: 10px;
-      color: #515151;
-      text-align: center;
-      text-transform: capitalize;
-    }
-
-    @media (hover: hover) {
-      &:hover {
-        cursor: pointer;
-      }
-    }
-  }
+  
 
   .total-details {
     height: 98px;

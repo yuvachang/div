@@ -1,10 +1,11 @@
 import * as actions from '../actions/actionTypes'
-import { roundUSD } from '../../components/functions'
+import { newStateUserOweAmts, createNewState } from './utilFuncs'
 
 export interface UserObject {
   name: string
-  owe: number
+  oweAmount: number
   paid: number
+  isCustomOweAmt: boolean
 }
 
 export interface UserState {
@@ -15,38 +16,44 @@ const initialState: UserState = {
   usersArr: [
     {
       name: 'bob',
-      owe: 0,
+      oweAmount: 0,
       paid: 0,
+      isCustomOweAmt: false,
     },
   ],
 }
 
-const createNewState = (state: UserState, field: string, payload: any): UserState => {
-  const user = state.usersArr[payload.idx]
-
-  switch (field) {
-    case 'name':
-      user.name = payload.name
-      break
-    case 'owe':
-      user.owe = +payload.owe
-      break
-    case 'paid':
-      user.paid = +payload.paid
-      break
-  }
-
-  const newArr = [...state.usersArr]
-  newArr.splice(payload.idx, 1, user)
-  return { ...state, usersArr: newArr }
-}
-
 const usersReducer = (state: UserState = initialState, { type, payload }: actions.ActionType) => {
   switch (type) {
-    case actions.USERS_ADD: {
+    case actions.USE_LS_USERS: {
+      let newState = { ...state }
+      newState.usersArr = [...payload.users]
+      // newState = newStateUserOweAmts()
       return {
-        ...state,
-        usersArr: [...state.usersArr, payload],
+        ...newState,
+      }
+    }
+    case actions.USERS_ADD: {
+      // Recalculate users' oweAmount.
+      let newState = newStateUserOweAmts(
+        {
+          ...state,
+          usersArr: [...state.usersArr, payload.user],
+        },
+        payload.total
+      )
+
+      return {
+        ...newState,
+      }
+    }
+    case actions.USERS_DELETE: {
+      let newUsers = [...state.usersArr]
+      newUsers.splice(payload.idx, 1)
+
+      let newState = newStateUserOweAmts({ ...state, usersArr: newUsers }, payload.total)
+      return {
+        ...newState,
       }
     }
     case actions.USERS_NAME: {
@@ -55,16 +62,36 @@ const usersReducer = (state: UserState = initialState, { type, payload }: action
         ...newState,
       }
     }
+
     case actions.USERS_PAID: {
       const newState: UserState = createNewState(state, 'paid', payload)
+      // Calculate user debts.
+
       return {
         ...newState,
       }
     }
     case actions.USERS_OWE: {
-      const newState: UserState = createNewState(state, 'owe', payload)
+      const newState: UserState = createNewState(state, 'oweAmount', payload)
+      // Recalculate users' oweAmount
+
       return {
         ...newState,
+      }
+    }
+    case actions.USERS_TOGGLECUSTOWE: {
+      const newState: UserState = createNewState(state, 'oweCustom', payload)
+      // Recalculate users' oweAmount
+
+      return {
+        ...newState,
+      }
+    }
+    case actions.CALC_OWES: {
+      let newState = newStateUserOweAmts(state, payload.total)
+      return {
+        ...newState,
+        usersArr: newState.usersArr,
       }
     }
     default:

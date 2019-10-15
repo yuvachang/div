@@ -51,17 +51,20 @@
       }
 
       .name {
-        width: 35%;
+        width: 32%;
         margin-right: 5px;
         overflow: hidden;
         text-overflow: ellipsis;
       }
 
       .amounts {
-        width: 25%;
+        width: 60px;
 
-        font-size: 9px;
-        color: #ccc;
+        font-size: 10px;
+        color: #666666;
+
+        padding-top: 3px;
+
       }
 
       .arrow {
@@ -81,7 +84,7 @@
     .edits {
       padding: 10px;
       overflow: hidden;
-      height: 66px;
+      height: 94px;
       transition: 0.35s;
 
       &.collapsed {
@@ -92,17 +95,17 @@
     }
 
     &-inputs {
-      // @include flex-center(column);
-      // align-items: flex-start;
       & > * {
         width: 100%;
       }
 
       .segment {
         @include flex-center();
+        height: 25px;
 
         .title {
           width: 40%;
+          max-width: 57px;
           font-size: 0.75em;
           line-height: 22px;
         }
@@ -110,6 +113,12 @@
         .symbol {
           transform: translate(5px, -1px);
           width: 0;
+        }
+
+        .button {
+          transform: translate(-25px, 0);
+          width: 0;
+          // z-index: 11;
         }
       }
     }

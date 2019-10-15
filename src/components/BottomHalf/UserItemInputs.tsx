@@ -5,26 +5,35 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { ReduxState } from '../../store'
 import { UserObject } from '../../store/reducers/usersReducer'
 import {
-  addUser,
   updateUserName,
   updateUserPaid,
-  updateUserOwe,
+  updateUserOweAmount,
+  toggleIsCustomOweAmt,
+  calcOweAmounts,
 } from '../../store/actions/usersActions'
-import { roundUSD } from '../functions'
+import { roundUSD, capitalizeWords } from '../functions'
 
 interface OwnProps {
   user: UserObject
   idx: number
 }
 
-type Props = LinkDispatchProps & LinkMapProps & OwnProps
+type Props = LinkDispatchProps & LinkStateProps & OwnProps
 
 const UserItemInputs: React.FunctionComponent<Props> = props => {
-  const [user, setUser] = useState<UserObject>(props.user)
+  const [user, setUser] = useState<UserObject>({ ...props.user })
 
-  const updateStore = (targetName: string, value: string, idx: number):string => {
+  // Update user &&=>input values when user list changes
+  useEffect(() => {
+    console.log('useeffect')
+    setUser({ ...props.user })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.user.name])
+
+  const updateStore = (targetName: string, value: string): string => {
     switch (targetName) {
       case 'name': {
+        value = capitalizeWords(value)
         props.updateName(value, props.idx)
         break
       }
@@ -33,21 +42,22 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
         value = roundUSD(+value).toFixed(2)
         break
       }
-      case 'owe': {
-        props.updateOwe(String(roundUSD(+value)), props.idx)
+      case 'oweAmount': {
+        props.updateUserOweAmt(String(roundUSD(+value)), props.idx, props.total)
+        props.calcOweAmounts(props.total)
         value = roundUSD(+value).toFixed(2)
         break
       }
     }
 
-    return value
+    if (+value === 0) {
+      return '0'
+    } else return value
   }
 
   const handleChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
     let target = e.target as HTMLInputElement
     let value: string = target.value
-
-    // updateStore(target.name, value, props.idx)
 
     setUser({
       ...user,
@@ -59,29 +69,38 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
     let target = e.target as HTMLInputElement
     let value: string = target.value
 
-    value = updateStore(target.name, value, props.idx)
+    value = updateStore(target.name, value)
 
-    if (target.name === 'paid' || target.name === 'owe') {
-      setUser({
-        ...user,
-        [target.name]: value,
-      })
-    }
+    setUser({
+      ...user,
+      [target.name]: value,
+    })
   }
 
   const enterKeyListener = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // if (kc === 190 || kc === 110) {
-    //   if (inputValue.includes('.')) {
-    //     //if number already has decimal, do nothing
-    //     e.preventDefault()
-    //     return
-    //   }
-    // }
     const target = e.target as HTMLInputElement
+    if (e.keyCode === 190 || e.keyCode === 110) {
+      if (target.value.includes('.')) {
+        // If number already has decimal, do nothing
+        e.preventDefault()
+        return
+      }
+    }
     if (e.keyCode === 13) {
       target.blur()
-      target.value = 'thisisatest'
     }
+  }
+
+  const oweButtonHandler = () => {
+    const bool = !user.isCustomOweAmt
+    props.toggleCustOweAmt(bool, props.idx)
+    props.calcOweAmounts(props.total)
+
+    setUser({
+      ...user,
+      isCustomOweAmt: bool,
+      oweAmount: props.user.oweAmount,
+    })
   }
 
   return (
@@ -112,43 +131,57 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
           onKeyDown={enterKeyListener}
         />
       </div>
+
       <div className='segment'>
-        <div className='title greytext'>Owed:</div>
+        <div className='title greytext'>Owe:</div>
         <div className='symbol greytext'>$</div>
         <input
-          className='bottom'
+          className={`bottom ${user.isCustomOweAmt ? '' : 'no-hover'}`}
           type='number'
-          name='owe'
-          value={user.owe || 0}
+          name='oweAmount'
+          value={user.isCustomOweAmt ? user.oweAmount : props.user.oweAmount || 0}
           onChange={handleChange}
           onBlur={formatOnBlur}
           onKeyDown={enterKeyListener}
+          disabled={!user.isCustomOweAmt}
         />
+        <div className='button'>
+          <img
+            alt='edit/clear'
+            src={!!user.isCustomOweAmt ? '/icons/remove.svg' : '/icons/edit.svg'}
+            className='arrowicon'
+            onClick={oweButtonHandler}
+          />
+        </div>
       </div>
     </div>
   )
 }
 
-interface LinkMapProps {
-  // users: UserObject[]
+interface LinkStateProps {
+  total: number
+  // ruser: UserObject
 }
 
 interface LinkDispatchProps {
-  addUser: () => void
   updateName: (name: string, idx: number) => void
   updatePaid: (paid: string, idx: number) => void
-  updateOwe: (owe: string, idx: number) => void
+  updateUserOweAmt: (oweAmount: string, idx: number, total: number) => void
+  toggleCustOweAmt: (isCustom: boolean, idx: number) => void
+  calcOweAmounts: (total: number) => void
 }
 
 const mapState = (state: ReduxState, ownProps?: any) => ({
-  // users: state.users.usersArr,
+  total: state.totals.total,
+  // ruser: state.users.usersArr[ownProps.idx]
 })
 
 const mapDispatch = (dispatch: Dispatch, ownProps?: any): LinkDispatchProps => ({
-  addUser: bindActionCreators(addUser, dispatch),
   updateName: bindActionCreators(updateUserName, dispatch),
   updatePaid: bindActionCreators(updateUserPaid, dispatch),
-  updateOwe: bindActionCreators(updateUserOwe, dispatch),
+  updateUserOweAmt: bindActionCreators(updateUserOweAmount, dispatch),
+  toggleCustOweAmt: bindActionCreators(toggleIsCustomOweAmt, dispatch),
+  calcOweAmounts: bindActionCreators(calcOweAmounts, dispatch),
 })
 
 export default connect(

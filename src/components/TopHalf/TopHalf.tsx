@@ -11,9 +11,9 @@ import {
 } from '../../store/actions/totalsActions'
 //import components
 import Input from '../Input'
-import { roundPercent, roundUSD, filterInput, calculateTotal } from '../functions'
+import { roundPercent, roundUSD, calculateTotal } from '../functions'
 import { TotalState } from '../../store/reducers/totalsReducer'
-import { checkPropTypes } from 'prop-types'
+import { calcOweAmounts } from '../../store/actions/usersActions'
 
 type Props = LinkDispatchProps & ReduxState & OwnProps
 
@@ -84,6 +84,9 @@ const TopHalf: React.FunctionComponent<Props> = props => {
       const newTotal: string = calculateTotal(newState)
       newState.total = newTotal
 
+      // Calculate new user debts with newTotal
+      props.updateUserDebts(+newTotal)
+
       // Check for tip/tax
       const totalAndSubtotalEqual = newTotal === newState.subtotal
       if (!totalAndSubtotalEqual && !includeTipTax) {
@@ -126,14 +129,6 @@ const TopHalf: React.FunctionComponent<Props> = props => {
   }
 
   //onMount
-  // useEffect(() => {
-  //   let { subtotal, total, tip, tax } = totals
-
-  //   setTotals({
-  //     ...totals,
-  //     subtotal: (+subtotal).toFixed(2),
-  //   })
-  // }, [])
   useEffect(() => {
     if (props.totals.useLS) {
       console.log('using LS data')
@@ -170,8 +165,8 @@ const TopHalf: React.FunctionComponent<Props> = props => {
         </div>
       </div>
 
-      <div className='menu-bar' onClick={() => setCollapsed(!collapsed)}>
-        <div className='tiny'>
+      <div className='grey-button-container'>
+        <div className='grey-button' onClick={() => setCollapsed(!collapsed)}>
           {!collapsed ? 'hide tips & tax' : includeTipTax ? 'edit amounts' : 'include tips & tax'}
         </div>
       </div>
@@ -212,12 +207,12 @@ const TopHalf: React.FunctionComponent<Props> = props => {
         </div>
 
         {includeTipTax && (
-          <div className='menu-bar' style={{ backgroundColor: 'transparent' }}>
+          <div className='grey-button-container'>
             <div
-              className='menu-bar'
+              className='grey-button tiny'
               style={{ width: '50%', height: '14px' }}
               onClick={clearTipTax}>
-              <div className='tiny'>{'clear amounts'}</div>
+              clear amounts
             </div>
           </div>
         )}
@@ -247,6 +242,8 @@ interface LinkDispatchProps {
   updateTip: (tip: string, newTotal: string) => void
   updateTax: (tax: string, newTotal: string) => void
   clearTipTax: () => void
+
+  updateUserDebts: (total: number) => void
 }
 
 const mapState = (state: ReduxState, ownProps?: any) => ({
@@ -258,6 +255,8 @@ const mapDispatch = (dispatch: Dispatch, ownProps?: any): LinkDispatchProps => (
   updateTip: bindActionCreators(updateTip, dispatch),
   updateTax: bindActionCreators(updateTax, dispatch),
   clearTipTax: bindActionCreators(clearTipTax, dispatch),
+
+  updateUserDebts: bindActionCreators(calcOweAmounts, dispatch),
 })
 
 export default connect(
