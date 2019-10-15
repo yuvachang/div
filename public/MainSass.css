@@ -16,7 +16,9 @@ h4 {
   width: 100vw;
   height: 100vh;
   font-family: "Open Sans", sans-serif;
-  font-size: 12px; }
+  font-size: 12px;
+  overflow-y: scroll;
+  overflow-x: hidden; }
   .app-title {
     display: flex;
     flex-direction: row;
@@ -35,6 +37,7 @@ h4 {
     border-bottom: 1px solid #666666; }
   .app-card {
     margin-top: 10px;
+    margin-bottom: 50px;
     padding: 0 20px;
     box-sizing: border-box;
     background-color: white;
@@ -49,6 +52,19 @@ input[type='number']::-webkit-outer-spin-button {
 .greytext {
   color: #666666; }
 
+::-webkit-scrollbar {
+  display: none;
+  width: 2px;
+  display: block;
+  /* Handle */ }
+  ::-webkit-scrollbar-track {
+    display: none; }
+  ::-webkit-scrollbar-thumb {
+    background: grey; }
+    ::-webkit-scrollbar-thumb:hover {
+      background: white;
+      cursor: pointer; }
+
 .top-half {
   display: flex;
   flex-direction: column;
@@ -56,7 +72,7 @@ input[type='number']::-webkit-outer-spin-button {
   align-items: center;
   width: 100%;
   top: 0;
-  width: 250px;
+  width: 300px;
   border-bottom: 1px solid #ccc;
   padding: 15px 0;
   padding-bottom: 5px; }
@@ -280,10 +296,30 @@ button {
   align-items: center;
   width: 100%;
   top: 0;
-  width: 250px;
+  width: 300px;
   padding: 15px 0; }
   .bottom-half > * {
     width: 100%; }
+  .bottom-half .user-bubbles {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-bottom: 2px;
+    margin-top: -8px; }
+    .bottom-half .user-bubbles .bubble {
+      margin: 0 2px;
+      background-color: #ccc;
+      padding: 4px;
+      border-radius: 50%;
+      width: 12px;
+      height: 12px;
+      text-align: center;
+      line-height: 12px;
+      font-size: 10px; }
   .bottom-half .user-item {
     position: relative;
     border: 1px solid #ccc;

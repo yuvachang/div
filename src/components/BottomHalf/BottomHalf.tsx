@@ -13,8 +13,20 @@ type Props = LinkDispatchProps & LinkMapProps
 
 const BottomHalf: React.FunctionComponent<Props> = props => {
   console.log('bottomhalf')
+
   return (
     <div className='bottom-half'>
+      {!!props.initials.length && (
+        <div className='user-bubbles'>
+          {props.initials.map((initial, idx) => {
+            return (
+              <div className='bubble' key={idx + 'init'}>
+                {initial}
+              </div>
+            )
+          })}
+        </div>
+      )}
       {!!props.users.length &&
         props.users.map((user, idx) => {
           return (
@@ -26,7 +38,6 @@ const BottomHalf: React.FunctionComponent<Props> = props => {
             />
           )
         })}
-
       <div className='user-item button' onClick={() => props.addUser(props.total)}>
         add person
       </div>
@@ -38,6 +49,7 @@ interface LinkMapProps {
   users: UserObject[]
   // link total to trigger update child component
   total: number
+  initials: string[]
 }
 
 interface LinkDispatchProps {
@@ -48,6 +60,7 @@ interface LinkDispatchProps {
 const mapState = (state: ReduxState, ownProps?: any) => ({
   users: state.users.usersArr,
   total: state.totals.total,
+  initials: state.users.initials,
 })
 
 const mapDispatch = (dispatch: Dispatch, ownProps?: any): LinkDispatchProps => ({

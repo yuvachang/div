@@ -58,18 +58,19 @@ export const calculateTotal = (stateTotals: TotalState): string => {
 }
 
 export const capitalizeWords = (str: string) => {
-  if (!!str.length) {
-    return str
-      .split(' ')
-      .map(word => word[0].toUpperCase() + word.slice(1))
-      .join(' ')
+  let words = str.split(' ').filter(char => !!char.length)
+  if (!!words.length) {
+    return words.map(word => word[0].toUpperCase() + word.slice(1)).join(' ')
   } else return ''
 }
 
-// export const calculateTotal = (stateTotals: InitialState): number => {
-//   let { tip, tax, subtotal } = stateTotals
-//   let ntip = (+tip.slice(0, -1) / 100) * +subtotal.slice(1)
-//   let ntax = (+tax.slice(0, -1) / 100) * +subtotal.slice(1)
-//   let ntotal = ntip + ntax + +subtotal.slice(1)
-//   return ntotal
-// }
+export const getInitials = (str: string) => {
+  let words = str.split(' ').filter(char => !!char.length)
+  if (!!words.length) {
+    if (words.length === 1) {
+      return words[0][0].toUpperCase()
+    } else {
+      return words[0][0].toUpperCase().concat(words[words.length - 1][0].toUpperCase())
+    }
+  } else return ''
+}

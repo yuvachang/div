@@ -20,6 +20,9 @@ h4 {
   font-family: $font;
   font-size: 12px;
 
+  overflow-y: scroll;
+  overflow-x: hidden;
+
   &-title {
     @include flex-center();
     width: 100%;
@@ -39,6 +42,7 @@ h4 {
 
   &-card {
     margin-top: 10px;
+    margin-bottom: 50px;
     padding: 0 20px;
 
     box-sizing: border-box;
@@ -50,13 +54,6 @@ h4 {
     box-shadow: 3px 4px 5px #ccc;
   }
 
-  // @media only screen and (min-width: 350px) {
-  //   zoom: 1.5; /* Old IE only */
-  //   -moz-transform: scale(1.5);
-  //   -webkit-transform: scale(1.5);
-  //   transform: scale(1.5);
-  //   // transform-origin: 0;
-  // }
 }
 
 input[type='number']::-webkit-inner-spin-button,
@@ -66,4 +63,26 @@ input[type='number']::-webkit-outer-spin-button {
 }
 .greytext {
   color: #666666;
+}
+
+
+::-webkit-scrollbar {
+  display: none;
+  width: 2px;
+  display: block;
+
+  &-track {
+    display: none;
+  }
+
+  /* Handle */
+  &-thumb {
+    background: grey;
+    // border-radius: 7px;
+
+    &:hover {
+      background: white;
+      cursor: pointer;
+    }
+  }
 }

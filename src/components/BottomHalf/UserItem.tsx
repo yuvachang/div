@@ -31,7 +31,7 @@ const UserItem: React.FunctionComponent<Props> = props => {
       <div className={`no-edit${collapsed ? ' collapsed' : ''}`}>
         <div className='name greytext'>{props.user.name || 'Name'}</div>
         <div className='amounts'>Paid: ${props.user.paid}</div>
-        <div className='amounts'>Owe: ${props.user.oweAmount}</div>
+        <div className='amounts'>Owes: ${props.user.oweAmount}</div>
         <div className='arrow' onClick={() => setCollapse(!collapsed)}>
           <img
             src='/icons/down-arrow.png'
@@ -45,7 +45,15 @@ const UserItem: React.FunctionComponent<Props> = props => {
         <UserItemInputs user={{ ...props.user }} idx={props.idx} />
 
         <div className='grey-button-container' style={{ marginTop: '5px' }}>
-          <div className='grey-button tiny red' onClick={() => setDisplayModal(true)}>
+          <div
+            className='grey-button tiny red'
+            onClick={() => {
+              if (!props.user.name && !props.user.paid && !props.user.oweAmount) {
+                props.deleteUser()
+              } else {
+                setDisplayModal(true)
+              }
+            }}>
             Delete Person
           </div>
         </div>

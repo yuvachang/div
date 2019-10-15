@@ -1,5 +1,5 @@
 import * as actions from '../actions/actionTypes'
-import { newStateUserOweAmts, createNewState } from './utilFuncs'
+import { newStateUserOweAmts, createNewState, createInitialsArr, editInitials } from './utilFuncs'
 
 export interface UserObject {
   name: string
@@ -9,10 +9,12 @@ export interface UserObject {
 }
 
 export interface UserState {
+  initials: Array<string>
   usersArr: Array<UserObject>
 }
 
 const initialState: UserState = {
+  initials: [],
   usersArr: [],
 }
 
@@ -28,7 +30,7 @@ const usersReducer = (state: UserState = initialState, { type, payload }: action
     }
     case actions.USERS_ADD: {
       // Recalculate users' oweAmount.
-      let newState = newStateUserOweAmts(
+      const newState = newStateUserOweAmts(
         {
           ...state,
           usersArr: [...state.usersArr, payload.user],
@@ -36,23 +38,35 @@ const usersReducer = (state: UserState = initialState, { type, payload }: action
         payload.total
       )
 
+      const newInitials = createInitialsArr(newState.usersArr)
+
       return {
         ...newState,
+        initials: newInitials,
       }
     }
+
     case actions.USERS_DELETE: {
-      let newUsers = [...state.usersArr]
+      const newUsers = [...state.usersArr]
       newUsers.splice(payload.idx, 1)
 
-      let newState = newStateUserOweAmts({ ...state, usersArr: newUsers }, payload.total)
+      const newState = newStateUserOweAmts({ ...state, usersArr: newUsers }, payload.total)
+
+      const newInitials = createInitialsArr(newState.usersArr)
+
       return {
         ...newState,
+        initials: newInitials,
       }
     }
     case actions.USERS_NAME: {
       const newState: UserState = createNewState(state, 'name', payload)
+
+      const newInitials = editInitials(newState.initials, payload.name, payload.idx)
+
       return {
         ...newState,
+        initials: newInitials,
       }
     }
 

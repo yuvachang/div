@@ -1,4 +1,5 @@
-import { UserState } from './usersReducer'
+import { UserState, UserObject } from './usersReducer'
+import { getInitials } from '../../components/functions'
 
 export const createNewState = (state: UserState, field: string, payload: any): UserState => {
   const user = state.usersArr[payload.idx]
@@ -46,4 +47,14 @@ export const newStateUserOweAmts = (state: UserState, totalBillAmount: number): 
   })
 
   return newState
+}
+
+export const createInitialsArr = (usersArr: Array<UserObject>): string[] => {
+  return usersArr.map(user => user.name).map(name => getInitials(name))
+}
+
+export const editInitials = (initialsArr: string[], name: string, idx: number): string[] => {
+  let newArr = [...initialsArr]
+  newArr[idx] = getInitials(name)
+  return newArr
 }

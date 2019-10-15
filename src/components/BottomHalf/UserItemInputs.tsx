@@ -51,7 +51,11 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
     }
 
     if (+value === 0) {
-      return '0'
+      if (targetName === 'name') {
+        return ''
+      } else {
+        return '0'
+      }
     } else return value
   }
 
@@ -79,6 +83,14 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
 
   const enterKeyListener = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement
+    const key = e.which || e.keyCode
+    if (target.name === 'name') {
+      if ((key >= 37 && key <= 40) || (key >= 48 && key <= 57)) {
+        e.preventDefault()
+        return
+      }
+    }
+
     if (e.keyCode === 190 || e.keyCode === 110) {
       if (target.value.includes('.')) {
         // If number already has decimal, do nothing
@@ -133,7 +145,7 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
       </div>
 
       <div className='segment'>
-        <div className='title greytext'>Owe:</div>
+        <div className='title greytext'>Owes:</div>
         <div className='symbol greytext'>$</div>
         <input
           className={`bottom ${user.isCustomOweAmt ? '' : 'no-hover'}`}
