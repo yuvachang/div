@@ -21,10 +21,12 @@ const UserItem: React.FunctionComponent<Props> = props => {
     if (!props.user.name) {
       setCollapse(false)
     }
-  }, [props.user.name])
+  }, [])
 
   const debtPaid =
     props.user.oweAmount - props.user.paid <= 0 && props.user.oweAmount + props.user.paid > 0
+
+  console.log('!!!!!', props.user.name)
 
   return (
     <div className={`user-item ${debtPaid ? 'debt-settled' : ''}`}>

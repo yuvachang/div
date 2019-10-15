@@ -12,7 +12,7 @@ import { UserObject } from '../../store/reducers/usersReducer'
 type Props = LinkDispatchProps & LinkMapProps
 
 const BottomHalf: React.FunctionComponent<Props> = props => {
-  console.log('bottomhalf')
+  console.log('bottomhalf', props.users)
 
   return (
     <div className='bottom-half'>
@@ -31,7 +31,7 @@ const BottomHalf: React.FunctionComponent<Props> = props => {
         props.users.map((user, idx) => {
           return (
             <UserItem
-              key={idx}
+              key={user.uid}
               deleteUser={() => props.deleteUser(idx, props.total)}
               user={{ ...user }}
               idx={idx}

@@ -2,6 +2,7 @@ import * as actions from '../actions/actionTypes'
 import { newStateUserOweAmts, createNewState, createInitialsArr, editInitials } from './utilFuncs'
 
 export interface UserObject {
+  uid: string
   name: string
   oweAmount: number
   paid: number

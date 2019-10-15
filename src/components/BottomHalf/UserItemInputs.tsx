@@ -25,7 +25,6 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
 
   // Update user &&=>input values when user list changes
   useEffect(() => {
-    console.log('useeffect')
     setUser({ ...props.user })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.user.name])

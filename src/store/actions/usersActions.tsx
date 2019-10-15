@@ -11,7 +11,15 @@ export const addUser = (total: number) => {
   return {
     type: actionTypes.USERS_ADD,
     payload: {
-      user: { name: '', oweAmount: 0, paid: 0, oweCustom: false },
+      user: {
+        uid: Math.random()
+          .toString(36)
+          .substr(2, 9),
+        name: '',
+        oweAmount: 0,
+        paid: 0,
+        oweCustom: false,
+      },
       total,
     },
   }
