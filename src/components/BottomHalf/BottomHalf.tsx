@@ -7,34 +7,34 @@ import { addUser, deleteUser } from '../../store/actions/usersActions'
 //import components
 import {} from '../functions'
 import UserItem from './UserItem'
-import { UserObject } from '../../store/reducers/usersReducer'
+import { UsersPool, InitialsObject } from '../../store/reducers/usersReducer'
 
 type Props = LinkDispatchProps & LinkMapProps
 
 const BottomHalf: React.FunctionComponent<Props> = props => {
-  console.log('bottomhalf', props.users)
+  const usersArr = Object.keys(props.users).map(uid=>props.users[uid])
 
   return (
     <div className='bottom-half'>
       {!!props.initials.length && (
         <div className='user-bubbles'>
-          {props.initials.map((initial, idx) => {
+          {props.initials.map((InitialsObject, idx) => {
             return (
               <div className='bubble' key={idx + 'init'}>
-                {initial}
+                {InitialsObject.init}
               </div>
             )
           })}
         </div>
       )}
-      {!!props.users.length &&
-        props.users.map((user, idx) => {
+      {!!usersArr.length &&
+        usersArr.map((user, idx) => {
           return (
             <UserItem
               key={user.uid}
-              deleteUser={() => props.deleteUser(idx, props.total)}
+              deleteUser={() => props.deleteUser(user.uid, props.total)}
               user={{ ...user }}
-              idx={idx}
+              total={props.total}
             />
           )
         })}
@@ -46,19 +46,18 @@ const BottomHalf: React.FunctionComponent<Props> = props => {
 }
 
 interface LinkMapProps {
-  users: UserObject[]
-  // link total to trigger update child component
+  users: UsersPool
   total: number
-  initials: string[]
+  initials: Array<InitialsObject>
 }
 
 interface LinkDispatchProps {
   addUser: (total: number) => void
-  deleteUser: (idx: number, total: number) => void
+  deleteUser: (uid: string, total: number) => void
 }
 
 const mapState = (state: ReduxState, ownProps?: any) => ({
-  users: state.users.usersArr,
+  users: state.users.users,
   total: state.totals.total,
   initials: state.users.initials,
 })

@@ -46,7 +46,7 @@ const totalsReducer = (
         tax: 0,
         total: +state.subtotal,
       }
-    case actions.USE_LS_AMOUNTS:
+    case actions.TOTALS_USE_LOCALSTORAGE:
       return {
         ...state,
         ...payload,

@@ -10,12 +10,12 @@ import {
   updateUserOweAmount,
   toggleIsCustomOweAmt,
   calcOweAmounts,
+  // calcOweAmounts,
 } from '../../store/actions/usersActions'
 import { roundUSD, capitalizeWords } from '../functions'
 
 interface OwnProps {
   user: UserObject
-  idx: number
 }
 
 type Props = LinkDispatchProps & LinkStateProps & OwnProps
@@ -33,16 +33,16 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
     switch (targetName) {
       case 'name': {
         value = capitalizeWords(value)
-        props.updateName(value, props.idx)
+        props.updateName(value, user.uid)
         break
       }
       case 'paid': {
-        props.updatePaid(String(roundUSD(+value)), props.idx)
+        props.updatePaid(String(roundUSD(+value)), user.uid)
         value = roundUSD(+value).toFixed(2)
         break
       }
       case 'oweAmount': {
-        props.updateUserOweAmt(String(roundUSD(+value)), props.idx, props.total)
+        props.updateUserOweAmt(String(roundUSD(+value)), user.uid, props.total)
         props.calcOweAmounts(props.total)
         value = roundUSD(+value).toFixed(2)
         break
@@ -104,8 +104,9 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
 
   const oweButtonHandler = () => {
     const bool = !user.isCustomOweAmt
-    props.toggleCustOweAmt(bool, props.idx)
-    props.calcOweAmounts(props.total)
+    props.toggleCustOweAmt(bool, props.user.uid)
+    // props.calcOweAmounts(props.total)
+    console.log(bool)
 
     setUser({
       ...user,
@@ -175,16 +176,15 @@ interface LinkStateProps {
 }
 
 interface LinkDispatchProps {
-  updateName: (name: string, idx: number) => void
-  updatePaid: (paid: string, idx: number) => void
-  updateUserOweAmt: (oweAmount: string, idx: number, total: number) => void
-  toggleCustOweAmt: (isCustom: boolean, idx: number) => void
+  updateName: (name: string, uid: string) => void
+  updatePaid: (paid: string, uid: string) => void
+  updateUserOweAmt: (oweAmount: string, uid: string, total: number) => void
+  toggleCustOweAmt: (isCustomOweAmt: boolean, uid: string) => void
   calcOweAmounts: (total: number) => void
 }
 
 const mapState = (state: ReduxState, ownProps?: any) => ({
   total: state.totals.total,
-  // ruser: state.users.usersArr[ownProps.idx]
 })
 
 const mapDispatch = (dispatch: Dispatch, ownProps?: any): LinkDispatchProps => ({

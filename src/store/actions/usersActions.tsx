@@ -1,9 +1,10 @@
 import * as actionTypes from './actionTypes'
+import { UserState, UserObject } from '../reducers/usersReducer'
 
-export const useLocalStorageUsers = (LSUsers: object) => {
+export const useLocalStorageUsers = (LSUsers: UserState) => {
   return {
-    type: actionTypes.USE_LS_USERS,
-    payload: { users: LSUsers },
+    type: actionTypes.USERS_USE_LOCALSTORAGE,
+    payload: LSUsers,
   }
 }
 
@@ -18,48 +19,49 @@ export const addUser = (total: number) => {
         name: '',
         oweAmount: 0,
         paid: 0,
-        oweCustom: false,
-      },
+        isCustomOweAmt: false,
+      } as UserObject,
       total,
     },
   }
 }
 
-export const deleteUser = (idx: number, total: number) => {
+export const deleteUser = (uid: string, total: number) => {
   return {
     type: actionTypes.USERS_DELETE,
-    payload: { idx, total },
+    payload: { uid, total },
   }
 }
 
-export const updateUserName = (name: string, idx: number) => {
+export const updateUserName = (name: string, uid: string) => {
   return {
     type: actionTypes.USERS_NAME,
-    payload: { name, idx },
+    payload: { name, uid },
   }
 }
 
-export const updateUserPaid = (paid: string, idx: number) => {
+export const updateUserPaid = (paid: string, uid: string) => {
   return {
     type: actionTypes.USERS_PAID,
-    payload: { paid, idx },
+    payload: { paid, uid },
   }
 }
 
-export const updateUserOweAmount = (oweAmount: string, idx: number, total: number) => {
+export const updateUserOweAmount = (oweAmount: string, uid: string, total: number) => {
   return {
     type: actionTypes.USERS_OWE,
-    payload: { oweAmount, idx, total },
+    payload: { oweAmount, uid, total },
   }
 }
 
-export const toggleIsCustomOweAmt = (isCustom: boolean, idx: number) => {
+export const toggleIsCustomOweAmt = (isCustomOweAmt: boolean, uid: string) => {
   return {
     type: actionTypes.USERS_TOGGLECUSTOWE,
-    payload: { isCustom, idx },
+    payload: { isCustomOweAmt, uid },
   }
 }
 
+// Update Owe Amounts when Total changes
 export const calcOweAmounts = (total: number) => {
   return {
     type: actionTypes.CALC_OWES,

@@ -78,14 +78,14 @@
       }
 
       .name {
-        width: 32%;
+        width: 30%;
         margin-right: 5px;
         overflow: hidden;
         text-overflow: ellipsis;
       }
 
       .amounts {
-        width: 60px;
+        width: 70px;
 
         font-size: 10px;
         color: #666666;
@@ -110,7 +110,7 @@
     .edits {
       padding: 10px;
       overflow: hidden;
-      height: 94px;
+      height: 103px;
       transition: 0.35s;
 
       &.collapsed {
@@ -127,7 +127,7 @@
 
       .segment {
         @include flex-center();
-        height: 25px;
+        height: 28px;
 
         .title {
           width: 40%;

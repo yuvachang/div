@@ -9,7 +9,7 @@ import { unixTimeToDate } from './components/functions'
 //import actionCreators
 import { useLocalStorageTotals } from './store/actions/totalsActions'
 import BottomHalf from './components/BottomHalf/BottomHalf'
-import { UserObject } from './store/reducers/usersReducer'
+import { UserState } from './store/reducers/usersReducer'
 import { TotalState } from './store/reducers/totalsReducer'
 import { useLocalStorageUsers } from './store/actions/usersActions'
 
@@ -24,15 +24,19 @@ const App: React.FunctionComponent<Props> = props => {
 
   const useLocalStorageData = (): void => {
     if (lsData !== 'no data') {
-      let newTotals = JSON.parse(lsData)
-      delete newTotals.date
+      const LS = JSON.parse(lsData)
+      const newTotals: TotalState = LS.totals
+      const newUsers: UserState = LS.users
 
-      let newUsers = [...newTotals.users]
-      delete newTotals.users
-
-      let numOfKeysLS = Object.keys(newTotals).length
-      let numOfKeysState = Object.keys(props.totals).length
-      if (numOfKeysLS !== numOfKeysState) {
+      // Check integrity of LSDATA
+      const totalsKeys = Object.keys(newTotals).length
+      const ptotalsKeys = Object.keys(props.totals).length
+      const initialsLength = newUsers.initials.length
+      const usersLength = Object.keys(newUsers.users).length
+      if (
+        totalsKeys !== ptotalsKeys ||
+        initialsLength !== usersLength
+      ) {
         setError('Data corrupt')
         return
       } else {
@@ -56,17 +60,22 @@ const App: React.FunctionComponent<Props> = props => {
     if (typeof LS === 'string') {
       setLsData(LS)
 
-      let unix: number = JSON.parse(LS).date
-      setLsDate(unixTimeToDate(unix))
+      let unixTime: number = JSON.parse(LS).date
+      setLsDate(unixTimeToDate(unixTime))
+
       setModal(true)
     }
   }, [])
 
   //onUnmount
   window.onbeforeunload = () => {
-    if (!!formHasData || !!props.users.length) {
+    if (!!formHasData || !!Object.keys(props.users.users).length) {
       let unixTime = new Date().getTime()
-      let saveData = { ...props.totals, users: [...props.users], date: unixTime }
+      let saveData = {
+        totals: { ...props.totals },
+        users: { ...props.users },
+        date: unixTime,
+      }
       localStorage.setItem('divviweb', JSON.stringify(saveData))
     }
   }
@@ -92,18 +101,18 @@ const App: React.FunctionComponent<Props> = props => {
 }
 
 interface LinkDispatchProps {
-  useLocalStorageTotals: (lsdata: object) => void
-  useLocalStorageUsers: (lsData: object) => void
+  useLocalStorageTotals: (lsdata: TotalState) => void
+  useLocalStorageUsers: (lsData: UserState) => void
 }
 
 interface LinkStateProps {
   totals: TotalState
-  users: Array<UserObject>
+  users: UserState
 }
 
 const mapState = (state: ReduxState, ownProps?: any) => ({
   totals: state.totals,
-  users: state.users.usersArr,
+  users: state.users,
 })
 
 const mapDispatch = (dispatch: Dispatch, ownProps?: any): LinkDispatchProps => ({

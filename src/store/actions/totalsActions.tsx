@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes'
+import { TotalState } from '../reducers/totalsReducer'
 
 export const updateSubTotal = (subtotal: string, total: string) => {
   return {
@@ -27,9 +28,9 @@ export const updateTip = (tip: string, total: string) => {
   }
 }
 
-export const useLocalStorageTotals = (lsData: object) => {
+export const useLocalStorageTotals = (lsData: TotalState) => {
   return {
-    type: actionTypes.USE_LS_AMOUNTS,
+    type: actionTypes.TOTALS_USE_LOCALSTORAGE,
     payload: lsData,
   }
 }

@@ -357,12 +357,12 @@ button {
         border-bottom: 1px solid transparent;
         transition: 0.3s; }
       .bottom-half .user-item .no-edit .name {
-        width: 32%;
+        width: 30%;
         margin-right: 5px;
         overflow: hidden;
         text-overflow: ellipsis; }
       .bottom-half .user-item .no-edit .amounts {
-        width: 60px;
+        width: 70px;
         font-size: 10px;
         color: #666666;
         padding-top: 3px; }
@@ -377,7 +377,7 @@ button {
     .bottom-half .user-item .edits {
       padding: 10px;
       overflow: hidden;
-      height: 94px;
+      height: 103px;
       transition: 0.35s; }
       .bottom-half .user-item .edits.collapsed {
         height: 0;
@@ -391,7 +391,7 @@ button {
       justify-content: center;
       align-items: center;
       width: 100%;
-      height: 25px; }
+      height: 28px; }
       .bottom-half .user-item-inputs .segment .title {
         width: 40%;
         max-width: 57px;

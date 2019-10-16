@@ -1,5 +1,5 @@
 import * as actions from '../actions/actionTypes'
-import { newStateUserOweAmts, createNewState, createInitialsArr, editInitials } from './utilFuncs'
+import { newStateUserOweAmts, createNewState, createInitialsArr } from './utilFuncs'
 
 export interface UserObject {
   uid: string
@@ -9,65 +9,73 @@ export interface UserObject {
   isCustomOweAmt: boolean
 }
 
+export interface UsersPool {
+  [uid: string]: UserObject
+}
+
+export interface InitialsObject {
+  uid: string
+  init: string
+}
+
 export interface UserState {
-  initials: Array<string>
-  usersArr: Array<UserObject>
+  initials: Array<InitialsObject>
+  users: UsersPool
 }
 
 const initialState: UserState = {
   initials: [],
-  usersArr: [],
+  users: {},
 }
 
 const usersReducer = (state: UserState = initialState, { type, payload }: actions.ActionType) => {
   switch (type) {
-    case actions.USE_LS_USERS: {
-      let newState = { ...state }
-      newState.usersArr = [...payload.users]
-      // newState = newStateUserOweAmts()
+    case actions.USERS_USE_LOCALSTORAGE: {
       return {
-        ...newState,
+        ...state,
+        ...payload,
       }
     }
-    case actions.USERS_ADD: {
-      // Recalculate users' oweAmount.
-      const newState = newStateUserOweAmts(
-        {
-          ...state,
-          usersArr: [...state.usersArr, payload.user],
-        },
-        payload.total
-      )
 
-      const newInitials = createInitialsArr(newState.usersArr)
+    case actions.USERS_ADD: {
+      let users: UsersPool = { ...state.users }
+      users[payload.user.uid] = payload.user
+      let newState: UserState = {
+        ...state,
+        users,
+      }
+      newState = newStateUserOweAmts(newState, payload.total)
+      const initials: Array<InitialsObject> = createInitialsArr(newState)
 
       return {
         ...newState,
-        initials: newInitials,
+        initials,
       }
     }
 
     case actions.USERS_DELETE: {
-      const newUsers = [...state.usersArr]
-      newUsers.splice(payload.idx, 1)
-
-      const newState = newStateUserOweAmts({ ...state, usersArr: newUsers }, payload.total)
-
-      const newInitials = createInitialsArr(newState.usersArr)
+      let users: UsersPool = { ...state.users }
+      delete users[payload.uid]
+      let newState: UserState = {
+        ...state,
+        users,
+      }
+      newState = newStateUserOweAmts(newState, payload.total)
+      const initials: Array<InitialsObject> = createInitialsArr(newState)
 
       return {
         ...newState,
-        initials: newInitials,
+        initials,
       }
     }
+
     case actions.USERS_NAME: {
       const newState: UserState = createNewState(state, 'name', payload)
-
-      const newInitials = editInitials(newState.initials, payload.name, payload.idx)
+      const initials: Array<InitialsObject> = createInitialsArr(newState)
 
       return {
         ...newState,
-        initials: newInitials,
+        initials,
       }
     }
 
@@ -80,28 +88,33 @@ const usersReducer = (state: UserState = initialState, { type, payload }: action
       }
     }
     case actions.USERS_OWE: {
-      const newState: UserState = createNewState(state, 'oweAmount', payload)
-      // Recalculate users' oweAmount
+      let newState: UserState = createNewState(state, 'oweAmount', payload)
+      // Recalculate users' oweAmount (front end)
+      newState = newStateUserOweAmts(newState, payload.total)
 
       return {
         ...newState,
       }
     }
     case actions.USERS_TOGGLECUSTOWE: {
-      const newState: UserState = createNewState(state, 'oweCustom', payload)
-      // Recalculate users' oweAmount
+      let newState: UserState = createNewState(state, 'isCustomOweAmt', payload)
+      console.table('2', newState)
 
+      // Recalculate users' oweAmount
+      newState = newStateUserOweAmts(newState, payload.total)
+      console.table('3', newState)
       return {
         ...newState,
       }
     }
     case actions.CALC_OWES: {
       let newState = newStateUserOweAmts(state, payload.total)
+
       return {
         ...newState,
-        usersArr: newState.usersArr,
       }
     }
+
     default:
       return state
   }

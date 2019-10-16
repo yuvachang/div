@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { UserObject } from '../../store/reducers/usersReducer'
 import UserItemInputs from './UserItemInputs'
 import Modal from '../Modal/Modal'
 
 interface Props {
   user: UserObject
-  idx: number
+  total: number
   deleteUser: () => void
 }
 
@@ -17,19 +17,17 @@ const UserItem: React.FunctionComponent<Props> = props => {
     setDisplayModal(false)
   }
 
-  useEffect(() => {
-    if (!props.user.name) {
-      setCollapse(false)
-    }
-  }, [])
+  const debtPaid = (): boolean => {
+    const oa = props.user.oweAmount
+    const p = props.user.paid
+    const t = props.total
+    const c = props.user.isCustomOweAmt
 
-  const debtPaid =
-    props.user.oweAmount - props.user.paid <= 0 && props.user.oweAmount + props.user.paid > 0
-
-  console.log('!!!!!', props.user.name)
+    return (!!c || t > 0) && p >= oa && (p > 0 || oa > 0)
+  }
 
   return (
-    <div className={`user-item ${debtPaid ? 'debt-settled' : ''}`}>
+    <div className={`user-item ${debtPaid() ? 'debt-settled' : ''}`}>
       <div className={`no-edit${collapsed ? ' collapsed' : ''}`}>
         <div className='name greytext'>{props.user.name || 'Name'}</div>
         <div className='amounts'>Paid: ${props.user.paid}</div>
@@ -44,13 +42,17 @@ const UserItem: React.FunctionComponent<Props> = props => {
       </div>
 
       <div className={`edits${collapsed ? ' collapsed' : ''}`}>
-        <UserItemInputs user={{ ...props.user }} idx={props.idx} />
+        <UserItemInputs user={{ ...props.user }} />
 
         <div className='grey-button-container' style={{ marginTop: '5px' }}>
           <div
             className='grey-button tiny red'
             onClick={() => {
-              if (!props.user.name && !props.user.paid && !props.user.oweAmount) {
+              if (
+                !props.user.name &&
+                !props.user.paid &&
+                (!props.user.isCustomOweAmt || !props.user.oweAmount)
+              ) {
                 props.deleteUser()
               } else {
                 setDisplayModal(true)
