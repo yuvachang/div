@@ -76,7 +76,7 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
     const target = e.target as HTMLInputElement
     const key = e.which || e.keyCode
     if (target.name === 'name') {
-      if ((key >= 37 && key <= 40) || (key >= 48 && key <= 57)) {
+      if ((key >= 97 && key <= 105) || (key >= 48 && key <= 57)) {
         e.preventDefault()
         return
       }

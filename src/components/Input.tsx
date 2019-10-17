@@ -11,7 +11,7 @@ interface Props {
 const Input: React.FunctionComponent<Props> = props => {
   const characterChecker = (e: React.KeyboardEvent<HTMLInputElement>) => {
     // exclude: 0-37,40-48,57-97,105-110,110-190
-    // include: 37-40,48 - 57,97 - 105,110,190(num, numpad, arrows, period, decimal)
+    // include: 37-40,48 - 57,97 - 105,110,190(arrows, num, numpad, period, decimal)
     let target = e.target as HTMLInputElement
     let kc = e.keyCode
     let inputValue = target.value

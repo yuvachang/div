@@ -7,17 +7,21 @@ import { addUser, deleteUser } from '../../store/actions/usersActions'
 //import components
 import {} from '../functions'
 import UserItem from './UserItem'
-import { UsersPool, InitialsObject } from '../../store/reducers/usersReducer'
+import { UsersPool, InitialsObject, DebtPool } from '../../store/reducers/usersReducer'
 import Debts from './Debts'
 
 type Props = LinkDispatchProps & LinkMapProps
 
 const BottomHalf: React.FunctionComponent<Props> = props => {
   const usersArr = Object.keys(props.users).map(uid => props.users[uid])
-
   return (
     <div className='bottom-half'>
-      <Debts users={props.users} initials={props.initials} total={props.total} />
+      <Debts
+        users={props.users}
+        debts={props.debts}
+        initials={props.initials}
+        total={props.total}
+      />
 
       {!!usersArr.length &&
         usersArr.map((user, idx) => {
@@ -41,6 +45,7 @@ interface LinkMapProps {
   users: UsersPool
   total: number
   initials: Array<InitialsObject>
+  debts: DebtPool
 }
 
 interface LinkDispatchProps {
@@ -50,6 +55,7 @@ interface LinkDispatchProps {
 
 const mapState = (state: ReduxState, ownProps?: any) => ({
   users: state.users.users,
+  debts: state.users.debts,
   total: state.totals.total,
   initials: state.users.initials,
 })

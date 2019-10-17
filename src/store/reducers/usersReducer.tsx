@@ -2,6 +2,7 @@ import * as actions from '../actions/actionTypes'
 import { newStateUserOweAmts, createNewState, createInitialsArr, calculateDebts } from './utilFuncs'
 
 export interface DebtObject {
+  ownerUID: string
   payToUID: string
   amount: number
 }
@@ -92,8 +93,11 @@ const usersReducer = (state: UserState = initialState, { type, payload }: action
 
     case actions.USERS_PAID: {
       let newState: UserState = createNewState(state, 'paid', payload)
+      console.log(newState.debts)
+
       // Calculate user debts.
       newState = calculateDebts(newState, payload.total)
+      console.log(newState.debts)
       return {
         ...newState,
       }

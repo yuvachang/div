@@ -66,18 +66,14 @@ export const calculateDebts = (state: UserState, total: number): UserState => {
     owed: number
     uid: string
   }
-  console.log('heelllllllo')
   const newState = { ...state }
   const newDebts: DebtPool = {}
   const userIds = Object.keys(newState.users)
   const debtees: Debtee[] = []
   const debtors: UserObject[] = []
 
-  // if (total > 0) {
-  // console.log(total)
   userIds.forEach(uid => {
     let user: UserObject = { ...newState.users[uid] }
-    console.log(uid)
     if (user.paid > user.oweAmount) {
       const owed = user.paid - user.oweAmount
       debtees.push({ owed, uid: user.uid })
@@ -85,8 +81,6 @@ export const calculateDebts = (state: UserState, total: number): UserState => {
       debtors.push(user)
     }
   })
-  // }
-  console.log(debtees, debtors)
 
   if (!debtees.length) return { ...newState, debts: {} }
 
@@ -103,19 +97,25 @@ export const calculateDebts = (state: UserState, total: number): UserState => {
   debtors.forEach(user => {
     let owes = user.oweAmount
     while (owes > 0) {
+      console.log(owes, debtees[0])
       if (!debtees.length) return
       let owed = debtees[0].owed
 
       if (owes <= owed) {
         debtees[0].owed = owed - owes
         let debtObj = {
+          ownerUID: user.uid,
           payToUID: debtees[0].uid,
           amount: +owes.toFixed(2),
         }
         addDebtObj(debtObj, user.uid)
+        if (debtees[0].owed <= 0) {
+          debtees.shift()
+        }
         owes = 0
       } else if (owes > owed) {
         let debtObj = {
+          ownerUID: user.uid,
           payToUID: debtees[0].uid,
           amount: +owed.toFixed(2),
         }
