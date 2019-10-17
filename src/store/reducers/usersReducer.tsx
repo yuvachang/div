@@ -1,5 +1,14 @@
 import * as actions from '../actions/actionTypes'
-import { newStateUserOweAmts, createNewState, createInitialsArr } from './utilFuncs'
+import { newStateUserOweAmts, createNewState, createInitialsArr, calculateDebts } from './utilFuncs'
+
+export interface DebtObject {
+  payToUID: string
+  amount: number
+}
+
+export interface DebtPool {
+  [uid: string]: DebtObject[]
+}
 
 export interface UserObject {
   uid: string
@@ -21,11 +30,13 @@ export interface InitialsObject {
 export interface UserState {
   initials: Array<InitialsObject>
   users: UsersPool
+  debts: DebtPool
 }
 
 const initialState: UserState = {
   initials: [],
   users: {},
+  debts: {},
 }
 
 const usersReducer = (state: UserState = initialState, { type, payload }: actions.ActionType) => {
@@ -46,7 +57,7 @@ const usersReducer = (state: UserState = initialState, { type, payload }: action
       }
       newState = newStateUserOweAmts(newState, payload.total)
       const initials: Array<InitialsObject> = createInitialsArr(newState)
-
+      newState = calculateDebts(newState, payload.total)
       return {
         ...newState,
         initials,
@@ -62,7 +73,7 @@ const usersReducer = (state: UserState = initialState, { type, payload }: action
       }
       newState = newStateUserOweAmts(newState, payload.total)
       const initials: Array<InitialsObject> = createInitialsArr(newState)
-
+      newState = calculateDebts(newState, payload.total)
       return {
         ...newState,
         initials,
@@ -80,36 +91,32 @@ const usersReducer = (state: UserState = initialState, { type, payload }: action
     }
 
     case actions.USERS_PAID: {
-      const newState: UserState = createNewState(state, 'paid', payload)
+      let newState: UserState = createNewState(state, 'paid', payload)
       // Calculate user debts.
-
+      newState = calculateDebts(newState, payload.total)
       return {
         ...newState,
       }
     }
     case actions.USERS_OWE: {
       let newState: UserState = createNewState(state, 'oweAmount', payload)
-      // Recalculate users' oweAmount (front end)
       newState = newStateUserOweAmts(newState, payload.total)
-
+      newState = calculateDebts(newState, payload.total)
       return {
         ...newState,
       }
     }
     case actions.USERS_TOGGLECUSTOWE: {
       let newState: UserState = createNewState(state, 'isCustomOweAmt', payload)
-      console.table('2', newState)
-
-      // Recalculate users' oweAmount
       newState = newStateUserOweAmts(newState, payload.total)
-      console.table('3', newState)
+      newState = calculateDebts(newState, payload.total)
       return {
         ...newState,
       }
     }
     case actions.CALC_OWES: {
       let newState = newStateUserOweAmts(state, payload.total)
-
+      newState = calculateDebts(newState, payload.total)
       return {
         ...newState,
       }

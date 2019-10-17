@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 //nonpackage imports
@@ -10,7 +10,6 @@ import {
   updateUserOweAmount,
   toggleIsCustomOweAmt,
   calcOweAmounts,
-  // calcOweAmounts,
 } from '../../store/actions/usersActions'
 import { roundUSD, capitalizeWords } from '../functions'
 
@@ -22,12 +21,6 @@ type Props = LinkDispatchProps & LinkStateProps & OwnProps
 
 const UserItemInputs: React.FunctionComponent<Props> = props => {
   const [user, setUser] = useState<UserObject>({ ...props.user })
-
-  // Update user &&=>input values when user list changes
-  useEffect(() => {
-    setUser({ ...props.user })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.user.name])
 
   const updateStore = (targetName: string, value: string): string => {
     switch (targetName) {
@@ -43,7 +36,6 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
       }
       case 'oweAmount': {
         props.updateUserOweAmt(String(roundUSD(+value)), user.uid, props.total)
-        props.calcOweAmounts(props.total)
         value = roundUSD(+value).toFixed(2)
         break
       }
@@ -105,8 +97,7 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
   const oweButtonHandler = () => {
     const bool = !user.isCustomOweAmt
     props.toggleCustOweAmt(bool, props.user.uid)
-    // props.calcOweAmounts(props.total)
-    console.log(bool)
+    props.calcOweAmounts(props.total)
 
     setUser({
       ...user,
@@ -172,7 +163,6 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
 
 interface LinkStateProps {
   total: number
-  // ruser: UserObject
 }
 
 interface LinkDispatchProps {

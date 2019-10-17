@@ -1,4 +1,4 @@
-import { UserState, InitialsObject } from './usersReducer'
+import { UserState, InitialsObject, UserObject, DebtObject, DebtPool } from './usersReducer'
 import { getInitials } from '../../components/functions'
 
 export const createNewState = (state: UserState, field: string, payload: any): UserState => {
@@ -59,4 +59,74 @@ export const createInitialsArr = (state: UserState): InitialsObject[] => {
     uid: user.uid,
     init: getInitials(user.name),
   }))
+}
+
+export const calculateDebts = (state: UserState, total: number): UserState => {
+  interface Debtee {
+    owed: number
+    uid: string
+  }
+  console.log('heelllllllo')
+  const newState = { ...state }
+  const newDebts: DebtPool = {}
+  const userIds = Object.keys(newState.users)
+  const debtees: Debtee[] = []
+  const debtors: UserObject[] = []
+
+  // if (total > 0) {
+  // console.log(total)
+  userIds.forEach(uid => {
+    let user: UserObject = { ...newState.users[uid] }
+    console.log(uid)
+    if (user.paid > user.oweAmount) {
+      const owed = user.paid - user.oweAmount
+      debtees.push({ owed, uid: user.uid })
+    } else if (user.oweAmount > 0 && user.paid < user.oweAmount) {
+      debtors.push(user)
+    }
+  })
+  // }
+  console.log(debtees, debtors)
+
+  if (!debtees.length) return { ...newState, debts: {} }
+
+  // const totalPaid = userIds.map(uid => newState.users[uid].paid).reduce((a, b) => a + b)
+
+  const addDebtObj = (debtObj: DebtObject, uid: string) => {
+    if (newDebts[uid]) {
+      newDebts[uid].push(debtObj)
+    } else {
+      newDebts[uid] = [debtObj]
+    }
+  }
+
+  debtors.forEach(user => {
+    let owes = user.oweAmount
+    while (owes > 0) {
+      if (!debtees.length) return
+      let owed = debtees[0].owed
+
+      if (owes <= owed) {
+        debtees[0].owed = owed - owes
+        let debtObj = {
+          payToUID: debtees[0].uid,
+          amount: +owes.toFixed(2),
+        }
+        addDebtObj(debtObj, user.uid)
+        owes = 0
+      } else if (owes > owed) {
+        let debtObj = {
+          payToUID: debtees[0].uid,
+          amount: +owed.toFixed(2),
+        }
+        addDebtObj(debtObj, user.uid)
+        owes = owes - owed
+        debtees.shift()
+      }
+    }
+  })
+
+  newState.debts = newDebts
+
+  return newState
 }

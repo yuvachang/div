@@ -191,6 +191,17 @@ button {
       cursor: pointer;
       background: #d1d1d1; } }
 
+.iconbutton {
+  width: 22px;
+  height: 22px;
+  filter: invert(0.66);
+  transition: 0.2s; }
+  @media (hover: hover) {
+    .iconbutton:hover {
+      cursor: pointer;
+      transform: rotate(90deg);
+      transition: 0.2s; } }
+
 .arrowicon {
   width: 25px;
   height: 16px;
@@ -300,7 +311,7 @@ button {
   padding: 15px 0; }
   .bottom-half > * {
     width: 100%; }
-  .bottom-half .user-bubbles {
+  .bottom-half .debts-and-bubbles .user-bubbles {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -308,10 +319,11 @@ button {
     width: 100%;
     justify-content: flex-start;
     flex-wrap: wrap;
+    height: 25px;
     margin-bottom: 2px;
     margin-top: -8px; }
-    .bottom-half .user-bubbles .bubble {
-      margin: 0 2px;
+    .bottom-half .debts-and-bubbles .user-bubbles .bubble {
+      margin: 0 6px;
       background-color: #ccc;
       padding: 4px;
       border-radius: 50%;
@@ -320,6 +332,39 @@ button {
       text-align: center;
       line-height: 12px;
       font-size: 10px; }
+      @media (hover: hover) {
+        .bottom-half .debts-and-bubbles .user-bubbles .bubble:hover {
+          cursor: pointer;
+          transform: scale(1.2);
+          background-color: #dddddd; } }
+  .bottom-half .debts-and-bubbles .debts {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    width: 100%;
+    background-color: #f4f4f4;
+    border-radius: 4px;
+    padding: 4px;
+    box-sizing: border-box;
+    margin: 5px 0; }
+    .bottom-half .debts-and-bubbles .debts .debt {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      justify-content: flex-start;
+      font-size: 10px;
+      color: #515151;
+      height: 20px;
+      width: 85%; }
+    .bottom-half .debts-and-bubbles .debts .closebutton {
+      position: absolute;
+      right: 10px;
+      top: calc(50% - 11px); }
   .bottom-half .user-item {
     position: relative;
     border: 1px solid #ccc;

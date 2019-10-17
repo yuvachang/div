@@ -8,25 +8,17 @@ import { addUser, deleteUser } from '../../store/actions/usersActions'
 import {} from '../functions'
 import UserItem from './UserItem'
 import { UsersPool, InitialsObject } from '../../store/reducers/usersReducer'
+import Debts from './Debts'
 
 type Props = LinkDispatchProps & LinkMapProps
 
 const BottomHalf: React.FunctionComponent<Props> = props => {
-  const usersArr = Object.keys(props.users).map(uid=>props.users[uid])
+  const usersArr = Object.keys(props.users).map(uid => props.users[uid])
 
   return (
     <div className='bottom-half'>
-      {!!props.initials.length && (
-        <div className='user-bubbles'>
-          {props.initials.map((InitialsObject, idx) => {
-            return (
-              <div className='bubble' key={idx + 'init'}>
-                {InitialsObject.init}
-              </div>
-            )
-          })}
-        </div>
-      )}
+      <Debts users={props.users} initials={props.initials} total={props.total} />
+
       {!!usersArr.length &&
         usersArr.map((user, idx) => {
           return (

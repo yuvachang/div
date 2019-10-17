@@ -112,6 +112,21 @@ button {
   }
 }
 
+.iconbutton {
+  width: 22px;
+  height: 22px;
+  filter: invert(0.66);
+  transition: 0.2s;
+
+  @media (hover: hover) {
+    &:hover {
+      cursor: pointer;
+      transform: rotate(90deg);
+      transition: 0.2s;
+    }
+  }
+}
+
 .arrowicon {
   width: 25px;
   height: 16px;

@@ -12,24 +12,61 @@
     width: 100%;
   }
 
-  .user-bubbles {
-    @include flex-center();
-    justify-content: flex-start;
-    flex-wrap: wrap;
+  .debts-and-bubbles {
+    .user-bubbles {
+      @include flex-center();
+      justify-content: flex-start;
+      flex-wrap: wrap;
 
-    margin-bottom: 2px;
-    margin-top: -8px;
+      height: 25px;
+      margin-bottom: 2px;
+      margin-top: -8px;
 
-    .bubble {
-      margin: 0 2px;
-      background-color: #ccc;
+      .bubble {
+        margin: 0 6px;
+        background-color: #ccc;
+        padding: 4px;
+        border-radius: 50%;
+        width: 12px;
+        height: 12px;
+        text-align: center;
+        line-height: 12px;
+        font-size: 10px;
+
+        @media (hover: hover) {
+          &:hover {
+            cursor: pointer;
+            transform: scale(1.2);
+            background-color: #dddddd;
+          }
+        }
+      }
+    }
+    .debts {
+      position: relative;
+
+      @include flex-center(column);
+      width: 100%;
+      background-color: $bg-color;
+      border-radius: 4px;
       padding: 4px;
-      border-radius: 50%;
-      width: 12px;
-      height: 12px;
-      text-align: center;
-      line-height: 12px;
-      font-size: 10px;
+      box-sizing: border-box;
+      margin: 5px 0;
+
+      .debt {
+        @include flex-center();
+        justify-content: flex-start;
+        font-size: 10px;
+        color: #515151;
+        height: 20px;
+        width: 85%;
+      }
+
+      .closebutton{
+        position: absolute;
+        right: 10px;
+        top: calc(50% - 11px);
+      }
     }
   }
 
@@ -144,7 +181,6 @@
         .button {
           transform: translate(-25px, 0);
           width: 0;
-          // z-index: 11;
         }
       }
     }
