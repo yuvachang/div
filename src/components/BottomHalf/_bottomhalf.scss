@@ -18,21 +18,25 @@
       justify-content: flex-start;
       flex-wrap: wrap;
 
-      height: 25px;
+      min-height: 25px;
       margin-bottom: 2px;
       margin-top: -8px;
 
       .bubble {
         @include flex-center();
-        margin: 0 6px;
         background-color: #ccc;
-        padding: 4px;
         border-radius: 50%;
+
+        margin: 0 4px;
+        padding: 4px;
+
         width: 13px;
         height: 13px;
+
         text-align: center;
         line-height: 13px;
         font-size: 10px;
+        color: #515151;
 
         @media (hover: hover) {
           &:hover {
@@ -86,9 +90,19 @@
 
   .user-item {
     position: relative;
-    border: 1px solid #ccc;
+    // border: 1px solid #ccc;
+    border: 1px solid #999999;
     border-radius: 4px;
     margin: 4px 0;
+
+    .color-bar {
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 6px;
+      border-radius: 4px 0 0 4px;
+    }
 
     &.debt-settled {
       border: 1px solid green;
@@ -128,7 +142,6 @@
         transition: 0.3s;
       }
 
-
       .name {
         width: 30%;
         margin-right: 5px;
@@ -139,11 +152,9 @@
 
       .amounts {
         width: 70px;
-
+        // padding-top: 3px;
         font-size: 10px;
         color: #666666;
-
-        padding-top: 3px;
       }
 
       .arrow {
@@ -163,7 +174,7 @@
     .edits {
       padding: 10px;
       overflow: hidden;
-      height: 103px;
+      height: 123px;
       transition: 0.35s;
 
       &.collapsed {

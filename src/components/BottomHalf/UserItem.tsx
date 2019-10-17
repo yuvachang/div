@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { UserObject } from '../../store/reducers/usersReducer'
 import UserItemInputs from './UserItemInputs'
 import Modal from '../Modal/Modal'
@@ -26,8 +26,19 @@ const UserItem: React.FunctionComponent<Props> = props => {
     return (!!c || t > 0) && p >= oa && (p > 0 || oa > 0)
   }
 
+  useEffect(() => {
+    if (!props.user.name) {
+      setCollapse(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
-    <div className={`user-item ${debtPaid() ? 'debt-settled' : ''}`}>
+    <div
+      className={`user-item ${debtPaid() ? 'debt-settled' : ''}`}
+      // style={{border: `1px solid ${props.user.color}`}}
+    >
+      <div className='color-bar' style={{ backgroundColor: props.user.color }} />
       <div className={`no-edit${collapsed ? ' collapsed' : ''}`}>
         <div className='name greytext'>{props.user.name || 'Name'}</div>
         <div className='amounts'>Paid: ${props.user.paid}</div>

@@ -238,7 +238,7 @@ button {
   height: 16px;
   border-radius: 3px;
   overflow: hidden;
-  transition: 0.3s; }
+  transition: 0.2s; }
   .grey-button-container {
     display: flex;
     flex-direction: row;
@@ -248,10 +248,12 @@ button {
     box-sizing: border-box; }
   .grey-button.tiny {
     width: 50%;
-    height: 14px; }
+    height: 14px;
+    margin: 0 10px; }
   @media (hover: hover) {
     .grey-button:hover {
-      cursor: pointer; }
+      cursor: pointer;
+      background-color: #e5e5e5; }
     .grey-button.red:hover {
       color: red; } }
 
@@ -308,3 +310,172 @@ button {
     width: 100%;
     width: 100%;
     padding-top: 15px; }
+
+.bottom-half {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  top: 0;
+  width: 300px;
+  padding: 15px 0; }
+  .bottom-half > * {
+    width: 100%; }
+  .bottom-half .debts-and-bubbles .user-bubbles {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    min-height: 25px;
+    margin-bottom: 2px;
+    margin-top: -8px; }
+    .bottom-half .debts-and-bubbles .user-bubbles .bubble {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      background-color: #ccc;
+      border-radius: 50%;
+      margin: 0 4px;
+      padding: 4px;
+      width: 13px;
+      height: 13px;
+      text-align: center;
+      line-height: 13px;
+      font-size: 10px;
+      color: #515151; }
+      @media (hover: hover) {
+        .bottom-half .debts-and-bubbles .user-bubbles .bubble:hover {
+          cursor: pointer;
+          transform: scale(1.2);
+          background-color: #dddddd; } }
+  .bottom-half .debts-and-bubbles .debts {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    background-color: #f4f4f4;
+    border-radius: 4px;
+    width: 100%;
+    margin: 5px 0;
+    margin-top: 8px;
+    transition: 0.3s; }
+    .bottom-half .debts-and-bubbles .debts.collapsed {
+      height: 0;
+      padding: 0;
+      margin: 0;
+      transition: 0.3s; }
+    .bottom-half .debts-and-bubbles .debts .debt {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      justify-content: flex-start;
+      font-size: 10px;
+      color: #515151;
+      height: 20px;
+      width: 85%; }
+    .bottom-half .debts-and-bubbles .debts .closebutton {
+      position: absolute;
+      right: 10px;
+      top: calc(50% - 11px); }
+  .bottom-half .user-item {
+    position: relative;
+    border: 1px solid #999999;
+    border-radius: 4px;
+    margin: 4px 0; }
+    .bottom-half .user-item .color-bar {
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 6px;
+      border-radius: 4px 0 0 4px; }
+    .bottom-half .user-item.debt-settled {
+      border: 1px solid green;
+      background-color: #f4f4f4; }
+    .bottom-half .user-item.button {
+      height: 26px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      width: 100%; }
+      @media (hover: hover) {
+        .bottom-half .user-item.button:hover {
+          cursor: pointer;
+          background-color: #f4f4f4; } }
+    .bottom-half .user-item .no-edit {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      justify-content: flex-start;
+      padding: 5px 10px;
+      margin: 0 4px;
+      box-sizing: border-box;
+      width: calc(100% - 8px);
+      border-bottom: 1px solid #ccc;
+      transition: 0.3s;
+      position: relative; }
+      .bottom-half .user-item .no-edit.collapsed {
+        border-bottom: 1px solid transparent;
+        transition: 0.3s; }
+      .bottom-half .user-item .no-edit .name {
+        width: 30%;
+        margin-right: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap; }
+      .bottom-half .user-item .no-edit .amounts {
+        width: 70px;
+        font-size: 10px;
+        color: #666666; }
+      .bottom-half .user-item .no-edit .arrow {
+        position: absolute;
+        right: 4px;
+        top: 6px;
+        height: 0; }
+        @media (hover: hover) {
+          .bottom-half .user-item .no-edit .arrow:hover {
+            cursor: pointer; } }
+    .bottom-half .user-item .edits {
+      padding: 10px;
+      overflow: hidden;
+      height: 123px;
+      transition: 0.35s; }
+      .bottom-half .user-item .edits.collapsed {
+        height: 0;
+        padding: 0 10px;
+        transition: 0.35s; }
+    .bottom-half .user-item-inputs > * {
+      width: 100%; }
+    .bottom-half .user-item-inputs .segment {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 28px; }
+      .bottom-half .user-item-inputs .segment .title {
+        width: 40%;
+        max-width: 57px;
+        font-size: 0.75em;
+        line-height: 22px; }
+      .bottom-half .user-item-inputs .segment .symbol {
+        transform: translate(5px, -1px);
+        width: 0; }
+      .bottom-half .user-item-inputs .segment .button {
+        transform: translate(-25px, 0);
+        width: 0; }

@@ -74,3 +74,12 @@ export const getInitials = (str: string) => {
     }
   } else return ''
 }
+
+export const nameFormat = (name: string): string => {
+  let newName: any = name.trim().split(' ')
+  if (newName[0].length > 10) {
+    newName[0] = newName[0].slice(0, 10) + '(...)'
+  }
+  newName = newName[0] + ' ' + getInitials(newName.join(' ')).slice(1)
+  return newName
+}

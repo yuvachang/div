@@ -1,5 +1,11 @@
 import * as actions from '../actions/actionTypes'
-import { newStateUserOweAmts, createNewState, createInitialsArr, calculateDebts } from './utilFuncs'
+import {
+  newStateUserOweAmts,
+  createNewState,
+  createInitialsArr,
+  calculateDebts,
+  setColors,
+} from './utilFuncs'
 
 export interface DebtObject {
   ownerUID: string
@@ -17,6 +23,7 @@ export interface UserObject {
   oweAmount: number
   paid: number
   isCustomOweAmt: boolean
+  color: string
 }
 
 export interface UsersPool {
@@ -59,6 +66,8 @@ const usersReducer = (state: UserState = initialState, { type, payload }: action
       newState = newStateUserOweAmts(newState, payload.total)
       const initials: Array<InitialsObject> = createInitialsArr(newState)
       newState = calculateDebts(newState, payload.total)
+      newState = setColors(newState)
+
       return {
         ...newState,
         initials,
@@ -75,6 +84,7 @@ const usersReducer = (state: UserState = initialState, { type, payload }: action
       newState = newStateUserOweAmts(newState, payload.total)
       const initials: Array<InitialsObject> = createInitialsArr(newState)
       newState = calculateDebts(newState, payload.total)
+      newState = setColors(newState)
       return {
         ...newState,
         initials,
@@ -93,15 +103,15 @@ const usersReducer = (state: UserState = initialState, { type, payload }: action
 
     case actions.USERS_PAID: {
       let newState: UserState = createNewState(state, 'paid', payload)
-      console.log(newState.debts)
-
       // Calculate user debts.
       newState = calculateDebts(newState, payload.total)
-      console.log(newState.debts)
       return {
         ...newState,
       }
     }
+
+    
+
     case actions.USERS_OWE: {
       let newState: UserState = createNewState(state, 'oweAmount', payload)
       newState = newStateUserOweAmts(newState, payload.total)
@@ -110,6 +120,7 @@ const usersReducer = (state: UserState = initialState, { type, payload }: action
         ...newState,
       }
     }
+
     case actions.USERS_TOGGLECUSTOWE: {
       let newState: UserState = createNewState(state, 'isCustomOweAmt', payload)
       newState = newStateUserOweAmts(newState, payload.total)
@@ -118,12 +129,18 @@ const usersReducer = (state: UserState = initialState, { type, payload }: action
         ...newState,
       }
     }
+
     case actions.CALC_OWES: {
       let newState = newStateUserOweAmts(state, payload.total)
       newState = calculateDebts(newState, payload.total)
       return {
         ...newState,
       }
+    }
+
+    case actions.USERS_SETCOLORS: {
+      let newState = setColors(state)
+      return { ...newState }
     }
 
     default:

@@ -1,12 +1,6 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
-import usersReducer, {
-  UserObject,
-  UsersPool,
-  InitialsObject,
-  DebtPool,
-  DebtObject,
-} from '../../store/reducers/usersReducer'
-import { getInitials } from '../functions'
+import React, { useState, useEffect, useRef } from 'react'
+import { UsersPool, InitialsObject, DebtPool, DebtObject } from '../../store/reducers/usersReducer'
+import { nameFormat } from '../functions'
 
 interface Props {
   users: UsersPool
@@ -15,9 +9,15 @@ interface Props {
   initials: Array<InitialsObject>
 }
 
+interface LocalDebtObj extends DebtObject {
+  color: string
+  debtee: string
+  debtor: string
+}
+
 const Debts: React.FunctionComponent<Props> = props => {
   const [collapsed, setCollapsed] = useState<boolean>(true)
-  const [userDebts, setUserDebts] = useState<DebtObject[]>([])
+  const [userDebts, setUserDebts] = useState<LocalDebtObj[]>([])
   const [isDebtOneUser, setIsDebtOneUser] = useState<boolean>(false)
   const [debtsHeight, setDebtsHeight] = useState<number>(25)
 
@@ -25,23 +25,44 @@ const Debts: React.FunctionComponent<Props> = props => {
   useEffect(() => {
     if (!userDebts.length || !isDebtOneUser) {
       setAllDebts(true)
+    } else if (isDebtOneUser) {
+      if (
+        userDebts.length &&
+        (!props.users[userDebts[0].ownerUID] || !props.users[userDebts[0].payToUID])
+      ) {
+        setAllDebts(true)
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.debts])
+  }, [props.debts, props.users])
 
   const calcDebtsHeight = (length: number) => {
     let height = length * 20 + 20
-    console.log('height', userDebts, height)
+    if (!length) {
+      height = 35
+    }
     if (height !== debtsHeight) {
       setDebtsHeight(height)
     }
   }
 
-  const setAllDebts = (setDebts: boolean): void | DebtObject[] => {
-    let alldebts: DebtObject[] = []
+  const setAllDebts = (setDebts: boolean): void | LocalDebtObj[] => {
+    let alldebts: LocalDebtObj[] = []
 
-    Object.keys(props.debts).map(uid => {
-      alldebts = alldebts.concat(props.debts[uid])
+    Object.keys(props.debts).forEach(uid => {
+      let debtor = nameFormat(props.users[uid].name)
+      let color = props.users[uid].color
+      let debts = props.debts[uid].map(debtObj => {
+        let debtee = nameFormat(props.users[debtObj.payToUID].name)
+        return {
+          ...debtObj,
+          debtor,
+          debtee,
+          color,
+        }
+      })
+
+      alldebts = alldebts.concat(debts)
     })
 
     if (!!setDebts) {
@@ -64,9 +85,8 @@ const Debts: React.FunctionComponent<Props> = props => {
       setUserDebts(debts)
       calcDebtsHeight(debts.length)
     } else {
-      let debts = (setAllDebts(false) as DebtObject[]).filter(debt => debt.ownerUID === uid)
+      let debts = (setAllDebts(false) as LocalDebtObj[]).filter(debt => debt.ownerUID === uid)
       setUserDebts(debts)
-      console.log(debts.length, '!!!!!!!!!!!!!!!!!!!')
       calcDebtsHeight(debts.length)
     }
   }
@@ -88,9 +108,13 @@ const Debts: React.FunctionComponent<Props> = props => {
           return (
             <div
               className='bubble'
+              style={{
+                border: `1px solid ${props.users[userInitials.uid].color}`,
+                backgroundColor: '#f4f4f4',
+              }}
               key={idx + 'init'}
               onClick={() => filterUserDebt(userInitials.uid)}>
-              {userInitials.init}
+              {userInitials.init ? userInitials.init : 'na'}
             </div>
           )
         })}
@@ -111,27 +135,29 @@ const Debts: React.FunctionComponent<Props> = props => {
         ref={debtsRef}>
         {!!userDebts.length ? (
           userDebts.map(debt => {
-            let debtor = props.users[debt.ownerUID].name
-            let debtee = props.users[debt.payToUID].name
-            debtor = debtor.split(' ')[0] + ' ' + getInitials(debtor).slice(1)
-            debtee = debtee.split(' ')[0] + ' ' + getInitials(debtee).slice(1)
-            if (debtor.split(' ')[0].length > 10) {
-              debtor = debtor.split(' ')[0].slice(0, 10) + '(...)' + debtor.split(' ')[1]
-            }
-            if (debtee.split(' ')[0].length > 10) {
-              debtee = debtee.split(' ')[0].slice(0, 10) + '(...)' + debtee.split(' ')[1]
-            }
-
             return (
               <div className='debt' key={debt.ownerUID + debt.payToUID + debt.amount}>
-                {debtor} : pay {debtee} ${debt.amount.toFixed(2)}
+                <div //colored bullet
+                  style={{
+                    backgroundColor: debt.color,
+                    borderRadius: '50%',
+                    width: '10px',
+                    height: '10px',
+                    marginRight: '8px',
+                  }}
+                />
+                {debt.debtor} : pay {debt.debtee} ${debt.amount.toFixed(2)}
               </div>
             )
           })
         ) : isDebtOneUser ? (
-          <div className='small-text'>No need to pay anyone...</div>
+          <div className='small-text'>No individual debts.</div>
         ) : (
-          <div className='small-text'>Add some paid amounts to start building debts...</div>
+          <div
+            className='small-text'
+            style={{ width: '80%', alignSelf: 'flex-start', marginLeft: '12px' }}>
+            Add paid amounts more than owed amounts to start building debts between users...
+          </div>
         )}
 
         <div className='closebutton'>

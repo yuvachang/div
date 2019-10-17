@@ -11,12 +11,12 @@ export const createNewState = (state: UserState, field: string, payload: any): U
     case 'oweAmount':
       user.oweAmount = +payload.oweAmount
       break
-    case 'paid':
+    case 'paid': {
       user.paid = +payload.paid
       break
+    }
     case 'isCustomOweAmt':
       user.isCustomOweAmt = payload.isCustomOweAmt
-      console.log('insidefunc', user.isCustomOweAmt, payload.isCustomOweAmt)
       break
   }
 
@@ -97,7 +97,6 @@ export const calculateDebts = (state: UserState, total: number): UserState => {
   debtors.forEach(user => {
     let owes = user.oweAmount
     while (owes > 0) {
-      console.log(owes, debtees[0])
       if (!debtees.length) return
       let owed = debtees[0].owed
 
@@ -127,6 +126,25 @@ export const calculateDebts = (state: UserState, total: number): UserState => {
   })
 
   newState.debts = newDebts
+
+  return newState
+}
+
+export const setColors = (state: UserState, uid?: string): UserState => {
+  const userIds = Object.keys(state.users)
+  const newState = { ...state }
+
+  let hslIncrement = 360 / userIds.length
+
+  if (uid) {
+    newState.users[uid].color =
+      'hsla(' + Math.floor(hslIncrement % Math.floor(Math.random() * 360)) + ', 90%, 60%,1)'
+  } else {
+    userIds.forEach(userId => {
+      newState.users[userId].color = 'hsla(' + Math.floor(hslIncrement % 360) + ', 90%, 60%,1)'
+      hslIncrement += 360 / userIds.length
+    })
+  }
 
   return newState
 }

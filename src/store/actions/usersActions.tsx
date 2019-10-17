@@ -40,10 +40,10 @@ export const updateUserName = (name: string, uid: string) => {
   }
 }
 
-export const updateUserPaid = (paid: string, uid: string) => {
+export const updateUserPaid = (paid: string, uid: string, total: number) => {
   return {
     type: actionTypes.USERS_PAID,
-    payload: { paid, uid },
+    payload: { paid, uid, total },
   }
 }
 
@@ -67,4 +67,8 @@ export const calcOweAmounts = (total: number) => {
     type: actionTypes.CALC_OWES,
     payload: { total },
   }
+}
+
+export const setColors = () => {
+  return { type: actionTypes.USERS_SETCOLORS, payload: null }
 }

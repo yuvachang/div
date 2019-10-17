@@ -167,16 +167,18 @@ button {
   border-radius: 3px;
 
   overflow: hidden;
-  transition: 0.3s;
+  transition: 0.2s;
 
   &.tiny {
     width: 50%;
     height: 14px;
+    margin: 0 10px;
   }
 
   @media (hover: hover) {
     &:hover {
       cursor: pointer;
+      background-color: #e5e5e5;
     }
 
     &.red:hover {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 //nonpackage imports
 import { ReduxState } from '../../store'
-import { UserObject } from '../../store/reducers/usersReducer'
+import { UserObject, UsersPool } from '../../store/reducers/usersReducer'
 import {
   updateUserName,
   updateUserPaid,
@@ -30,7 +30,19 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
         break
       }
       case 'paid': {
-        props.updatePaid(String(roundUSD(+value)), user.uid)
+        let totalPaid: number = Object.keys(props.users)
+          .filter(uid => uid !== user.uid)
+          .reduce((acc: any, curr) => {
+            return acc + props.users[curr].paid
+          }, 0)
+
+        let remainingAmount: number = props.total - totalPaid
+        if (+value > remainingAmount) {
+          value = remainingAmount.toFixed(2)
+        }
+        if (props.user.paid !== +value) {
+          props.updatePaid(String(roundUSD(+value)), user.uid, props.total)
+        }
         value = roundUSD(+value).toFixed(2)
         break
       }
@@ -106,12 +118,31 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
     })
   }
 
+  const payRestOfBill = () => {
+    let value: string = updateStore('paid', String(Infinity))
+
+    setUser({
+      ...user,
+      paid: +value,
+    })
+  }
+
+  const clearPaid = () =>{
+    let value: string = updateStore('paid', '0')
+
+    setUser({
+      ...user,
+      paid: +value,
+    })
+  }
+
   return (
     <div className='user-item-inputs'>
       <div className='segment'>
         <div className='title greytext'>Name:</div>
         <input
           className='bottom'
+          autoComplete='whatever'
           type='text'
           name='name'
           value={user.name || ''}
@@ -135,6 +166,26 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
         />
       </div>
 
+      <div
+        className='grey-button-container'
+        style={{
+          marginBottom: '5px',
+          justifyContent: 'flex-end',
+        }}>
+        <div className='grey-button tiny red' onClick={payRestOfBill}>
+          pay remaining total
+        </div>
+        <div
+          style={{
+            width: '20%',
+          }}
+          className='grey-button tiny red'
+          onClick={clearPaid}>
+          {' '}
+          clear paid
+        </div>
+      </div>
+
       <div className='segment'>
         <div className='title greytext'>Owes:</div>
         <div className='symbol greytext'>$</div>
@@ -154,6 +205,7 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
             src={!!user.isCustomOweAmt ? '/icons/remove.svg' : '/icons/edit.svg'}
             className='arrowicon'
             onClick={oweButtonHandler}
+            title={!!user.isCustomOweAmt ? 'clear' : 'edit'}
           />
         </div>
       </div>
@@ -163,11 +215,12 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
 
 interface LinkStateProps {
   total: number
+  users: UsersPool
 }
 
 interface LinkDispatchProps {
   updateName: (name: string, uid: string) => void
-  updatePaid: (paid: string, uid: string) => void
+  updatePaid: (paid: string, uid: string, total: number) => void
   updateUserOweAmt: (oweAmount: string, uid: string, total: number) => void
   toggleCustOweAmt: (isCustomOweAmt: boolean, uid: string) => void
   calcOweAmounts: (total: number) => void
@@ -175,6 +228,7 @@ interface LinkDispatchProps {
 
 const mapState = (state: ReduxState, ownProps?: any) => ({
   total: state.totals.total,
+  users: state.users.users,
 })
 
 const mapDispatch = (dispatch: Dispatch, ownProps?: any): LinkDispatchProps => ({

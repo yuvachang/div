@@ -3,7 +3,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { ReduxState } from '../../store'
 import { connect } from 'react-redux'
 //import actionCreators
-import { addUser, deleteUser } from '../../store/actions/usersActions'
+import { addUser, deleteUser, setColors } from '../../store/actions/usersActions'
 //import components
 import {} from '../functions'
 import UserItem from './UserItem'
@@ -14,6 +14,7 @@ type Props = LinkDispatchProps & LinkMapProps
 
 const BottomHalf: React.FunctionComponent<Props> = props => {
   const usersArr = Object.keys(props.users).map(uid => props.users[uid])
+
   return (
     <div className='bottom-half'>
       <Debts
@@ -51,6 +52,7 @@ interface LinkMapProps {
 interface LinkDispatchProps {
   addUser: (total: number) => void
   deleteUser: (uid: string, total: number) => void
+  setColors: () => void
 }
 
 const mapState = (state: ReduxState, ownProps?: any) => ({
@@ -63,6 +65,7 @@ const mapState = (state: ReduxState, ownProps?: any) => ({
 const mapDispatch = (dispatch: Dispatch, ownProps?: any): LinkDispatchProps => ({
   addUser: bindActionCreators(addUser, dispatch),
   deleteUser: bindActionCreators(deleteUser, dispatch),
+  setColors: bindActionCreators(setColors, dispatch),
 })
 
 export default connect(
