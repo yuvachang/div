@@ -79,7 +79,6 @@ input {
   }
 
   &.no-hover {
-    // border: none;
     color: #666666;
   }
 
@@ -135,7 +134,6 @@ button {
   transition: 0.5s;
 
   &.flip {
-    // transform: rotate(180deg); //rotates
     transform: scaleY(-1); //flips vertically
     transition: 0.5s;
   }

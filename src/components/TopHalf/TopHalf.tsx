@@ -180,7 +180,6 @@ const TopHalf: React.FunctionComponent<Props> = props => {
         </div>
         <div className='segment'>
           <p className='greytext'>
-            
             Tax (
             {props.totals.subtotal > 0 && props.totals.tax > 0
               ? `$${((props.totals.tax / 100) * props.totals.subtotal).toFixed(2)}`
@@ -219,11 +218,6 @@ const TopHalf: React.FunctionComponent<Props> = props => {
           />
         </div>
       </div>
-
-      {/* <div className='segment'>
-        <p className='greytext'>Amount Paid</p>
-        <Input name='paid' val={3.33} updateStore={() => {}} disabled={true} />
-      </div> */}
     </div>
   )
 }

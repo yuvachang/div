@@ -7,7 +7,8 @@ interface Props {
   user: UserObject
   total: number
   deleteUser: () => void
-  setUserItem: (uid:string)=>void
+  checkUserOpen: () => void
+  usersOpen: boolean
 }
 
 const UserItem: React.FunctionComponent<Props> = props => {
@@ -27,12 +28,28 @@ const UserItem: React.FunctionComponent<Props> = props => {
     return (!!c || t > 0) && p >= oa && (p > 0 || oa > 0)
   }
 
+  const toggleCollapse = () => {
+    if (collapsed) {
+      props.checkUserOpen()
+      setCollapse(false)
+    } else {
+      props.checkUserOpen()
+      setCollapse(true)
+    }
+  }
+
   useEffect(() => {
     if (!props.user.name) {
       setCollapse(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    if (!props.usersOpen) {
+      setCollapse(true)
+    }
+  }, [props.usersOpen])
 
   return (
     <div
@@ -43,8 +60,8 @@ const UserItem: React.FunctionComponent<Props> = props => {
       <div className={`no-edit${collapsed ? ' collapsed' : ''}`}>
         <div className='name greytext'>{props.user.name || 'Name'}</div>
         <div className='amounts'>Paid: ${props.user.paid}</div>
-        <div className='amounts'>Owes: ${props.user.oweAmount}</div>
-        <div className='arrow' onClick={() => setCollapse(!collapsed)}>
+        <div className='amounts'>Bal: ${props.user.oweAmount}</div>
+        <div className='arrow' onClick={toggleCollapse}>
           <img
             src='/icons/down-arrow.png'
             alt='open/close'

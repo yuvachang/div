@@ -119,26 +119,19 @@ const Debts: React.FunctionComponent<Props> = props => {
           )
         })}
 
-        <div className='grey-button-container' style={{ width: '108px', margin: '2px' }}>
+        <div
+          className='grey-button-container'
+          style={{ width: `${props.initials.length > 6 ? '100%' : '108px'}`, margin: '2px' }}>
           <div
             className='grey-button tiny'
-            style={{width:'100%'}}
+            style={{ width: '100%', marginTop: `${props.initials.length > 6 ? '7px' : '0'}` }}
             onClick={() => {
-            setAllDebts(true)
-            closePanel(false)
-          }}>
+              setAllDebts(true)
+              closePanel(false)
+            }}>
             show all debts
           </div>
         </div>
-
-        {/* <div
-          className='small-text hover'
-          onClick={() => {
-            setAllDebts(true)
-            closePanel(false)
-          }}>
-          show all debts
-        </div> */}
       </div>
 
       <div

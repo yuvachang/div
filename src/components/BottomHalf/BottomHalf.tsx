@@ -14,7 +14,29 @@ type Props = LinkDispatchProps & LinkMapProps
 
 const BottomHalf: React.FunctionComponent<Props> = props => {
   const usersArr = Object.keys(props.users).map(uid => props.users[uid])
-  const [openUserItem, setUserItem] = useState<string>('')
+  const [usersOpen, setUsersOpen] = useState<boolean>(true)
+  const [openUsersArr, setOpenUsersArr] = useState<string[]>([])
+
+  const openUsersCount = (add: boolean) => {
+    if (add) {
+      setOpenUsersArr([...openUsersArr, 'u'])
+    } else {
+      setOpenUsersArr([...openUsersArr.slice(1)])
+    }
+  }
+
+  const checkUserOpen = () => {
+    window.setTimeout(() => {
+      let openUsers: any = document.getElementsByClassName('no-edit')
+      openUsers = [...openUsers].filter(el => el.className === 'no-edit')
+      // console.log(openUsers)
+      if (!openUsers.length) {
+        setUsersOpen(false)
+      } else {
+        setUsersOpen(true)
+      }
+    }, 150)
+  }
 
   return (
     <div className='bottom-half'>
@@ -25,11 +47,27 @@ const BottomHalf: React.FunctionComponent<Props> = props => {
         total={props.total}
       />
 
+      {!!usersArr.length && (
+        <div
+          className='grey-button-container'
+          style={{ width: '100%', margin: `${usersOpen ? '5px 2px' : '0'}`, transition: '0.2s' }}>
+          <div
+            className='grey-button tiny'
+            style={{ width: '100%', height: `${usersOpen ? '14px' : '0'}`, transition: '0.2s' }}
+            onClick={() => {
+              setUsersOpen(false)
+            }}>
+            Collapse all users
+          </div>
+        </div>
+      )}
+
       {!!usersArr.length &&
         usersArr.map((user, idx) => {
           return (
             <UserItem
-              setUserItem={setUserItem}
+              usersOpen={usersOpen}
+              checkUserOpen={checkUserOpen}
               key={user.uid}
               deleteUser={() => props.deleteUser(user.uid, props.total)}
               user={{ ...user }}
@@ -37,9 +75,7 @@ const BottomHalf: React.FunctionComponent<Props> = props => {
             />
           )
         })}
-      <div className='user-item button' onClick={() => props.addUser(props.total)
-      
-      }>
+      <div className='user-item button' onClick={() => props.addUser(props.total)}>
         add person
       </div>
     </div>

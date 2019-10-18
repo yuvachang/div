@@ -187,7 +187,7 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
       </div>
 
       <div className='segment'>
-        <div className='title greytext'>Owes:</div>
+        <div className='title greytext'>Balance:</div>
         <div className='symbol greytext'>$</div>
         <input
           className={`bottom ${user.isCustomOweAmt ? '' : 'no-hover'}`}

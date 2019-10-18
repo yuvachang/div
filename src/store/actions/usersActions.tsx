@@ -61,7 +61,6 @@ export const toggleIsCustomOweAmt = (isCustomOweAmt: boolean, uid: string) => {
   }
 }
 
-// Update Owe Amounts when Total changes
 export const calcOweAmounts = (total: number) => {
   return {
     type: actionTypes.CALC_OWES,

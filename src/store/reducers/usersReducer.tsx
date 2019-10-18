@@ -103,7 +103,6 @@ const usersReducer = (state: UserState = initialState, { type, payload }: action
 
     case actions.USERS_PAID: {
       let newState: UserState = createNewState(state, 'paid', payload)
-      // Calculate user debts.
       newState = calculateDebts(newState, payload.total)
       return {
         ...newState,
