@@ -14,7 +14,7 @@ h4 {
   justify-content: flex-start;
   background-color: #f4f4f4;
   width: 100vw;
-  height: 100vh;
+  height: max-content;
   font-family: "Open Sans", sans-serif;
   font-size: 12px;
   overflow-y: scroll;

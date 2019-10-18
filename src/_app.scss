@@ -15,7 +15,7 @@ h4 {
   background-color: $bg-color;
 
   width: 100vw;
-  height: 100vh;
+  height: max-content;
 
   font-family: $font;
   font-size: 12px;
@@ -90,19 +90,6 @@ input[type='number']::-webkit-outer-spin-button {
   overflow: hidden;
   position: absolute;
   z-index: -1;
-
-  // & + label {
-  //   font-size: 10px;
-  //   // background-color: #ccc;
-  //   border-radius: 4px;
-  //   color: #515151;
-  //   @media (hover:hover){
-  //     &:hover {
-  //       cursor: pointer;
-
-  //     }
-  //   }
-  // }
 }
 
 ::-webkit-scrollbar {

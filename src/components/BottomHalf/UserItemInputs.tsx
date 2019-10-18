@@ -202,10 +202,10 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
         <div className='button'>
           <img
             alt='edit/clear'
-            src={!!user.isCustomOweAmt ? '/icons/remove.svg' : '/icons/edit.svg'}
+            src={!!user.isCustomOweAmt ? '/icons/remove.svg' : '/icons/lock.svg'}
             className='arrowicon'
             onClick={oweButtonHandler}
-            title={!!user.isCustomOweAmt ? 'clear' : 'edit'}
+            title={!!user.isCustomOweAmt ? 'clear' : 'unlock to edit'}
           />
         </div>
       </div>
