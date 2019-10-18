@@ -22,7 +22,7 @@ const App: React.FunctionComponent<Props> = props => {
   const [error, setError] = useState<string>('')
   const [lsData, setLsData] = useState<string>('no data')
 
-  const useLocalStorageData = (): void => {
+  const setJSONdata = (): void => {
     if (lsData !== 'no data') {
       const LS = JSON.parse(lsData)
       const newTotals: TotalState = LS.totals
@@ -33,10 +33,7 @@ const App: React.FunctionComponent<Props> = props => {
       const ptotalsKeys = Object.keys(props.totals).length
       const initialsLength = newUsers.initials.length
       const usersLength = Object.keys(newUsers.users).length
-      if (
-        totalsKeys !== ptotalsKeys ||
-        initialsLength !== usersLength
-      ) {
+      if (totalsKeys !== ptotalsKeys || initialsLength !== usersLength) {
         setError('Data corrupt')
         return
       } else {
@@ -67,27 +64,52 @@ const App: React.FunctionComponent<Props> = props => {
     }
   }, [])
 
+  const exportDataToFile = async () => {
+    const json = makeJSONfile()
+    const blob = new Blob([json], { type: 'application/json' })
+    const link = document.createElement('a')
+    link.href = await URL.createObjectURL(blob)
+    link.download = 'backup.json'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
+  const makeJSONfile = () => {
+    let saveData = {
+      totals: { ...props.totals },
+      users: { ...props.users },
+      date: new Date().getTime(),
+    }
+    let json = JSON.stringify(saveData)
+    return json
+  }
+
+  const importData = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = (e.target as HTMLInputElement).files![0]
+
+    const readFile = new FileReader()
+    readFile.onload = (e: ProgressEvent<FileReader>) => {
+      var contents: any = (e.target as FileReader).result
+      let unixTime: number = JSON.parse(contents).date
+      setLsDate(unixTimeToDate(unixTime))
+      setLsData(contents)
+      setModal(true)
+    }
+    readFile.readAsText(file)
+  }
+
   //onUnmount
   window.onbeforeunload = () => {
     if (!!formHasData || !!Object.keys(props.users.users).length) {
-      let unixTime = new Date().getTime()
-      let saveData = {
-        totals: { ...props.totals },
-        users: { ...props.users },
-        date: unixTime,
-      }
-      localStorage.setItem('divviweb', JSON.stringify(saveData))
+      localStorage.setItem('divviweb', makeJSONfile())
     }
   }
 
   return (
     <div className='app'>
       {displayModal && (
-        <Modal
-          yes={useLocalStorageData}
-          no={closeModal}
-          msg={`Use unfinished session from ${lsDate}?`}
-        />
+        <Modal yes={setJSONdata} no={closeModal} msg={`Use session from ${lsDate}?`} />
       )}
       {error && <h1>{error}</h1>}
       <div className='app-card'>
@@ -95,6 +117,21 @@ const App: React.FunctionComponent<Props> = props => {
         <TopHalf formHasData={formHasData} setFormHasData={(tf: boolean) => setFormHasData(tf)} />
 
         <BottomHalf />
+        {formHasData && <div style={{ width: '100%', borderBottom: '1px solid #666666' }} />}
+        {formHasData && (
+          <div className='small-text hover' onClick={exportDataToFile}>
+            Export data to file
+          </div>
+        )}
+
+        <input
+          type='file'
+          id='uploadfile'
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => importData(e)}
+        />
+        <label htmlFor='uploadfile' className='small-text hover' style={{ paddingTop: '0px' }}>
+          Upload saved data
+        </label>
       </div>
     </div>
   )

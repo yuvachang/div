@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { bindActionCreators, Dispatch } from 'redux'
 import { ReduxState } from '../../store'
 import { connect } from 'react-redux'
@@ -14,6 +14,7 @@ type Props = LinkDispatchProps & LinkMapProps
 
 const BottomHalf: React.FunctionComponent<Props> = props => {
   const usersArr = Object.keys(props.users).map(uid => props.users[uid])
+  const [openUserItem, setUserItem] = useState<string>('')
 
   return (
     <div className='bottom-half'>
@@ -28,6 +29,7 @@ const BottomHalf: React.FunctionComponent<Props> = props => {
         usersArr.map((user, idx) => {
           return (
             <UserItem
+              setUserItem={setUserItem}
               key={user.uid}
               deleteUser={() => props.deleteUser(user.uid, props.total)}
               user={{ ...user }}
@@ -35,7 +37,9 @@ const BottomHalf: React.FunctionComponent<Props> = props => {
             />
           )
         })}
-      <div className='user-item button' onClick={() => props.addUser(props.total)}>
+      <div className='user-item button' onClick={() => props.addUser(props.total)
+      
+      }>
         add person
       </div>
     </div>

@@ -7,6 +7,7 @@ interface Props {
   user: UserObject
   total: number
   deleteUser: () => void
+  setUserItem: (uid:string)=>void
 }
 
 const UserItem: React.FunctionComponent<Props> = props => {

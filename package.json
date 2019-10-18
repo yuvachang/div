@@ -24,7 +24,9 @@
     "node-sass": "node-sass --watch \"./src/MainSass.scss\" --output \"./public/\" ",
     "react-start": "react-scripts start",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "npm run build && gh-pages -d build",
+    "cname": "git checkout gh-pages && git pull && git checkout master 404.html CNAME && git commit -m 'add 404 and cname' && git push && git checkout master"
   },
   "eslintConfig": {
     "extends": "react-app"

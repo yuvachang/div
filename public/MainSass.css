@@ -36,9 +36,16 @@ h4 {
     padding-bottom: 5px;
     border-bottom: 1px solid #666666; }
   .app-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    width: auto;
     margin-top: 10px;
     margin-bottom: 50px;
     padding: 0 20px;
+    padding-bottom: 5px;
     box-sizing: border-box;
     background-color: white;
     border-radius: 6px;
@@ -59,7 +66,17 @@ input[type='number']::-webkit-outer-spin-button {
   @media (hover: hover) {
     .small-text.hover:hover {
       cursor: pointer;
-      transform: scale(1.15); } }
+      color: #0a474e;
+      transform: scale(1);
+      transition: 0.1s; } }
+
+#uploadfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1; }
 
 ::-webkit-scrollbar {
   display: none;
@@ -253,7 +270,8 @@ button {
   @media (hover: hover) {
     .grey-button:hover {
       cursor: pointer;
-      background-color: #e5e5e5; }
+      background-color: #e5e5e5;
+      color: #0a474e; }
     .grey-button.red:hover {
       color: red; } }
 

@@ -41,9 +41,12 @@ h4 {
   }
 
   &-card {
+    @include flex-center(column);
+    width: auto;
     margin-top: 10px;
     margin-bottom: 50px;
     padding: 0 20px;
+    padding-bottom: 5px;
 
     box-sizing: border-box;
 
@@ -73,9 +76,33 @@ input[type='number']::-webkit-outer-spin-button {
   @media (hover: hover) {
     &.hover:hover {
       cursor: pointer;
-      transform: scale(1.15);
+      color: #0a474e;
+      transform: scale(1);
+      transition: 0.1s;
     }
   }
+}
+
+#uploadfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+
+  // & + label {
+  //   font-size: 10px;
+  //   // background-color: #ccc;
+  //   border-radius: 4px;
+  //   color: #515151;
+  //   @media (hover:hover){
+  //     &:hover {
+  //       cursor: pointer;
+
+  //     }
+  //   }
+  // }
 }
 
 ::-webkit-scrollbar {

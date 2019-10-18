@@ -172,14 +172,14 @@ const UserItemInputs: React.FunctionComponent<Props> = props => {
           marginBottom: '5px',
           justifyContent: 'flex-end',
         }}>
-        <div className='grey-button tiny red' onClick={payRestOfBill}>
+        <div className='grey-button tiny' onClick={payRestOfBill}>
           pay remaining total
         </div>
         <div
           style={{
             width: '20%',
           }}
-          className='grey-button tiny red'
+          className='grey-button tiny'
           onClick={clearPaid}>
           {' '}
           clear paid
