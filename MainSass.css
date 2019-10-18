@@ -15,6 +15,7 @@ h4 {
   background-color: #f4f4f4;
   width: 100vw;
   height: max-content;
+  min-height: 100vh;
   font-family: "Open Sans", sans-serif;
   font-size: 12px;
   overflow-y: scroll;
