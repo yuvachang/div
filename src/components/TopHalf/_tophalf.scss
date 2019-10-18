@@ -4,6 +4,7 @@
   @include flex-center(column);
   top: 0;
 
+  height: max-content;
   width: $appwidth;
 
   border-bottom: 1px solid #ccc;

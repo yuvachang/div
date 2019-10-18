@@ -99,6 +99,7 @@ input[type='number']::-webkit-outer-spin-button {
   align-items: center;
   width: 100%;
   top: 0;
+  height: max-content;
   width: 300px;
   border-bottom: 1px solid #ccc;
   padding: 15px 0;
@@ -338,7 +339,8 @@ button {
   width: 100%;
   top: 0;
   width: 300px;
-  padding: 15px 0; }
+  padding: 15px 0;
+  height: max-content; }
   .bottom-half > * {
     width: 100%; }
   .bottom-half .debts-and-bubbles .user-bubbles {
